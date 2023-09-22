@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Титульник</title>
+    <title>Конференция ТюмГУ</title>
     <link rel="stylesheet" href='{{asset("/css/font.css")}}'>
     <link rel="stylesheet" href='{{asset("/css/welcome.css")}}'>
 </head>
