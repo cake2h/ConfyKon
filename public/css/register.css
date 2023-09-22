@@ -79,7 +79,7 @@ body {
 }
 
 .link a:hover {
-    color: rgba(255, 0, 59);
+    color: #e91616;
     animation: pulse 1s infinite;
 }
 
@@ -146,16 +146,16 @@ body {
 }
 
 .authButton:hover {
-    background-color: rgba(255, 0, 59);
+    background-color: #e91616;
 }
 
 .bg-ex-fixed{
     background: linear-gradient(-45deg, #24aaaf, #00aeef, #24aaaf, #fdaf7b);
     background-size: 900% 900%;
-    animation: gradient 12s ease infinite;
+    animation: gradient 18s ease infinite;
     background-repeat: no-repeat;
     background-position: center;
-    background-attachment: fixed; /* Закрепляем изображение */
+    background-attachment: fixed;
 }
 
 @keyframes gradient {

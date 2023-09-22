@@ -29,9 +29,26 @@
             
         </header>
 
+        <div class="square line" style="">
+            <div class="stick1">
+                <div class="margin-none">
+                    Привет, меня зовут Влад А4! Привет, меня зовут Влад А4!
+                    Привет, меня зовут Влад А4! Привет, меня зовут Влад А4! 
+                    Привет, меня зовут Влад А4! Привет, меня зовут Влад А4! 
+                    Привет, меня зовут Влад А4! Привет, меня зовут Влад А4! 
+                    Привет, меня зовут Влад А4! Привет, меня зовут Влад А4! 
+                    Привет, меня зовут Влад А4! 
+                    
+                </div>
+            </div>
+        </div>
 
         @foreach ($konfs as $konf)
         <div class="square line" style="">
+            <div id="stick1" class="stick1">
+                <div class="margin-none">
+                </div>
+            </div>
             <div id="stick2" class="stick2">
                 <div class="flex-images margin-none">
                     <a class="otstup-r"><strong>{{ $konf->name }}</strong></a>
