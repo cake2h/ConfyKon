@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Konf;
 use App\Models\KonfUser;
+
 class ProfileController extends Controller
 {
     public function edit(Request $request): View
@@ -57,12 +58,14 @@ class ProfileController extends Controller
     }
 
     public function index()
-    { $userRole = auth()->user()->role;
+    { 
+        $userRole = auth()->user()->role;
         $konfs = Konf::all();
-        if ($userRole === 'admin'){
-        return view('admin', ['konfs' => $konfs]);
+
+        if ($userRole === 'admin') {
+            return view('admin', ['konfs' => $konfs]);
         }
-        else 
+
         return view('dashboard',['konfs' => $konfs]);
     }
 
@@ -78,14 +81,15 @@ class ProfileController extends Controller
         $konf->description = $request->input('description');
         $konf->save();
         
-        
         return redirect()->route('konf.index');
     }
+    
     public function subscribe($id )
     {
         $master_class = Konf::find($id);  
         return view('regkonf', ['data' => $master_class]);
     }
+
     public function reg($id, Request $request)
     {
         $master_class = Konf::find($id);  
@@ -97,21 +101,25 @@ class ProfileController extends Controller
         
         return redirect('/dashboard');
     }
+    
     public function glav()
     {
         $konfs = Konf::all();
         return view('welcome',['konfs' => $konfs]);
     }
-    public function delete($id) {
+    public function delete($id) 
+    {
         
         Konf::destroy($id);
         return redirect('/dashboard');
     }
-    public function updatekonf($id) {
+    public function updatekonf($id) 
+    {
         
         $konfs = Konf::find($id);
         return view('updatekonf',['konfs' => $konfs]);
     }
+
     public function upkon(Request $request, $id) {
         
         $konf = Konf::find($id); 
@@ -125,7 +133,4 @@ class ProfileController extends Controller
         $konf->update();
         return redirect('/dashboard');
     }
- 
-
-
 }
