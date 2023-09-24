@@ -3,23 +3,12 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ProfileController::class, 'glav'])->name('welcome');
-
 Route::get('/addkonf', function () {
     return view('addkonf');
 })->name('addkonf');
 
 
-Route::get('/dashboard', function () {
-    $userRole = auth()->user()->role;
-    if ($userRole === 'admin') {
-        return view('admin');
-    } elseif ($userRole === 'user') {
-        return view('dashboard');
-    }
-})->middleware(['auth'])->name('dashboard');
-
-Route::get('/dashboard', [ProfileController::class, 'index'])->name('konf.index');
+Route::get('/', [ProfileController::class, 'index'])->name('konf.index');
 Route::post('/addkonff', [ProfileController::class, 'store'])->name('konf.store');
 Route::post('/regkonf/{id}', [ProfileController::class, 'reg'])->name('konf.reg');
 

@@ -59,14 +59,9 @@ class ProfileController extends Controller
 
     public function index()
     { 
-        $userRole = auth()->user()->role;
         $konfs = Konf::all();
 
-        if ($userRole === 'admin') {
-            return view('admin', ['konfs' => $konfs]);
-        }
-
-        return view('dashboard',['konfs' => $konfs]);
+        return view('main',['konfs' => $konfs]);
     }
 
     public function store(Request $request)
@@ -83,7 +78,7 @@ class ProfileController extends Controller
         
         return redirect()->route('konf.index');
     }
-    
+
     public function subscribe($id )
     {
         $master_class = Konf::find($id);  
@@ -99,19 +94,18 @@ class ProfileController extends Controller
         $konf->name_project=$request->input('name_project');
         $konf->save();
         
-        return redirect('/dashboard');
+        return redirect('/');
     }
     
-    public function glav()
+    public function main()
     {
         $konfs = Konf::all();
-        return view('welcome',['konfs' => $konfs]);
+        return view('main',['konfs' => $konfs]);
     }
     public function delete($id) 
     {
-        
         Konf::destroy($id);
-        return redirect('/dashboard');
+        return redirect('/');
     }
     public function updatekonf($id) 
     {
@@ -131,6 +125,6 @@ class ProfileController extends Controller
         $konf->deadline = $request->input('deadline');
         $konf->description = $request->input('description');
         $konf->update();
-        return redirect('/dashboard');
+        return redirect('/');
     }
 }
