@@ -13,8 +13,12 @@
         <header class="flex-images between">
             <a href="https://www.utmn.ru/" class="otstup-l"><img src="https://www.utmn.ru/upload/medialibrary/47f/logo_utmn_mini2_rus.png" alt="ТюмГУ" width="120"/></a>
             <div class="hidden flex-images">
-                <a href="{{ route('konf.index') }}" class="btn-secondary otstup-r">Секции</a>
+                <a href="{{ route('konf.index') }}" class="btn-secondary otstup-r">Список конференций</a>
                 
+                @if (Auth::user()->isAdmin())
+                    <a href="{{ route('konf.index') }}" class="btn-secondary otstup-r">Админ-панель</a>
+                @endif
+
                 <a href="#" class="btn-secondary otstup-r" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
                 <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
                     @csrf
