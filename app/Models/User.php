@@ -43,6 +43,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Konf::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
     public function own_konf(): HasMany
     {
         return $this->hasMany(Konf::class);
