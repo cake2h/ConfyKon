@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,12 +18,12 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $data = User::find(auth()->id());
-    
-        $konfUsers = KonfUser::where('user_id', auth()->id())->get();
+
+        $konfUsers = Application::where('user_id', auth()->id())->get();
 
         $conferenceIds = $konfUsers->pluck('konf_id');
         $conferences = Konf::whereIn('id', $conferenceIds)->get();
-    
+
         return view('lk', compact('conferences', 'data'));
     }
 
@@ -58,7 +59,7 @@ class ProfileController extends Controller
     }
 
     public function index()
-    { 
+    {
         $konfs = Konf::all();
 
         return view('main',['konfs' => $konfs]);
@@ -75,48 +76,48 @@ class ProfileController extends Controller
         $konf->deadline = $request->input('deadline');
         $konf->description = $request->input('description');
         $konf->save();
-        
+
         return redirect()->route('konf.index');
     }
 
     public function subscribe($id )
     {
-        $master_class = Konf::find($id);  
+        $master_class = Konf::find($id);
         return view('regkonf', ['data' => $master_class]);
     }
 
     public function reg($id, Request $request)
     {
-        $master_class = Konf::find($id);  
+        $master_class = Konf::find($id);
         $konf = new KonfUser();
         $konf->konf_id=$id;
         $konf->user_id=Auth::user()->id;
         $konf->name_project=$request->input('name_project');
         $konf->save();
-        
+
         return redirect('/');
     }
-    
+
     public function main()
     {
         $konfs = Konf::all();
         return view('main',['konfs' => $konfs]);
     }
-    public function delete($id) 
+    public function delete($id)
     {
         Konf::destroy($id);
         return redirect('/');
     }
-    public function updatekonf($id) 
+    public function updatekonf($id)
     {
-        
+
         $konfs = Konf::find($id);
         return view('updatekonf',['konfs' => $konfs]);
     }
 
     public function upkon(Request $request, $id) {
-        
-        $konf = Konf::find($id); 
+
+        $konf = Konf::find($id);
         $konf->name = $request->input('name');
         $konf->country = $request->input('country');
         $konf->city = $request->input('city');

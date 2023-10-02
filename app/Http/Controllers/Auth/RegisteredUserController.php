@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Education_level;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +21,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('custom-register');
+        $educationLevels = Education_level::all();
+
+        return view('custom-register', compact('educationLevels'));
     }
 
     /**
@@ -39,12 +42,12 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'surname' => $request->surname,
-            'patronymic' => $request->patronymic,
+            'midname' => $request->midname,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'age' => $request->age,
+            'birthday' => $request->birthday,
             'city' => $request->city,
-            'science_level' => $request->science_level,
+            'edu_id' => $request->edu_id,
             'study_place' => $request->study_place,
         ]);
 
@@ -52,6 +55,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect()->route('konf.index');
     }
 }

@@ -21,12 +21,12 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'surname',
-        'patronymic',
+        'midname',
         'email',
         'password',
-        'age',
+        'birthday',
         'city',
-        'science_level',
+        'edu_id',
         'study_place',
     ];
 
@@ -35,13 +35,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
-    public function konf(): BelongsToMany
+
+    public function edu()
     {
-        return $this->belongsToMany(Konf::class);
+        return $this->belongsTo(Education_level::class, 'edu_id', 'id');
     }
 
     public function isAdmin()
@@ -52,7 +54,7 @@ class User extends Authenticatable
     public function own_konf(): HasMany
     {
         return $this->hasMany(Konf::class);
-        
+
     }
     /**
      * The attributes that should be cast.

@@ -18,29 +18,30 @@
             @csrf
             <input
                 class="authInput"
-                type="email" 
-                placeholder="E-mail" 
+                type="email"
+                placeholder="E-mail"
                 name="email"
                 value="{{old('email')}}"
             />
-            @error('email')
-                <p>{{$message}}</p>
-            @enderror
             <input
                 class="authInput"
                 type="password"
-                placeholder="Пароль" 
+                placeholder="Пароль"
                 name="password"
-                value="{{old('email')}}"
             />
+
+            @error('email')
+            <p>{{$message}}</p>
+            @enderror
+
             @error('password')
                 <p>{{$message}}</p>
             @enderror
             <button type="submit" class="authButton">Войти</button>
         </form>
-        
+
         <p class="link">Нет аккаунта? <a href={{route('register')}}>Зарегистрируйтесь!</a></p>
     </div>
-    
+
 </body>
 </html>

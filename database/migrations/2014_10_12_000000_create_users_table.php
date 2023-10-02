@@ -17,15 +17,19 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('surname');
-            $table->string('patronymic');
+            $table->string('midname')->nullable();
+            $table->date('birthday');
+
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->date('age');
-            $table->string('city');
-            $table->string('science_level');
-            $table->string('study_place');
-            $table->string('role')->default('user');
             $table->string('password');
+
+            $table->string('city');
+            $table->string('study_place');
+
+            $table->string('role')->default('user');
+            $table->foreignId('edu_id')->constrained('education_levels');
+
             $table->rememberToken();
             $table->timestamps();
         });

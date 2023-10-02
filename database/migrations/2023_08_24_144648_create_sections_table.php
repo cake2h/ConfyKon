@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('konf_users', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->integer('konf_id');
-            $table->integer('user_id');
-            $table->string('name_project');
+            $table->string('name');
+
+            $table->unsignedInteger('moder_id');
+
+            $table->foreignId('konf_id')->constrained('konfs');
+
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('konf_users');
+        Schema::dropIfExists('sections');
     }
 };
