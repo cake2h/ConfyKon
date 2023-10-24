@@ -13,8 +13,17 @@
         <header class="flex-images between">
             <a href="https://www.utmn.ru/" class="otstup-l"><img src="https://www.utmn.ru/upload/medialibrary/47f/logo_utmn_mini2_rus.png" alt="ТюмГУ" width="120"/></a>
             <div class="hidden flex-images">
+
+                @if (Auth::user()->inTeam())
+                    <a href="{{ route('team.index') }}" class="btn-secondary otstup-r">Моя команда</a>
+                @else
+                    <a href="{{ route('team.create') }}" class="btn-secondary otstup-r">Создать команду</a>
+
+                    <a href="{{ route('team.join') }}" class="btn-secondary otstup-r">Присоединиться к команде</a>
+                @endif
+
                 <a href="{{ route('konf.index') }}" class="btn-secondary otstup-r">Список конференций</a>
-                
+
                 @if (Auth::user()->isAdmin())
                     <a href="{{ route('konf.index') }}" class="btn-secondary otstup-r">Админ-панель</a>
                 @endif
@@ -25,23 +34,25 @@
                 </form>
             </div>
         </header>
-      
+
 
 
         <div class="square2 line">
             <div class="stick1">
                 <div style="vertical-align: none; line-height: 30px;" class="margin-none">
-                    <p><h3><strong>{{$data->surname}} {{$data->name}} {{$data->patronymic}}</strong></h3></p>
-                    <p><strong>Год рождения:</strong> {{$data->age}}</p>
-                    <p><strong>Почта:</strong> {{$data->email}}</p>
-                    <p><strong>Город:</strong> {{$data->city}}</p>
-                    <p><strong>Научная степень:</strong> {{$data->science_level}}</p>
-                    <p><strong>Место учебы:</strong> {{$data->study_place}}</p>
+                    <p><h3><strong>{{$userData->surname}} {{$userData->name}} {{$userData->midname}}</strong></h3></p>
+                    <p><strong>Год рождения:</strong> {{$userData->birthday}}</p>
+                    <p><strong>Почта:</strong> {{$userData->email}}</p>
+                    <p><strong>Город:</strong> {{$userData->city}}</p>
+                    <p><strong>Научная степень:</strong> {{$userData->edu_id}}</p>
+                    <p><strong>Место учебы:</strong> {{$userData->study_place}}</p>
                 </div>
             </div>
         </div>
-        @foreach($conferences as $conference)
-        
+
+
+        {{--@foreach($conferences as $conference)
+
         <div class="square line" style="">
             <div id="stick2" class="stick2 " >
                 <div class="flex-images margin-none">
@@ -60,7 +71,7 @@
                 </p>
             </div>
         </div>
-        @endforeach
+        @endforeach--}}
 
         <div class="under" ></div>
     </div>
@@ -79,7 +90,7 @@
             } else {
                 stick2.classList.add("stick2-visible");
                 square.style.height = "300px";
-                
+
             }
         }
     </script>

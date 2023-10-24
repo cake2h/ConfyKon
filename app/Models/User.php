@@ -51,6 +51,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function inTeam()
+    {
+        return $this->role === 'inteam';
+    }
+
     public function own_konf(): HasMany
     {
         return $this->hasMany(Konf::class);

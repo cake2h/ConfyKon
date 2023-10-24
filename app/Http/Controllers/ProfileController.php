@@ -15,16 +15,11 @@ use App\Models\KonfUser;
 
 class ProfileController extends Controller
 {
-    public function edit(Request $request): View
+    public function lk(Request $request): View
     {
-        $data = User::find(auth()->id());
+        $userData = User::find(auth()->id());
 
-        $konfUsers = Application::where('user_id', auth()->id())->get();
-
-        $conferenceIds = $konfUsers->pluck('konf_id');
-        $conferences = Konf::whereIn('id', $conferenceIds)->get();
-
-        return view('lk', compact('conferences', 'data'));
+        return view('lk', compact('userData'));
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
