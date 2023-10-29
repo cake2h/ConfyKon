@@ -14,18 +14,10 @@
             <a href="https://www.utmn.ru/" class="otstup-l"><img src="https://www.utmn.ru/upload/medialibrary/47f/logo_utmn_mini2_rus.png" alt="ТюмГУ" width="120"/></a>
             <div class="hidden flex-images">
 
-                @if (Auth::user()->inTeam())
-                    <a href="{{ route('team.index') }}" class="btn-secondary otstup-r">Моя команда</a>
-                @else
-                    <a href="{{ route('team.create') }}" class="btn-secondary otstup-r">Создать команду</a>
-
-                    <a href="{{ route('team.join') }}" class="btn-secondary otstup-r">Присоединиться к команде</a>
-                @endif
-
                 <a href="{{ route('konf.index') }}" class="btn-secondary otstup-r">Список конференций</a>
 
                 @if (Auth::user()->isAdmin())
-                    <a href="{{ route('konf.index') }}" class="btn-secondary otstup-r">Админ-панель</a>
+                    <a href="{{ route('admin.page') }}" class="btn-secondary otstup-r">Админ-панель</a>
                 @endif
 
                 <a href="#" class="btn-secondary otstup-r" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
@@ -35,8 +27,6 @@
             </div>
         </header>
 
-
-
         <div class="square2 line">
             <div class="stick1">
                 <div style="vertical-align: none; line-height: 30px;" class="margin-none">
@@ -44,7 +34,7 @@
                     <p><strong>Год рождения:</strong> {{$userData->birthday}}</p>
                     <p><strong>Почта:</strong> {{$userData->email}}</p>
                     <p><strong>Город:</strong> {{$userData->city}}</p>
-                    <p><strong>Научная степень:</strong> {{$userData->edu_id}}</p>
+                    <p><strong>Уровень образования:</strong> {{$userData->education_level->title}}</p>
                     <p><strong>Место учебы:</strong> {{$userData->study_place}}</p>
                 </div>
             </div>

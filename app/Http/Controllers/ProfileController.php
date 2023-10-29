@@ -123,4 +123,13 @@ class ProfileController extends Controller
         $konf->update();
         return redirect('/');
     }
+
+    public function admin() {
+        $konfs = Konf::all();
+        return view('admin', compact('konfs'));
+    }
+
+    public function ajax() {
+        return view('ajax');
+    }
 }

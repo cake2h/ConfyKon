@@ -47,11 +47,9 @@
                         Описание: {{ $konf->description }}<br>
                     </div>
                 </p>
-                @if (App\Models\KonfUser::hasUserSubscribedToConference($konf->id, Auth::user()->id))
-                <span class="btn2" style="margin-bottom: 20px; margin-left: 20px; pointer-events: none; opacity: 0.6;">Вы уже записаны</span>
-            @else
+                
             <a href="{{route('subscribe', ['id' => $konf->id])}}" class="btn2" style="margin-bottom: 20px; margin-left: 20px">Записаться</a>
-            @endif
+            
                 
             </div>
             

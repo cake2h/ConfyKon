@@ -3,9 +3,7 @@
 <head>
     <title>Изменить конференцию</title>
     <style>
-        /* Your existing CSS styles (from the previous example) go here */
-
-        /* Additional styles specific to the update form */
+        
         body {
             font-family: Trebuchet MS, sans-serif;
             line-height: 1.6;
@@ -79,8 +77,7 @@
             }
         }
 
-        /* Apply the existing styles from the previous example */
-        /* ... */
+
     </style>
 </head>
 <body class="antialiased bg-ex-fixed">

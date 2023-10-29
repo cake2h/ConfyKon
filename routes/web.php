@@ -23,5 +23,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/up/{id}', [ProfileController::class, 'upkon'])->name('upkon');
 });
 
+Route::middleware('admin')->group(function () {
+    Route::get('/admin', [ProfileController::class, 'admin'])->name('admin.page');
+});
+
 Route::get('/subscribe/{id}', [ProfileController::class, 'subscribe'])->name('subscribe');
 require __DIR__.'/auth.php';
