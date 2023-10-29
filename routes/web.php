@@ -23,7 +23,6 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
 
         Route::get('/delete/{id}', [ConfController::class, 'destroy'])->name('conf.destroy');
     });
-    
 });
 
 Route::get('/ajax', [ProfileController::class, 'ajax'])->name('ajax.page');

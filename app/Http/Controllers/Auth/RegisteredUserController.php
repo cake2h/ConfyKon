@@ -16,21 +16,13 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         $educationLevels = Education_level::all();
 
-        return view('custom-register', compact('educationLevels'));
+        return view('register', compact('educationLevels'));
     }
-
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -55,6 +47,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('konf.index');
+        return redirect('/');
     }
 }
