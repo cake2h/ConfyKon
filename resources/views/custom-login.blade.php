@@ -40,7 +40,7 @@
             <button type="submit" class="authButton">Войти</button>
         </form>
 
-        <p class="link">Нет аккаунта? <a href={{route('register')}}>Зарегистрируйтесь!</a></p>
+        <p class="link">Нет аккаунта? <a href={{route('register.page')}}>Зарегистрируйтесь!</a></p>
     </div>
 
 </body>

@@ -136,7 +136,7 @@
             <button type="submit" class="authButton">Зарегистрироваться</button>
         </form>
 
-        <p class="link">Уже есть аккаунт? <a href={{route('login')}}>Авторизируйтесь!</a></p>
+        <p class="link">Уже есть аккаунт? <a href={{route('login.page')}}>Авторизируйтесь!</a></p>
     </div>
 
 </body>
