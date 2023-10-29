@@ -72,7 +72,7 @@ class ProfileController extends Controller
         $konf->description = $request->input('description');
         $konf->save();
 
-        return redirect()->route('konf.index');
+        return redirect()->route('admin.page');
     }
 
     public function subscribe($id )
@@ -101,7 +101,7 @@ class ProfileController extends Controller
     public function delete($id)
     {
         Konf::destroy($id);
-        return redirect('/');
+        return redirect()->route('admin.page');
     }
     public function updatekonf($id)
     {
@@ -121,7 +121,7 @@ class ProfileController extends Controller
         $konf->deadline = $request->input('deadline');
         $konf->description = $request->input('description');
         $konf->update();
-        return redirect('/');
+        return redirect()->route('admin.page');
     }
 
     public function admin() {
