@@ -14,8 +14,8 @@
 </head>
 
 <body>
-<header class="header-buttons">
-  <nav>
+<header>
+  <nav style="display: flex; justify-content: space-around; align-items: center; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
     <a href="https://www.utmn.ru/" style="margin-left: 12px; margin-right: 12px;">
       <svg class="h-[45px]" style="fill: #3D423D" viewBox="0 0 185.9 83.8">
         <path class="st0" d="M78.3,41.8h-8v22.6h-5.7V41.8h-8v-5.1h21.7V41.8z M139.2,50.2l1,14.1h5.2l-1.8-23.9h-0.2h-5l-7.9,18.1   l-7.7-18.1h-5h-0.2l-1.8,23.9h5.2l1-13.9l5.9,13.9h5L139.2,50.2z M100.8,40.2c-6,0-11,4.3-12.1,9.9h-2.6v-9.7h-5.7v23.9h5.7v-9.1   h2.7c1.2,5.5,6.1,9.6,12,9.6c6.8,0,12.3-5.5,12.3-12.3S107.6,40.2,100.8,40.2 M100.8,45.4c3.9,0,7.1,3.2,7.1,7.1s-3.2,7.1-7.1,7.1   s-7.1-3.2-7.1-7.1S96.9,45.4,100.8,45.4 M165.6,36.7l7.7,18.5l-0.7,1.9c-0.6,1.5-1,3.3-4.4,3.3v5.1c5.9,0,7.6-3.1,9.7-8.4l8-20.4   h-5.8L176,49.4l-4.5-12.7H165.6z M155.1,41.8v22.6h-5.7V36.8l0,0h15.2v5.1L155.1,41.8L155.1,41.8z"></path>
@@ -24,67 +24,64 @@
       </svg>
     </a>
     <div style="font-size: 23px;">
-        <a href="{{ route('conf.index') }}" style="margin-left: 12px; margin-right: 12px;">Список конференций</a>
-        @if (Auth::user()->isAdmin())
-            <a href="{{ route('admin.index') }}" style="margin-left: 12px; margin-right: 12px;">Админ-панель</a>
+        @if(Auth::check())
+            <a href="{{ route('lk') }}" style="margin-left: 12px; margin-right: 12px;">Личный кабинет</a>
+            <a href="#" style="margin-left: 12px; margin-right: 12px;" 
+                onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
+            <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
+                @csrf
+            </form>
+        @else
+            <a href="{{ route('login') }}" style="margin-left: 12px; margin-right: 12px;">Вход</a>
+            <a href="{{ route('register') }}" style="margin-left: 12px; margin-right: 12px;">Регистрация</a>
         @endif
-
-        <a href="#" style="margin-left: 12px; margin-right: 12px;" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
-        <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
-            @csrf
-        </form>
     </div>
   </nav>
 </header>
 
-<div class="container">
-    <div class="user-info-container">
-        <p><h3><strong>{{$user->surname}} {{$user->name}} {{$user->midname}}</strong></h3></p>
-        <p><strong>Год рождения:</strong> {{$user->birthday}}</p>
-        <p><strong>Почта:</strong> {{$user->email}}</p>
-        <p><strong>Город:</strong> {{$user->city}}</p>
-        <p><strong>Уровень образования:</strong> {{$user->education_level->title}}</p>
-        <p><strong>Место учебы:</strong> {{$user->study_place}}</p>
+<container>
+@foreach ($konfs as $konf)
+  <section id='{{ $konf->id }}' class="program-section section-hoverable font-size" style="background-color: #f6d2b2; font-size: 18px;">
+    <h2>{{ $konf->name }}</h2>
+    <div class="info-box">
+      <p>Отслеживайте свое ментальное здоровье с удобным трекером и выбирайте цвета, отражающие ваше состояние.</p>
+      <p>Отслеживайте свое ментальное здоровье с удобным трекером и выбирайте цвета, отражающие ваше состояние.</p>
+      <p>Отслеживайте свое ментальное здоровье с удобным трекером и выбирайте цвета, отражающие ваше состояние.</p>
+      <p>Отслеживайте свое ментальное здоровье с удобным трекером и выбирайте цвета, отражающие ваше состояние.</p>
+      <p>Отслеживайте свое ментальное здоровье с удобным трекером и выбирайте цвета, отражающие ваше состояние.</p>
     </div>
-
-    {{--@foreach($conferences as $conference)
-        <section id='{{ $conference->id }}' class="program-section section-hoverable font-size">
-            <h2 style="font-size: 26px;">{{ $conference->name }}</h2>
-            <div class="info-box">
-                <p>Тут будет дополнительная информация о секции.</p>
-            </div>
-        </section>
-        <div class="full-info" id='{{ $conference->id }}-info'>
-            <div class="content">
-            <p>Страна: {{ $conference->country }}</p>
-            <p>Город: {{ $conference->city }}</p>
-            <p>Дата начала: {{ $conference->date_start }}</p>
-            <p>Дата окончания: {{ $conference->date_end }}</p>
-            <p>Дедлайн: {{ $conference->deadline }}</p>
-            <p>Описание: {{ $conference->description }}</p>
-            </div>
-        </div>
-    @endforeach--}}
-</div>
+  </section>
+  <div class="full-info" id='{{ $konf->id }}-info'>
+      <div class="content">
+        <p>Страна: {{ $konf->country }}</p>
+        <p>Город: {{ $konf->city }}</p>
+        <p>Дата начала: {{ $konf->date_start }}</p>
+        <p>Дата окончания: {{ $konf->date_end }}</p>
+        <p>Дедлайн: {{ $konf->deadline }}</p>
+        <p>Описание: {{ $konf->description }}</p>
+        <a href="{{route('subscribe', ['id' => $konf->id])}}" class="btn2" style="margin-bottom: 16px; margin-left: 20px; margin-right: 20px">Записаться</a>
+      </div>
+  </div>
+@endforeach
+</container>
 
 <footer>
-    <p style="margin-left: 10px"></p>
+  <p style="margin-left: 10px">&copy; 2023 Сервис организации конференций</p>
 </footer>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
   $(document).ready(function() {
     var scrollPosition = 0;
-    var colors = ['#f6d2b2', '#fadfe2', '#a0ced9', '#d0d1c8', '#f0ead6'];
+    var colors = ['#f6d2b2;', '#fadfe2;', '#a0ced9;', '#d0d1c8;', '#f0ead6'];
 
-    $(".section-hoverable").each(function(index) {
-      // Применяем цвет к текущему section
-      $(this).css('background-color', colors[index % colors.length]);
-    });
-    
     $(".section-hoverable").click(function() {
       var section = $(this);
       var sectionId = section.attr("id");
       var fullInfo = $("#" + sectionId + "-info");
+
+      $(".section-hoverable").each(function(index) {
+        $(this).css('background-color', colors[index % colors.length]);
+      });
 
       // Обновляем содержимое и переключаем класс
       var content = section.find(".full-info .content").html();

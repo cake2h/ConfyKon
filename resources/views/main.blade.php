@@ -4,75 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Конференции</title>
-    <link rel="stylesheet" href='{{asset("/css/font.css")}}'>
-    <link rel="stylesheet" href='{{asset("/css/dashboard.css")}}'>
+    <!-- <link rel="stylesheet" href='{{asset("/css/font.css")}}'>
+    <link rel="stylesheet" href='{{asset("/css/dashboard.css")}}'> -->
+
+    <link rel="stylesheet" href='{{asset("/css/main.css")}}'>
+    <link rel="stylesheet" href='{{asset("/css/views.css")}}'>
+    <link rel="stylesheet" href='{{asset("/css/normalize.css")}}'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap">
 </head>
-<body class="antialiased ">
-<div
-    class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0 bg-ex-fixed">
-    <div class="container">
-        <header class="flex-images between">
-            <a href="https://www.utmn.ru/" class="otstup-l"><img
-                    src="https://www.utmn.ru/upload/medialibrary/47f/logo_utmn_mini2_rus.png" alt="ТюмГУ" width="120"/></a>
-            <div class="hidden flex-images">
-                @if(Auth::check())
-                    <a href="{{ route('lk') }}" class="btn-secondary otstup-r">Личный кабинет</a>
-                    <!-- HTML-код -->
-                    <a href="#" class="btn-secondary otstup-r"
-                       onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
-                    <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
-                        @csrf
-                    </form>
-                @else
-                    <a href="{{ route('login') }}" class="btn-secondary otstup-r">Вход</a>
-                    <a href="{{ route('register') }}" class="btn-secondary otstup-r">Регистрация</a>
-                @endif
-            </div>
 
-        </header>
-
-
-        @foreach ($confs as $conf)
-            <div class="square line" style="">
-                <div id="stick2" class="stick2">
-                    <div class="flex-images margin-none">
-                        <a class="otstup-r"><strong>{{ $conf->name }}</strong></a>
-                        <a href="#" onclick="toggleStick2(event)" class="btn3">Дополнительно</a>
-                    </div>
-                    <p style="display: none;">
-                    <div style="vertical-align: none; line-height: 30px;" class="margin-none">
-                        Страна: {{ $conf->country }}<br>
-                        Город: {{ $conf->city }}<br>
-                        Дата начала: {{ $conf->date_start }}<br>
-                        Дата окончания: {{ $conf->date_end }}<br>
-                        Дедлайн: {{ $conf->deadline }}<br>
-                        Описание: {{ $conf->description }}<br>
-                    </div>
-                    </p>
-                </div>
-            </div>
-        @endforeach
-        <div class="under"></div>
+<body>
+<header class="header-buttons">
+  <nav>
+    <a href="https://www.utmn.ru/" style="margin-left: 12px; margin-right: 12px;">
+      <svg class="h-[45px]" style="fill: #3D423D" viewBox="0 0 185.9 83.8">
+        <path class="st0" d="M78.3,41.8h-8v22.6h-5.7V41.8h-8v-5.1h21.7V41.8z M139.2,50.2l1,14.1h5.2l-1.8-23.9h-0.2h-5l-7.9,18.1   l-7.7-18.1h-5h-0.2l-1.8,23.9h5.2l1-13.9l5.9,13.9h5L139.2,50.2z M100.8,40.2c-6,0-11,4.3-12.1,9.9h-2.6v-9.7h-5.7v23.9h5.7v-9.1   h2.7c1.2,5.5,6.1,9.6,12,9.6c6.8,0,12.3-5.5,12.3-12.3S107.6,40.2,100.8,40.2 M100.8,45.4c3.9,0,7.1,3.2,7.1,7.1s-3.2,7.1-7.1,7.1   s-7.1-3.2-7.1-7.1S96.9,45.4,100.8,45.4 M165.6,36.7l7.7,18.5l-0.7,1.9c-0.6,1.5-1,3.3-4.4,3.3v5.1c5.9,0,7.6-3.1,9.7-8.4l8-20.4   h-5.8L176,49.4l-4.5-12.7H165.6z M155.1,41.8v22.6h-5.7V36.8l0,0h15.2v5.1L155.1,41.8L155.1,41.8z"></path>
+        <polygon class="st0" points="52.8,7.6 39.6,0 0,22.8 0,38.1 13.2,45.7 13.2,30.5  "></polygon>
+        <polygon class="st0" points="26.4,83.8 26.4,38.1 13.2,45.7 13.2,76.2  "></polygon>
+      </svg>
+    </a>
+    <div style="font-size: 23px;">
+        @if(Auth::check())
+            <a href="{{ route('lk') }}" style="margin-left: 12px; margin-right: 12px;">Личный кабинет</a>
+            <a href="#" style="margin-left: 12px; margin-right: 12px;" 
+                onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
+            <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
+                @csrf
+            </form>
+        @else
+            <a href="{{ route('login') }}" style="margin-left: 12px; margin-right: 12px;">Вход</a>
+            <a href="{{ route('register') }}" style="margin-left: 12px; margin-right: 12px;">Регистрация</a>
+        @endif
     </div>
-    <script>
-        function toggleStick2(event) {
-            var button = event.target;
-            var stick2 = button.closest(".square").querySelector(".stick2");
-            var hiddenText = stick2.querySelector("p");
-            var square = button.closest(".square");
-            event.preventDefault()
+  </nav>
+</header>
 
-            if (stick2.classList.contains("stick2-visible")) {
-                stick2.scrollTop = 0;
-                stick2.classList.remove("stick2-visible");
-                square.style.height = "80px";
-            } else {
-                stick2.classList.add("stick2-visible");
-                square.style.height = "380px";
-
-            }
-        }
-    </script>
+<div class="container">
+@foreach ($confs as $conf)
+  <section id='{{ $conf->id }}' class="program-section section-hoverable font-size">
+    <h2 style="font-size: 26px;">{{ $conf->name }}</h2>
+    <div class="info-box">
+      <p>Тут будет дополнительная информация о секции.</p>
+      <p>Тут будет дополнительная информация о секции.</p>
+      <p>Тут будет дополнительная информация о секции.</p>
+      <p>Тут будет дополнительная информация о секции.</p>
+      <p>Тут будет дополнительная информация о секции.</p>
+    </div>
+  </section>
+  <div class="full-info" id='{{ $conf->id }}-info'>
+      <div class="content">
+        <p>Страна: {{ $conf->country }}</p>
+        <p>Город: {{ $conf->city }}</p>
+        <p>Дата начала: {{ $conf->date_start }}</p>
+        <p>Дата окончания: {{ $conf->date_end }}</p>
+        <p>Дедлайн: {{ $conf->deadline }}</p>
+        <p>Описание: {{ $conf->description }}</p>
+      </div>
+  </div>
+@endforeach
 </div>
+
+<footer>
+  <p style="margin-left: 10px">&copy; 2023 Сервис организации конференций</p>
+</footer>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  $(document).ready(function() {
+    var scrollPosition = 0;
+    var colors = ['#f6d2b2', '#fadfe2', '#a0ced9', '#d0d1c8', '#f0ead6'];
+
+    $(".section-hoverable").each(function(index) {
+      // Применяем цвет к текущему section
+      $(this).css('background-color', colors[index % colors.length]);
+    });
+    
+    $(".section-hoverable").click(function() {
+      var section = $(this);
+      var sectionId = section.attr("id");
+      var fullInfo = $("#" + sectionId + "-info");
+
+      // Обновляем содержимое и переключаем класс
+      var content = section.find(".full-info .content").html();
+      fullInfo.find(".content").html(content);
+      fullInfo.toggleClass("active");
+    });
+
+    $(".info-box").mouseenter(function() {
+      scrollPosition = $(this).scrollTop();
+      $(this).css("overflow-y", "scroll");
+    });
+
+    $(".info-box").mouseleave(function() {
+      $(this).css("overflow-y", "hidden");
+      $(this).stop().animate({ scrollTop: 0 }, 500);
+    });
+  });
+</script>
+<script>
+  $(document).ready(function() {
+    // При наведении мыши на блок info-box внутри section
+    $(".section-hoverable .info-box").mouseenter(function() {
+      // Находим родительский section
+      var section = $(this).closest("section");
+
+      // Добавляем класс active к родительскому section
+      section.addClass("active");
+    });
+
+    // При уходе мыши с блока info-box внутри section
+    $(".section-hoverable .info-box").mouseleave(function() {
+      // Находим родительский section
+      var section = $(this).closest("section");
+      // Убираем класс active у родительского section
+      section.removeClass("active");
+    });
+  });
+</script>
 </body>
 </html>
