@@ -3,7 +3,6 @@
 <head>
     <title>Изменить конференцию</title>
     <style>
-        
         body {
             font-family: Trebuchet MS, sans-serif;
             line-height: 1.6;
@@ -40,7 +39,7 @@
         .update-form input[type="date"],
         .update-form textarea {
             width: 100%;
-            max-width: 300px; /* Adjust the max-width as needed */
+            max-width: 300px;
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
@@ -76,51 +75,35 @@
                 background-position: 0% 50%;
             }
         }
-
-
     </style>
 </head>
 <body class="antialiased bg-ex-fixed">
     <div class="update-form">
-        <h2>Добавить мероприятие</h2>
-        <form method="POST" action="{{ route('konf.store') }}">
+        <h2>Обновить конференцию</h2>
+        <form method="POST" action="{{ route('conf.update', $conf->id) }}">
             @csrf
-            <div class="form-group">
-                <label for="name">Название:</label>
-                <input type="text" name="name" required>
-            </div>
+            <label for="name">Имя:</label>
+            <input type="text" name="name" required value="{{ $conf->name }}"><br>
 
-            <div class="form-group">
-                <label for="country">Страна:</label>
-                <input type="text" name="country" required>
-            </div>
+            <label for="country">Страна:</label>
+            <input type="text" name="country" required value="{{ $conf->country }}"><br>
 
-            <div class="form-group">
-                <label for="city">Город:</label>
-                <input type="text" name="city" required>
-            </div>
+            <label for="city">Город:</label>
+            <input type="text" name="city" required value="{{ $conf->city }}"><br>
 
-            <div class="form-group">
-                <label for="date_start">Дата начала:</label>
-                <input type="date" name="date_start" required>
-            </div>
+            <label for="date_start">Дата начала:</label>
+            <input type="date" name="date_start" required value="{{ $conf->date_start }}"> <br>
 
-            <div class="form-group">
-                <label for="date_end">Дата конца:</label>
-                <input type="date" name="date_end" required>
-            </div>
+            <label for="date_end">Дата конца:</label>
+            <input type="date" name="date_end" required value="{{ $conf->date_end }}"><br>
 
-            <div class="form-group">
-                <label for="deadline">Дедлайн:</label>
-                <input type="date" name="deadline" required>
-            </div>
+            <label for="deadline">Дедлайн:</label>
+            <input type="data" name="deadline" required value="{{ $conf->deadline }}"><br>
 
-            <div class="form-group">
-                <label for="description">Описание:</label>
-                <textarea name="description" required></textarea>
-            </div>
+            <label for="description">Описание:</label>
+            <textarea name="description" required>{{ $conf->description }}</textarea><br>
 
-            <button type="submit" class="btn-primary">Добавить</button>
+            <button type="submit">Изменить</button>
         </form>
     </div>
 </body>

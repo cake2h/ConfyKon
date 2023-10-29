@@ -3,9 +3,7 @@
 <head>
     <title>Изменить конференцию</title>
     <style>
-        /* Your existing CSS styles (from the previous example) go here */
-
-        /* Additional styles specific to the update form */
+        
         body {
             font-family: Trebuchet MS, sans-serif;
             line-height: 1.6;
@@ -79,37 +77,50 @@
             }
         }
 
-        /* Apply the existing styles from the previous example */
-        /* ... */
+
     </style>
 </head>
 <body class="antialiased bg-ex-fixed">
     <div class="update-form">
-        <h2>Обновить конференцию</h2>
-        <form method="POST" action="{{ route('upkon', ['id' => $konfs->id]) }}">
+        <h2>Добавить мероприятие</h2>
+        <form method="POST" action="{{ route('conf.store') }}">
             @csrf
-            <label for="name">Имя:</label>
-            <input type="text" name="name" required value="{{ $konfs->name }}"><br>
+            <div class="form-group">
+                <label for="name">Название:</label>
+                <input type="text" name="name" required>
+            </div>
 
-            <label for="country">Страна:</label>
-            <input type="text" name="country" required value="{{ $konfs->country }}"><br>
+            <div class="form-group">
+                <label for="country">Страна:</label>
+                <input type="text" name="country" required>
+            </div>
 
-            <label for="city">Город:</label>
-            <input type="text" name="city" required value="{{ $konfs->city }}"><br>
+            <div class="form-group">
+                <label for="city">Город:</label>
+                <input type="text" name="city" required>
+            </div>
 
-            <label for="date_start">Дата начала:</label>
-            <input type="date" name="date_start" required value="{{ $konfs->date_start }}"> <br>
+            <div class="form-group">
+                <label for="date_start">Дата начала:</label>
+                <input type="date" name="date_start" required>
+            </div>
 
-            <label for="date_end">Дата конца:</label>
-            <input type="date" name="date_end" required value="{{ $konfs->date_end }}"><br>
+            <div class="form-group">
+                <label for="date_end">Дата конца:</label>
+                <input type="date" name="date_end" required>
+            </div>
 
-            <label for="deadline">Дедлайн:</label>
-            <input type="data" name="deadline" required value="{{ $konfs->deadline }}"><br>
+            <div class="form-group">
+                <label for="deadline">Дедлайн:</label>
+                <input type="date" name="deadline" required>
+            </div>
 
-            <label for="description">Описание:</label>
-            <textarea name="description" required>{{ $konfs->description }}</textarea><br>
+            <div class="form-group">
+                <label for="description">Описание:</label>
+                <textarea name="description" required></textarea>
+            </div>
 
-            <button type="submit">Изменить</button>
+            <button type="submit" class="btn-primary">Добавить</button>
         </form>
     </div>
 </body>

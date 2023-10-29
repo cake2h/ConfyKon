@@ -21,7 +21,7 @@
         event.preventDefault();
         const id = document.querySelector('#id').value;
         const response = await fetch(`${window.location.origin}/api/conf/${id}`);
-
+        
         if (response.ok) {
             let unpack = await response.json();
             console.log(unpack.data);

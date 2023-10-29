@@ -1,33 +1,31 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TeamController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ConfController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/addkonf', function () {
-    return view('addkonf');
-})->name('addkonf');
-
-Route::get('/teams', [TeamController::class, 'index'])->name('team.index');
-Route::post('/create', [TeamController::class, 'create'])->name('team.create');
-Route::get('/join', [TeamController::class, 'index'])->name('team.join');
-
-Route::get('/', [ProfileController::class, 'index'])->name('konf.index');
-Route::post('/addkonff', [ProfileController::class, 'store'])->name('konf.store');
-Route::post('/regkonf/{id}', [ProfileController::class, 'reg'])->name('konf.reg');
+Route::get('/', [ConfController::class, 'index'])->name('conf.index');
 
 Route::middleware('auth')->group(function () {
     Route::get('/lk', [ProfileController::class, 'lk'])->name('lk');
-    Route::get('/delete/{id}', [ProfileController::class, 'delete'])->name('delete');
-    Route::get('/konf/{id}', [ProfileController::class, 'updatekonf'])->name('updatekonf');
-    Route::post('/up/{id}', [ProfileController::class, 'upkon'])->name('upkon');
 });
 
-Route::middleware(['admin', 'auth'])->group(function () {
-    Route::get('/admin/main', [ProfileController::class, 'admin'])->name('admin.page');
+Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
+    Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
+
+    Route::prefix('conf')->group(function () {
+        Route::get('/add', [ConfController::class, 'add'])->name('conf.add');
+        Route::post('/add', [ConfController::class, 'store'])->name('conf.store');
+
+        Route::get('/edit/{id}', [ConfController::class, 'edit'])->name('conf.edit');
+        Route::post('/edit/{id}', [ConfController::class, 'update'])->name('conf.update');
+
+        Route::get('/delete/{id}', [ConfController::class, 'destroy'])->name('conf.destroy');
+    });
+    
 });
 
 Route::get('/ajax', [ProfileController::class, 'ajax'])->name('ajax.page');
 
-Route::get('/subscribe/{id}', [ProfileController::class, 'subscribe'])->name('subscribe');
 require __DIR__.'/auth.php';

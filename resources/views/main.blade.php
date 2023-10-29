@@ -32,30 +32,25 @@
         </header>
 
 
-        @foreach ($konfs as $konf)
+        @foreach ($confs as $conf)
             <div class="square line" style="">
                 <div id="stick2" class="stick2">
                     <div class="flex-images margin-none">
-                        <a class="otstup-r"><strong>{{ $konf->name }}</strong></a>
+                        <a class="otstup-r"><strong>{{ $conf->name }}</strong></a>
                         <a href="#" onclick="toggleStick2(event)" class="btn3">Дополнительно</a>
                     </div>
                     <p style="display: none;">
                     <div style="vertical-align: none; line-height: 30px;" class="margin-none">
-                        Страна: {{ $konf->country }}<br>
-                        Город: {{ $konf->city }}<br>
-                        Дата начала: {{ $konf->date_start }}<br>
-                        Дата окончания: {{ $konf->date_end }}<br>
-                        Дедлайн: {{ $konf->deadline }}<br>
-                        Описание: {{ $konf->description }}<br>
+                        Страна: {{ $conf->country }}<br>
+                        Город: {{ $conf->city }}<br>
+                        Дата начала: {{ $conf->date_start }}<br>
+                        Дата окончания: {{ $conf->date_end }}<br>
+                        Дедлайн: {{ $conf->deadline }}<br>
+                        Описание: {{ $conf->description }}<br>
                     </div>
                     </p>
-
-                    <a href="{{route('subscribe', ['id' => $konf->id])}}" class="btn2"
-                       style="margin-bottom: 20px; margin-left: 20px">Записаться</a>
-
                 </div>
             </div>
-
         @endforeach
         <div class="under"></div>
     </div>

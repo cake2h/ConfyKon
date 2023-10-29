@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Konf extends Model
+class Conf extends Model
 {
     use HasFactory;
+
+    protected $table = 'konfs';
+
     protected $fillable = [
         'name',
         'country',
