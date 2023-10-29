@@ -23,8 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/up/{id}', [ProfileController::class, 'upkon'])->name('upkon');
 });
 
-Route::middleware('admin')->group(function () {
-    Route::get('/admin', [ProfileController::class, 'admin'])->name('admin.page');
+Route::middleware(['admin', 'auth'])->group(function () {
+    Route::get('/admin/main', [ProfileController::class, 'admin'])->name('admin.page');
 });
 
 Route::get('/ajax', [ProfileController::class, 'ajax'])->name('ajax.page');

@@ -11,23 +11,34 @@
 
 <body class="antialiased ">
     <div class="relative flex items-top justify-center min-h-screen bg-ex-fixed">
-        <div class="container">
+        <div class="container"> p
             <header class="flex-images between">
                 <a href="https://www.utmn.ru/" class="otstup-l"><img src="https://www.utmn.ru/upload/medialibrary/47f/logo_utmn_mini2_rus.png" alt="ТюмГУ" width="120"/></a>
-                <a href="#" class="btn-secondary otstup-r" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
-                <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
-                    @csrf
-                </form>
-                
-            </header>
-            
-            <a href="{{ route('addkonf') }}" class="add-button">
-                Добавить мероприятие
-            </a>
+                <div class="hidden flex-images">
 
-            <h1 class="outlined-text">Список созданных конференций</h1>
+                    <a href="{{ route('addkonf') }}" class="btn-secondary otstup-r">
+                        Добавить мероприятие
+                    </a>
+
+                    <a href="{{ route('addkonf') }}" class="btn-secondary otstup-r">
+                        Рассылка оргаанизациям
+                    </a>
+
+                    <a href="{{ route('addkonf') }}" class="btn-secondary otstup-r">
+                        Рассылка участникам
+                    </a>
+
+                    <a href="#" class="btn-secondary otstup-r" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
+                    <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
+            </header>
+
+
+            <h1 class="outlined-text">Список секций</h1>
             <div class="sticker-container">
-                
+
                 @foreach ($konfs as $konf)<br>
                 <div class="sticker">
                     <center><b>{{ $konf->name }}</b></center><br>

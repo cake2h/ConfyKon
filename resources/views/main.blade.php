@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -9,35 +8,38 @@
     <link rel="stylesheet" href='{{asset("/css/dashboard.css")}}'>
 </head>
 <body class="antialiased ">
-<div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0 bg-ex-fixed">
+<div
+    class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0 bg-ex-fixed">
     <div class="container">
         <header class="flex-images between">
-            <a href="https://www.utmn.ru/" class="otstup-l"><img src="https://www.utmn.ru/upload/medialibrary/47f/logo_utmn_mini2_rus.png" alt="ТюмГУ" width="120"/></a>
+            <a href="https://www.utmn.ru/" class="otstup-l"><img
+                    src="https://www.utmn.ru/upload/medialibrary/47f/logo_utmn_mini2_rus.png" alt="ТюмГУ" width="120"/></a>
             <div class="hidden flex-images">
                 @if(Auth::check())
-                <a href="{{ route('lk') }}" class="btn-secondary otstup-r">Личный кабинет</a>
-                <!-- HTML-код -->
-                <a href="#" class="btn-secondary otstup-r" onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
-                <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
-                    @csrf
-                </form>
+                    <a href="{{ route('lk') }}" class="btn-secondary otstup-r">Личный кабинет</a>
+                    <!-- HTML-код -->
+                    <a href="#" class="btn-secondary otstup-r"
+                       onclick="event.preventDefault(); document.getElementById('logoutForm').submit();">Выход</a>
+                    <form method="POST" action="{{ route('logout') }}" id="logoutForm" style="display: none;">
+                        @csrf
+                    </form>
                 @else
-                <a href="{{ route('login') }}" class="btn-secondary otstup-r">Вход</a>
-                <a href="{{ route('register') }}" class="btn-secondary otstup-r">Регистрация</a>
+                    <a href="{{ route('login') }}" class="btn-secondary otstup-r">Вход</a>
+                    <a href="{{ route('register') }}" class="btn-secondary otstup-r">Регистрация</a>
                 @endif
             </div>
-            
+
         </header>
 
 
         @foreach ($konfs as $konf)
-        <div class="square line" style="">
-            <div id="stick2" class="stick2">
-                <div class="flex-images margin-none">
-                    <a class="otstup-r"><strong>{{ $konf->name }}</strong></a>
-                    <a href="#" onclick="toggleStick2(event)" class="btn3">Дополнительно</a>
-                </div>
-                <p style="display: none;">
+            <div class="square line" style="">
+                <div id="stick2" class="stick2">
+                    <div class="flex-images margin-none">
+                        <a class="otstup-r"><strong>{{ $konf->name }}</strong></a>
+                        <a href="#" onclick="toggleStick2(event)" class="btn3">Дополнительно</a>
+                    </div>
+                    <p style="display: none;">
                     <div style="vertical-align: none; line-height: 30px;" class="margin-none">
                         Страна: {{ $konf->country }}<br>
                         Город: {{ $konf->city }}<br>
@@ -46,17 +48,16 @@
                         Дедлайн: {{ $konf->deadline }}<br>
                         Описание: {{ $konf->description }}<br>
                     </div>
-                </p>
-                
-            <a href="{{route('subscribe', ['id' => $konf->id])}}" class="btn2" style="margin-bottom: 20px; margin-left: 20px">Записаться</a>
-            
-                
+                    </p>
+
+                    <a href="{{route('subscribe', ['id' => $konf->id])}}" class="btn2"
+                       style="margin-bottom: 20px; margin-left: 20px">Записаться</a>
+
+                </div>
             </div>
-            
-        </div>
 
         @endforeach
-        <div class="under" ></div>
+        <div class="under"></div>
     </div>
     <script>
         function toggleStick2(event) {
@@ -73,7 +74,7 @@
             } else {
                 stick2.classList.add("stick2-visible");
                 square.style.height = "380px";
-                
+
             }
         }
     </script>
