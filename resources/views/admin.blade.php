@@ -11,7 +11,7 @@
 
 <body class="antialiased ">
     <div class="relative flex items-top justify-center min-h-screen bg-ex-fixed">
-        <div class="container"> p
+        <div class="container">
             <header class="flex-images between">
                 <a href="https://www.utmn.ru/" class="otstup-l"><img src="https://www.utmn.ru/upload/medialibrary/47f/logo_utmn_mini2_rus.png" alt="ТюмГУ" width="120"/></a>
                 <div class="hidden flex-images">
