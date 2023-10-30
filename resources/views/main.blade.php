@@ -39,34 +39,37 @@
   </nav>
 </header>
 
-<div class="container">
-@foreach ($confs as $conf)
-  <section id='{{ $conf->id }}' class="program-section section-hoverable font-size">
-    <h2 style="font-size: 26px;">{{ $conf->name }}</h2>
-    <div class="info-box">
-      <p>Тут будет дополнительная информация о секции.</p>
-      <p>Тут будет дополнительная информация о секции.</p>
-      <p>Тут будет дополнительная информация о секции.</p>
-      <p>Тут будет дополнительная информация о секции.</p>
-      <p>Тут будет дополнительная информация о секции.</p>
-    </div>
-  </section>
-  <div class="full-info" id='{{ $conf->id }}-info'>
-      <div class="content">
-        <p>Страна: {{ $conf->country }}</p>
-        <p>Город: {{ $conf->city }}</p>
-        <p>Дата начала: {{ $conf->date_start }}</p>
-        <p>Дата окончания: {{ $conf->date_end }}</p>
-        <p>Дедлайн: {{ $conf->deadline }}</p>
-        <p>Описание: {{ $conf->description }}</p>
+<div class="centrator">
+  <div class="container">
+  @foreach ($confs as $conf)
+    <section id='{{ $conf->id }}' class="program-section section-hoverable font-size">
+      <h2 style="font-size: 26px;">{{ $conf->name }}</h2>
+      <div class="info-box">
+        <p>Тут будет дополнительная информация о секции.</p>
+        <p>Тут будет дополнительная информация о секции.</p>
+        <p>Тут будет дополнительная информация о секции.</p>
+        <p>Тут будет дополнительная информация о секции.</p>
+        <p>Тут будет дополнительная информация о секции.</p>
       </div>
+    </section>
+    <div class="full-info" id='{{ $conf->id }}-info'>
+        <div class="content">
+          <p>Страна: {{ $conf->country }}</p>
+          <p>Город: {{ $conf->city }}</p>
+          <p>Дата начала: {{ $conf->date_start }}</p>
+          <p>Дата окончания: {{ $conf->date_end }}</p>
+          <p>Дедлайн: {{ $conf->deadline }}</p>
+          <p>Описание: {{ $conf->description }}</p>
+        </div>
+    </div>
+  @endforeach
   </div>
-@endforeach
+
+  <footer>
+    <p style="margin-left: 10px; margin-right: 10px">&copy; 2023 Сервис организации конференций</p>
+  </footer>
 </div>
 
-<footer>
-  <p style="margin-left: 10px">&copy; 2023 Сервис организации конференций</p>
-</footer>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
   $(document).ready(function() {

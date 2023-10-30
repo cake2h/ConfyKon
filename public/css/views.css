@@ -111,6 +111,7 @@ section.active .info-box::-webkit-scrollbar {
 footer {
   color: rgba(78, 87, 84, 0.7);
   text-align: center;
+  margin-top: auto;
   bottom: 0;
   width: 100%;
 }
@@ -135,28 +136,6 @@ a:hover {
   color: #7f8a7f;
   transition: color 0.3s ease-in-out;
 }
-
-.program-section {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.program-card {
-  width: 30%;
-  background-color: #f0f0f0;
-  padding: 20px;
-  margin: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.program-card:hover {
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-}
-
 
 .full-info {
   height: 0;
