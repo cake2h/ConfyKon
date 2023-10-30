@@ -1,35 +1,43 @@
 body {
+    height: 100%;
     padding: 0;
     margin: 0;
 
-    height: 100vh;
-    
     display: flex;
     justify-content: center;
-    align-items: center;
-
-    background-color: #6db9f7;
-
     font-family: Trebuchet MS, sans-serif;
+    background-color: #f8ebe5;
 }
 
 .content {
     display: flex;
     box-sizing: border-box;
-    
+
     flex-direction: column;
 
     width: 400px;
 
     padding: 40px 24px;
+    margin: 35px 0;
 
     background-color: #ffffff;
 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border-radius: 25px;
+
+    font-family: Trebuchet MS, sans-serif;
+
     opacity: 0;
     animation: ani 1.5s forwards;
-    font-family: Trebuchet MS, sans-serif;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
 @keyframes ani {
@@ -80,7 +88,7 @@ body {
 }
 
 .link a:hover {
-    color: #e91616;
+    color: #f13e3e;
     animation: pulse 1s infinite;
 }
 
@@ -142,8 +150,8 @@ body {
     background-color: #00aeef;
     border: none;
     border-radius: 25px;
-
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
 }
 
 .authButton:hover {
@@ -151,23 +159,6 @@ body {
 }
 
 .bg-ex-fixed{
-    background: linear-gradient(-45deg, #24aaaf, #00aeef, #24aaaf, #fdaf7b);
-    background-size: 900% 900%;
-    animation: gradient 18s ease infinite;
-    background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
 }
-
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-

@@ -21,7 +21,7 @@
                     </a>
 
                     <a href="{{ route('conf.add') }}" class="btn-secondary otstup-r">
-                        Рассылка оргаанизациям
+                        Рассылка организациям
                     </a>
 
                     <a href="{{ route('conf.add') }}" class="btn-secondary otstup-r">
