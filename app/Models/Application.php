@@ -17,11 +17,6 @@ class Application extends Model
         'section_id',
     ];
 
-    public function team()
-    {
-        return $this->belongsTo(Team::class, 'team_id', 'team_id');
-    }
-
     public function section()
     {
         return $this->belongsTo(Section::class, 'section_id', 'id');

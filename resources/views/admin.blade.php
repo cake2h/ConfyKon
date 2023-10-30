@@ -37,7 +37,7 @@
             </header>
 
 
-            <h1 class="outlined-text">Список секций</h1>
+            <h1 class="outlined-text">Список конференций</h1>
             <div class="sticker-container">
                 @foreach ($confs as $conf)<br>
                 <div class="sticker">

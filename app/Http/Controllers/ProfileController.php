@@ -18,8 +18,9 @@ class ProfileController extends Controller
     public function lk(Request $request): View
     {
         $user = User::find(auth()->id());
+        $conferences = Auth::user()->applications;
 
-        return view('lk', compact('user'));
+        return view('lk', compact('user', 'conferences'));
     }
 
     public function ajax() 

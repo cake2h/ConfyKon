@@ -50,6 +50,11 @@ class User extends Authenticatable
         return $this->hasMany(Konf::class);
 
     }
+
+    public function applications() 
+    {
+        return $this->belongsToMany(Conf::class, 'konf_users', 'user_id', 'konf_id');
+    }
     
     protected $casts = [
         'email_verified_at' => 'datetime',

@@ -12,6 +12,7 @@ class Conf extends Model
     use HasFactory;
 
     protected $table = 'konfs';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'name',

@@ -40,31 +40,37 @@
 <div class="container">
     <div class="user-info-container">
         <p><h3><strong>{{$user->surname}} {{$user->name}} {{$user->midname}}</strong></h3></p>
-        <p><strong>Год рождения:</strong> {{$user->birthday}}</p>
+        <p><strong>Дата рождения:</strong> {{$user->birthday}}</p>
         <p><strong>Почта:</strong> {{$user->email}}</p>
         <p><strong>Город:</strong> {{$user->city}}</p>
         <p><strong>Уровень образования:</strong> {{$user->education_level->title}}</p>
         <p><strong>Место учебы:</strong> {{$user->study_place}}</p>
     </div>
 
-    {{--@foreach($conferences as $conference)
-        <section id='{{ $conference->id }}' class="program-section section-hoverable font-size">
-            <h2 style="font-size: 26px;">{{ $conference->name }}</h2>
-            <div class="info-box">
-                <p>Тут будет дополнительная информация о секции.</p>
+    <p>Мои заявки</p>
+    @if (count($conferences) === 0)
+        <p>Вы не отправили ни одной заявки</p>
+    @else
+        @foreach($conferences as $conference)
+            <section id='{{ $conference->id }}' class="program-section section-hoverable font-size">
+                <h2 style="font-size: 26px;">{{ $conference->name }}</h2>
+                <div class="info-box">
+                    <p>Тут будет дополнительная информация о секции.</p>
+                </div>
+            </section>
+            <div class="full-info" id='{{ $conference->id }}-info'>
+                <div class="content">
+                <p>Страна: {{ $conference->country }}</p>
+                <p>Город: {{ $conference->city }}</p>
+                <p>Дата начала: {{ $conference->date_start }}</p>
+                <p>Дата окончания: {{ $conference->date_end }}</p>
+                <p>Дедлайн: {{ $conference->deadline }}</p>
+                <p>Описание: {{ $conference->description }}</p>
+                </div>
             </div>
-        </section>
-        <div class="full-info" id='{{ $conference->id }}-info'>
-            <div class="content">
-            <p>Страна: {{ $conference->country }}</p>
-            <p>Город: {{ $conference->city }}</p>
-            <p>Дата начала: {{ $conference->date_start }}</p>
-            <p>Дата окончания: {{ $conference->date_end }}</p>
-            <p>Дедлайн: {{ $conference->deadline }}</p>
-            <p>Описание: {{ $conference->description }}</p>
-            </div>
-        </div>
-    @endforeach--}}
+        @endforeach
+    @endif
+    
 </div>
 
 <footer>
