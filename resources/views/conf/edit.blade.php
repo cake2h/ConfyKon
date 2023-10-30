@@ -2,16 +2,17 @@
 <html>
 <head>
     <title>Изменить конференцию</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap">
     <style>
+        html {
+            font-family: Fira Sans,sans-serif;
+        }
+        
         body {
-            font-family: Trebuchet MS, sans-serif;
             line-height: 1.6;
             margin: 40px;
             padding: 0;
-            background: linear-gradient(-45deg, #24aaaf, #00aeef, #24aaaf, #fdaf7b);
-            background-size: 900% 900%;
-            animation: gradient 30s ease infinite;
-            
+            background-color: #f8ebe5;
         }
 
         .update-form {
@@ -106,5 +107,6 @@
             <button type="submit">Изменить</button>
         </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 </html>

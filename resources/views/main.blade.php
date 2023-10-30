@@ -23,7 +23,7 @@
         <polygon class="st0" points="26.4,83.8 26.4,38.1 13.2,45.7 13.2,76.2  "></polygon>
       </svg>
     </a>
-    <div style="font-size: 23px;">
+    <div >
         @if(Auth::check())
             <a href="{{ route('lk') }}" style="margin-left: 12px; margin-right: 12px;">Личный кабинет</a>
             <a href="#" style="margin-left: 12px; margin-right: 12px;" 
@@ -43,7 +43,7 @@
   <div class="container">
   @foreach ($confs as $conf)
     <section id='{{ $conf->id }}' class="program-section section-hoverable font-size">
-      <h2 style="font-size: 26px;">{{ $conf->name }}</h2>
+      <h2>{{ $conf->name }}</h2>
       <div class="info-box">
         <p>Тут будет дополнительная информация о секции.</p>
         <p>Тут будет дополнительная информация о секции.</p>
