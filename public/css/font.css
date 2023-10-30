@@ -137,13 +137,13 @@ header {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     vertical-align: middle;
     text-align: center;
-    background-color: #00aeef;
+    background-color: #f39f32;
     color: #fff;
     transition: all 0.1s ease;
 }
 .btn-secondary:hover {
     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-    background: #e91616;
+    background: #e44242;
     transition: background;
 }
 .btn2 {
@@ -195,7 +195,7 @@ header {
     margin: 0px 20px 0px 20px;
 }
 .outlined-text {
-    color: #197e9ce0;
+    color: #3D423D;
     text-shadow:-1px -1px 0 #c4c4c428, 
                 1px -1px 0 #c4c4c428,
                 -1px 1px 0 #c4c4c428,
