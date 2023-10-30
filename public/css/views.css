@@ -23,7 +23,7 @@ header {
 }
 
 .h-\[45px\] {
-  height: 45px;
+  height: 60px;
 }
 
 img, svg {
@@ -40,12 +40,13 @@ nav {
   border-bottom: 1px solid #3D423D;
   margin-top: 20px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
 }
 
 .header-buttons a {
+  font-size: 31px;
   opacity: 0;
   animation: fadeIn 0.8s ease-in-out forwards;
 }
@@ -87,6 +88,7 @@ section {
 }
 
 .info-box {
+  font-size: 24px;
   max-height: 0;
   overflow: hidden;
   text-align: center;
@@ -111,6 +113,7 @@ section.active .info-box::-webkit-scrollbar {
 }
 
 footer {
+  font-size: 20px;
   color: rgba(78, 87, 84, 0.7);
   text-align: center;
   margin-top: auto;
@@ -119,12 +122,14 @@ footer {
 }
 
 h2 {
+  font-size: 38px;
   color: #3D423D;
   text-align: center;
   font-weight: normal;
 }
 
 p {
+  font-size: 28px;
   line-height: 1.6;
   text-align: justify;
 }

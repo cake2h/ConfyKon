@@ -39,7 +39,7 @@
 
 <div class="container">
     <div class="user-info-container">
-        <p><h3><strong>{{$user->surname}} {{$user->name}} {{$user->midname}}</strong></h3></p>
+        <p><h2><strong>{{$user->surname}} {{$user->name}} {{$user->midname}}</strong><h2></p>
         <p><strong>Год рождения:</strong> {{$user->birthday}}</p>
         <p><strong>Почта:</strong> {{$user->email}}</p>
         <p><strong>Город:</strong> {{$user->city}}</p>
