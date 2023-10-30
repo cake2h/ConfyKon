@@ -7,6 +7,7 @@
     <link rel="stylesheet" href='{{asset("css/admin.blade.css")}}'>
     <link rel="stylesheet" href='{{asset("css/font.css")}}'>
     <link rel="stylesheet" href='{{asset("css/dashboard.css")}}'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap">
 </head>
 
 <body class="antialiased ">
@@ -61,5 +62,6 @@
             <div class="under"></div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 </html>

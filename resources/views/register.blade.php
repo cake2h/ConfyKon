@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href='{{asset("./css/auth.css")}}'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap">
     <title>Регистрация</title>
     
 </head>
@@ -141,5 +142,6 @@
             <p class="link">Уже есть аккаунт? <a href={{route('login.page')}}>Авторизируйтесь!</a></p>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </body>
 </html>

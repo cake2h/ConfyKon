@@ -1,6 +1,8 @@
+html {
+  font-family: Fira Sans,sans-serif;
+}
 body {
   height: 100%;
-  font-family: Fira Sans,sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f8ebe5;
@@ -142,6 +144,7 @@ a:hover {
   overflow: hidden;
   opacity: 0;
   transition: height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+  width: 68%;
 }
 
 .full-info.active {
@@ -152,10 +155,6 @@ a:hover {
 .full-info .content {
   padding: 10px;
   text-align: center;
-}
-
-.full-info {
-  width: 68%;
 }
 
 .btn2 {
