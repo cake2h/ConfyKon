@@ -5,7 +5,7 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
-  background-color: #f8ebe5;
+  background-color: #f8f1e9;
   text-align: center;
   transition: background-color 0.3s ease-in-out;
 }
@@ -18,6 +18,7 @@ header {
 
 .h-\[45px\] {
   height: 45px;
+  fill: #3D423D
 }
 
 img, svg {
@@ -39,6 +40,11 @@ nav {
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
   background: linear-gradient(135deg, rgba(169, 169, 169, 0.1) 25%, transparent 25%, transparent 75%, rgba(169, 169, 169, 0.1) 75%, rgba(169, 169, 169, 0.1));
   background-size: 5px 5px; /* Толщина и расстояние треугольников */
+}
+
+header a {
+  margin-left: 14px;
+  margin-right: 14px
 }
 
 .header-buttons a {
@@ -72,6 +78,7 @@ section {
   overflow: hidden;
   text-align: center;
   background: repeating-linear-gradient(150deg, rgba(255, 255, 255, 0.1) 0px, rgba(255, 255, 255, 0.1) 5px, transparent 5px, transparent 10px);
+  background-color: rgb(4, 159, 217, 0.45);
 }
 
 .section-hoverable {
@@ -188,6 +195,6 @@ a:hover {
   border: 1px solid rgba(74, 74, 74, 0.1);
   padding: 15px;
   margin-bottom: 20px;
-  background-color: #f8f0f0;
+  background-color: #fbf6f6;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
