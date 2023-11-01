@@ -80,12 +80,6 @@
 <script>
   $(document).ready(function() {
     var scrollPosition = 0;
-    var colors = ['#f6d2b2', '#fadfe2', '#a0ced9', '#d0d1c8', '#f0ead6'];
-
-    $(".section-hoverable").each(function(index) {
-      // Применяем цвет к текущему section
-      $(this).css('background-color', colors[index % colors.length]);
-    });
     
     $(".section-hoverable").click(function() {
       var section = $(this);
