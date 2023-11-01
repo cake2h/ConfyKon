@@ -23,7 +23,7 @@
         <polygon class="st0" points="26.4,83.8 26.4,38.1 13.2,45.7 13.2,76.2  "></polygon>
       </svg>
     </a>
-    <div >
+    <div class="menu">
         @if(Auth::check())
             <a href="{{ route('lk') }}">Личный кабинет</a>
             <a href="#" 
@@ -35,6 +35,11 @@
             <a href="{{ route('login') }}">Вход</a>
             <a href="{{ route('register') }}">Регистрация</a>
         @endif
+    </div>
+    <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
     </div>
   </nav>
 </header>
@@ -64,7 +69,7 @@
     </div>
   @endforeach
   </div>
-
+  
   <footer>
     <p style="margin-left: 10px; margin-right: 10px">&copy; 2023 Сервис организации конференций</p>
   </footer>
@@ -99,34 +104,9 @@
 </script>
 <script>
   $(document).ready(function() {
-    // var baseColor = 'rgb(122, 173, 198)';
-    // var colors = [];
-
-    // $(".section-hoverable").each(function(index) {
-    //   // Рассчитываем новый цвет, изменяя немного основной цвет
-    //   var newColor = modifyColor(baseColor);
-      
-    //   // Применяем цвет к текущему section
-    //   $(this).css('background-color', newColor);
-
-    //   // Сохраняем цвет для возможного повторного использования
-    //   colors.push(newColor);
-    // });
-
-    // function modifyColor(color) {
-    //   // Преобразуем RGB цвет в массив чисел
-    //   var rgbArray = color.match(/\d+/g).map(Number);
-
-    //   // Слегка изменяем каждый компонент цвета
-    //   for (var i = 0; i < rgbArray.length; i++) {
-    //     rgbArray[i] += Math.floor(Math.random() * 21) - 10; // Изменение на случайное значение от -10 до 10
-    //     rgbArray[i] = Math.min(255, Math.max(0, rgbArray[i])); // Гарантируем, что компонент остается в пределах 0-255
-    //   }
-
-    //   // Формируем строку нового цвета
-    //   var newColor = 'rgb(' + rgbArray.join(', ') + ')';
-    //   return newColor;
-    // }
+    $(".menu-toggle").click(function() {
+        $(".menu").slideToggle();
+    });
     // При наведении мыши на блок info-box внутри section
     $(".section-hoverable .info-box").mouseenter(function() {
       // Находим родительский section
@@ -144,6 +124,16 @@
       section.removeClass("active");
     });
   });
+  document.addEventListener('DOMContentLoaded', function() {
+    var menuToggle = document.querySelector('.menu-toggle');
+    var menu = document.querySelector('.menu');
+
+    menuToggle.addEventListener('click', function() {
+      menu.classList.toggle('collapsed');
+      menuToggle.classList.toggle('active');
+    });
+  });
 </script>
+
 </body>
 </html>

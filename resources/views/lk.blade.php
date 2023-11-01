@@ -23,7 +23,12 @@
         <polygon class="st0" points="26.4,83.8 26.4,38.1 13.2,45.7 13.2,76.2  "></polygon>
       </svg>
     </a>
-    <div>
+    <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    <div class="menu">
         <a href="{{ route('conf.index') }}">Список конференций</a>
         @if (Auth::user()->isAdmin())
             <a href="{{ route('admin.index') }}">Админ-панель</a>
@@ -105,6 +110,9 @@
 </script>
 <script>
   $(document).ready(function() {
+    $(".menu-toggle").click(function() {
+        $(".menu").slideToggle();
+    });
     // При наведении мыши на блок info-box внутри section
     $(".section-hoverable .info-box").mouseenter(function() {
       var section = $(this).closest("section");
@@ -117,6 +125,15 @@
       var section = $(this).closest("section");
       
       section.removeClass("active");
+    });
+  });
+  document.addEventListener('DOMContentLoaded', function() {
+    var menuToggle = document.querySelector('.menu-toggle');
+    var menu = document.querySelector('.menu');
+
+    menuToggle.addEventListener('click', function() {
+      menu.classList.toggle('collapsed');
+      menuToggle.classList.toggle('active');
     });
   });
 </script>
