@@ -10,20 +10,14 @@ body {
   transition: background-color 0.3s ease-in-out;
 }
 
-.font_sans{
-  font-family: Fira Sans,sans-serif;
-}
-
 header {
   font-weight: bold;
   color: #3D423D;
   text-align: center;
-  background: linear-gradient(135deg, rgba(169, 169, 169, 0.1) 25%, transparent 25%, transparent 75%, rgba(169, 169, 169, 0.1) 75%, rgba(169, 169, 169, 0.1));
-  background-size: 4px 4px; /* Толщина и расстояние треугольников */
 }
 
 .h-\[45px\] {
-  height: 60px;
+  height: 45px;
 }
 
 img, svg {
@@ -43,10 +37,11 @@ nav {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, rgba(169, 169, 169, 0.1) 25%, transparent 25%, transparent 75%, rgba(169, 169, 169, 0.1) 75%, rgba(169, 169, 169, 0.1));
+  background-size: 5px 5px; /* Толщина и расстояние треугольников */
 }
 
 .header-buttons a {
-  font-size: 31px;
   opacity: 0;
   animation: fadeIn 0.8s ease-in-out forwards;
 }
@@ -72,7 +67,7 @@ section {
   padding: 30px;
   margin: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   overflow: hidden;
   text-align: center;
@@ -84,11 +79,11 @@ section {
 }
 
 .section-hoverable:hover {
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.4);
   transform: scale(1.01);
 }
 
 .info-box {
-  font-size: 24px;
   max-height: 0;
   overflow: hidden;
   text-align: center;
@@ -113,7 +108,6 @@ section.active .info-box::-webkit-scrollbar {
 }
 
 footer {
-  font-size: 20px;
   color: rgba(78, 87, 84, 0.7);
   text-align: center;
   margin-top: auto;
@@ -122,19 +116,20 @@ footer {
 }
 
 h2 {
-  font-size: 38px;
+  font-size: 1.6rem;
+  font-weight: normal;
   color: #3D423D;
   text-align: center;
-  font-weight: normal;
 }
 
 p {
-  font-size: 28px;
+  font-size: 1.1rem;
   line-height: 1.6;
   text-align: justify;
 }
 
 a {
+  font-size: 1.5rem;
   text-decoration: none;
   color: #3D423D;
   transition: color 0.3s ease-in-out;
