@@ -207,6 +207,8 @@ a:hover {
 .menu-toggle {
   display: none;
   cursor: pointer;
+  margin-left: 14px;
+  margin-right: 14px;
 }
 
 .menu {
@@ -227,10 +229,12 @@ a:hover {
     overflow-y: auto;
     z-index: 1000;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    transition: right 0.4s ease-in-out; /* Добавлен переход */
   }
 
   .menu a {
-    padding: 12px 40px;
+    padding: 12px 16px;
+    margin: 0 46px;
     text-decoration: none;
     display: block;
   }
@@ -243,33 +247,52 @@ a:hover {
     display: flex;
     flex-direction: column;
     cursor: pointer;
-    padding: 15px;
     top: 0;
     right: 0;
-    z-index: 1100; /* Выше навигации */
+    z-index: 999;
     opacity: 0;
-    animation: fadeIn 0.4s ease-in-out forwards;
-    
+    animation: fadeIn 0.3s ease-in-out forwards;
   }
+
+  .menu-toggle:hover span {
+    background-color: #7f8a7f;
+    transition: all 0.4s ease;
+  }
+
+  .menu-toggle.active {
+    z-index: 1100;
+  }
+
 
   .menu-toggle span {
     height: 3px;
     width: 25px;
-    background-color: #333;
+    background-color: #3D423D;
     margin-bottom: 6px;
-    transition: transform 0.3s ease; /* Добавим анимацию */
+    transition: transform 0.3s ease;
+  }
+
+  .menu-toggle.active {
+    position: fixed;
+    top: 41px;
+    right: -4px;
   }
 
   .menu-toggle.active span:nth-child(1) {
     transform: rotate(-45deg) translate(-7px, 6px);
   }
-
+  
   .menu-toggle.active span:nth-child(2) {
     opacity: 0;
+    transition: all 0.2s ease;
   }
-
+  
   .menu-toggle.active span:nth-child(3) {
     transform: rotate(45deg) translate(-7px, -6px);
+  }
+
+  .menu-toggle.active + .menu {
+    right: 0;
   }
 }
 
