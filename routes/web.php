@@ -20,14 +20,14 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
 
-    Route::prefix('conf')->group(function () {
+    Route::prefix('conference')->group(function () {
         Route::get('/add', [ConfController::class, 'add'])->name('conf.add');
         Route::post('/add', [ConfController::class, 'store'])->name('conf.store');
 
         Route::get('/edit/{id}', [ConfController::class, 'edit'])->name('conf.edit');
         Route::post('/edit/{id}', [ConfController::class, 'update'])->name('conf.update');
 
-        Route::get('/delete/{id}', [ConfController::class, 'destroy'])->name('conf.destroy');
+        Route::delete('/delete/{id}', [ConfController::class, 'destroy'])->name('conf.destroy');
     });
 });
 

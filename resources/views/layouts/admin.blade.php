@@ -25,7 +25,7 @@
                 <a href="{{ route('conf.add') }}" class="menu__button">Добавить конференцию</a>
                 <a href="{{ route('conf.add') }}" class="menu__button">Рассылка</a>
             @endif
-            <form method="POST" action="{{ route('logout') }}" id="logoutForm">
+            <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button class="menu__button" type="submit">Выйти из аккаунта</button>
             </form>

@@ -10,6 +10,6 @@ class AdminController extends Controller
     public function index() 
     {
         $conferences = Conf::all();
-        return view('admin', compact('conferences'));
+        return view('admin.admin', compact('conferences'));
     }
 }

@@ -14,8 +14,13 @@
                 <p class="date">{!! nl2br($conference->description) !!}</p>
                 <div class="controls">
                     <a class="link" href="{{ route('conf.show', $conference->id) }}">Подробнее</a>
-                    <a class="link" href="{{ route('conf.show', $conference->id) }}">Изменить информацию</a>
                     <a class="link" href="{{ route('conf.show', $conference->id) }}">Секции</a>
+                    <a class="link" href="{{ route('conf.edit', $conference->id) }}">Изменить информацию</a>
+                    <form method="POST" action="{{ route('conf.destroy', $conference->id) }}" class="delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="link" onclick="return confirm('Вы уверены?')">Удалить конференцию</button>
+                    </form>
                 </div>  
             </div> 
         @endforeach
