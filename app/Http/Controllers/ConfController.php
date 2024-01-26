@@ -9,9 +9,14 @@ class ConfController extends Controller
 {
     public function index()
     {
-        $confs = Conf::all();
+        $conferences = Conf::all();
 
-        return view('main', compact('confs'));
+        return view('main.index', compact('conferences'));
+    }
+
+    public function show(Conf $conference)
+    {
+        return view('main.show', compact('conference'));
     }
 
     public function destroy($id)

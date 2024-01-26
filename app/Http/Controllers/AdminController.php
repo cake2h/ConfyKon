@@ -9,7 +9,7 @@ class AdminController extends Controller
 {
     public function index() 
     {
-        $confs = Conf::all();
-        return view('admin', compact('confs'));
+        $conferences = Conf::all();
+        return view('admin', compact('conferences'));
     }
 }

@@ -5,10 +5,16 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConfController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [ConfController::class, 'index'])->name('conf.index');
+Route::prefix('')->group(function () {
+    Route::get('/', [ConfController::class, 'index'])->name('conf.index');
+
+    Route::prefix('conference')->group(function () {
+        Route::get('/{conference}', [ConfController::class, 'show'])->name('conf.show');
+    });
+});
 
 Route::middleware('auth')->group(function () {
-    Route::get('/lk', [ProfileController::class, 'lk'])->name('lk');
+    Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard.index');
 });
 
 Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
@@ -24,7 +30,5 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::get('/delete/{id}', [ConfController::class, 'destroy'])->name('conf.destroy');
     });
 });
-
-Route::get('/ajax', [ProfileController::class, 'ajax'])->name('ajax.page');
 
 require __DIR__.'/auth.php';
