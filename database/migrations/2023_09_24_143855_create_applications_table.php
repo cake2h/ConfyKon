@@ -19,10 +19,10 @@ return new class extends Migration
             $table->string('file_path');
             $table->integer('status')->default('0');
 
-            $table->foreignId('team_id')->constrained('teams');
+            $table->foreignId('user_id')->constrained('users');
             $table->foreignId('section_id')->constrained('sections');
-            $table->foreignId('konf_id')->constrained('sections');
-
+            $table->foreignId('type_id')->constrained('type_vysts');
+            
             $table->timestamps();
         });
     }

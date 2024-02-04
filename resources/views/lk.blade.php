@@ -54,7 +54,7 @@
 
     <p>Мои заявки</p>
     @if (count($conferences) === 0)
-        <p>Вы не отправили ни одной заявки (Щас стоит заглушка!)</p>
+        <p>Вы не отправили ни одной заявки</p>
     @else
         @foreach($conferences as $conference)
             <section id='{{ $conference->id }}' class="program-section section-hoverable font-size">

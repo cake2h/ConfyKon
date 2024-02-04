@@ -65,7 +65,12 @@
           <p>Дата окончания: {{ $conf->date_end }}</p>
           <p>Дедлайн: {{ $conf->deadline }}</p>
           <p>Описание: {{ $conf->description }}</p>
-        </div>
+
+          <a href=""  style="padding: 10px 20px; border-radius: 10px;
+          text-decoration: none; background-color: #9ED3E5; color: #000;"
+          onmouseover="this.style.backgroundColor='#D2B48C'"
+          onmouseout="this.style.backgroundColor='#9ED3E5'">Записаться</a>
+  </div>
     </div>
   @endforeach
   </div>

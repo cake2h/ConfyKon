@@ -12,7 +12,7 @@ class Application extends Model
     protected $fillable = [
         'status',
         'file_path',
-        'team_id',
+        'user_id',
         'konf_id',
         'section_id',
     ];
