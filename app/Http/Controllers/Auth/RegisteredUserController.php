@@ -20,7 +20,7 @@ class RegisteredUserController extends Controller
     {
         $educationLevels = Education_level::all();
 
-        return view('register', compact('educationLevels'));
+        return view('auth.register', compact('educationLevels'));
     }
     
     public function store(Request $request): RedirectResponse

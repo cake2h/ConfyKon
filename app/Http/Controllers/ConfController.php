@@ -9,9 +9,14 @@ class ConfController extends Controller
 {
     public function index()
     {
-        $confs = Conf::all();
+        $conferences = Conf::all();
 
-        return view('main', compact('confs'));
+        return view('main.index', compact('conferences'));
+    }
+
+    public function show(Conf $conference)
+    {
+        return view('main.show', compact('conference'));
     }
 
     public function destroy($id)
@@ -23,7 +28,7 @@ class ConfController extends Controller
     public function edit($id)
     {
         $conf = Conf::find($id);
-        return view('conf.edit', compact('conf'));
+        return view('admin.edit_conference', compact('conf'));
     }
 
     public function update(Request $request, $id) 
@@ -44,7 +49,7 @@ class ConfController extends Controller
 
     public function add() 
     {
-        return view('conf.add');
+        return view('admin.add_conference');
     }
 
     public function store(Request $request)
@@ -61,5 +66,21 @@ class ConfController extends Controller
         $conf->save();
 
         return redirect()->route('admin.index');
+    }
+
+    public function application()
+    {
+        return view('main.subscribe');
+    }
+
+    public function subscribe(Request $request)
+    {
+        $request->validate([
+
+        ]);
+
+        
+
+        return redirect()->route('mains.index');
     }
 }
