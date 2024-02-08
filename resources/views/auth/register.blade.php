@@ -53,6 +53,21 @@
 
                 <input
                     class="authInput"
+                    type="text"
+                    placeholder="Номер телефона"
+                    name="phone_number"
+                    id="phone_number"
+                    value="{{ old('phone_number') }}"
+                />
+                <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" type="text/javascript"></script>
+                <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.js" type="text/javascript"></script>
+                <script src="js/jquery.maskedinput.min.js"></script>
+                <script>
+                    $("#phone_number").mask("+7(999)999-99-99");
+                </script>
+
+                <input
+                    class="authInput"
                     type="password"
                     placeholder="Пароль"
                     name="password"
