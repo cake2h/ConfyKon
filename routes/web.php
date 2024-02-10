@@ -3,7 +3,11 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConfController;
+use App\Http\Controllers\EmailController;
 use Illuminate\Support\Facades\Route;
+
+
+Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
 
 Route::prefix('')->group(function () {
     Route::get('/', [ConfController::class, 'index'])->name('conf.index');
@@ -28,6 +32,8 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         Route::post('/edit/{id}', [ConfController::class, 'update'])->name('conf.update');
 
         Route::delete('/delete/{id}', [ConfController::class, 'destroy'])->name('conf.destroy');
+
+        
     });
 });
 
