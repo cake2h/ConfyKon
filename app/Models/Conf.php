@@ -23,4 +23,9 @@ class Conf extends Model
         'deadline',
         'description',
     ];
+
+    public function sections() : HasMany
+    {
+        return $this->hasMany(Section::class);
+    }
 }
