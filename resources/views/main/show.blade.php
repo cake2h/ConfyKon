@@ -33,6 +33,45 @@
             </div>
         </div>
 
-        <a class="link" href="{{ route('conf.show', $conference->id) }}">Записаться</a>
+        <a class="link" href="#" id="subscribeButton">Записаться</a>
     </div>
+    <div class="modal" id="myModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="sectionList"></div>
+        </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modal = document.getElementById('myModal');
+            var btn = document.getElementById('subscribeButton'); // Получаем кнопку по идентификатору "subscribeButton"
+            var span = document.getElementsByClassName('close')[0];
+
+            btn.onclick = function () {
+                // AJAX запрос для получения списка секций конференции
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        document.getElementById('sectionList').innerHTML = xhr.responseText;
+                        modal.style.display = 'block';
+                    }
+                };
+                xhr.open('GET', '{{ route('conf.sections', $conference->id) }}', true);
+                xhr.send();
+            }
+
+            span.onclick = function () {
+                modal.style.display = 'none';
+            }
+
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            }
+        });
+    </script>
 @endsection

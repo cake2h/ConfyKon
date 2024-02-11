@@ -83,4 +83,10 @@ class ConfController extends Controller
 
         return redirect()->route('mains.index');
     }
+
+    public function getSections(Conf $conference)
+    {
+        $sections = $conference->sections()->select('id', 'name')->get();
+        return response()->json($sections);
+    }
 }

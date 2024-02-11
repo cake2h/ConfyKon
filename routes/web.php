@@ -14,6 +14,7 @@ Route::prefix('')->group(function () {
 
     Route::prefix('conference')->group(function () {
         Route::get('/{conference}', [ConfController::class, 'show'])->name('conf.show');
+        Route::get('/conference/{conference}/sections', [ConfController::class, 'getSections'])->name('conf.sections');
     });
 });
 
