@@ -13,8 +13,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('description');
             
-            $table->unsignedInteger('moder_id');
-            $table->unsignedInteger('konf_id');
+            $table->unsignedBigInteger('moder_id');
+            $table->unsignedBigInteger('konf_id');
 
             $table->foreign('moder_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('konf_id')->references('id')->on('konfs')->onDelete('cascade');

@@ -14,9 +14,9 @@ return new class extends Migration
             $table->string('file_path');
             $table->integer('status')->default(0);
             
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('section_id');
-            $table->unsignedInteger('type_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('section_id');
+            $table->unsignedBigInteger('type_id');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
