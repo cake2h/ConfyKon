@@ -19,8 +19,8 @@ return new class extends Migration
             $table->unsignedInteger('type_id');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('section_id')->references('id')->on('konfs')->onDelete('cascade');
-            $table->foreign('type_id')->references('id')->on('konfs')->onDelete('cascade');
+            $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('presentation_types')->onDelete('cascade');
             
             $table->timestamps();
         });

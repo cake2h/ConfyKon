@@ -26,6 +26,6 @@ class Conf extends Model
 
     public function sections() : HasMany
     {
-        return $this->hasMany(Section::class);
+        return $this->hasMany(Section::class, 'konf_id');
     }
 }

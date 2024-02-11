@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConfController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,7 +35,18 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
 
         Route::delete('/delete/{id}', [ConfController::class, 'destroy'])->name('conf.destroy');
 
-        
+        Route::prefix('{conference}/sections')->group(function () {
+            Route::get('/',  [SectionController::class, 'adminSections'])->name('admin.sections.index');
+
+            Route::get('/add', [SectionController::class, 'add'])->name('admin.sections.add');
+            Route::post('/add', [SectionController::class, 'store'])->name('admin.sections.store');
+
+            Route::get('/{section}/edit', [SectionController::class, 'edit'])->name('admin.sections.edit');
+            Route::put('/{section}/edit', [SectionController::class, 'update'])->name('admin.sections.update');
+
+
+            Route::delete('/{section}/destroy', [SectionController::class, 'destroy'])->name('admin.sections.destroy');
+        });
     });
 });
 

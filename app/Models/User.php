@@ -33,7 +33,7 @@ class User extends Authenticatable
 
     public function education_level()
     {
-        return $this->belongsTo(Education_level::class, 'edu_id', 'id');
+        return $this->belongsTo(EducationLevel::class, 'edu_id', 'id');
     }
 
     public function isAdmin()

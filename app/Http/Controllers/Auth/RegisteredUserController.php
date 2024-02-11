@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Education_level;
+use App\Models\EducationLevel;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -18,7 +18,7 @@ class RegisteredUserController extends Controller
 {
     public function create(): View
     {
-        $educationLevels = Education_level::all();
+        $educationLevels = EducationLevel::all();
 
         return view('auth.register', compact('educationLevels'));
     }
