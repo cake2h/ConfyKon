@@ -10,13 +10,13 @@ class ConfController extends Controller
     public function index()
     {
         $conferences = Conf::all();
-
         return view('main.index', compact('conferences'));
     }
 
     public function show(Conf $conference)
     {
-        return view('main.show', compact('conference'));
+        $sections = $conference->sections;
+        return view('main.show', compact('conference', 'sections'));
     }
 
     public function destroy($id)
@@ -75,10 +75,11 @@ class ConfController extends Controller
 
     public function subscribe(Request $request)
     {
+        dd($request);
         $request->validate([
-
+        
         ]);
-
+        
         
 
         return redirect()->route('mains.index');

@@ -14,64 +14,55 @@
         <p class="section"><strong>Описание:</strong> {!! nl2br($conference->description) !!}</p>
 
         <div class="conference__sections">
+
             <h2>Направления конференции</h2>
-            <div class="conference__direction">
-                <h3>Математические и компьютерные методы решения задач</h3>
-                <p><strong>Ответственный:</strong> Иванов Иван Иванович</p>
-            </div>
-            <div class="conference__direction">
-                <h3>Методы, технологии и программные средства обработки и анализа данных</h3>
-                <p><strong>Ответственный:</strong> Иванов Иван Иванович</p>
-            </div>
-            <div class="conference__direction">
-                <h3>Модели и алгоритмы искусственного интеллекта</h3>
-                <p><strong>Ответственный:</strong> Иванов Иван Иванович</p>
-            </div>
-            <div class="conference__direction">
-                <h3>Cовременные мобильные и Интернет-технологии</h3>
-                <p><strong>Ответственный:</strong> Иванов Иван Иванович</p>
-            </div>
+            @foreach($sections as $section)
+                <h3>{{$section->name}}</h3>
+                <p><strong>Ответственный:</strong> {{$section->moder->name}}</p>
+            @endforeach
         </div>
 
-        <a class="link" href="#" id="subscribeButton">Записаться</a>
+        <p class="link" onclick ="openModal()">Записаться</p>
     </div>
-    <div class="modal" id="myModal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div id="sectionList"></div>
+
+    
+    <div class="modal" id="imageModal"> 
+        <div>
+        <span class="close" onclick="closeModal()">&times;</span>
+        <form method="POST" action="{{ route('conf.subscribe', $conference) }}">
+            @csrf
+            <h1>Записаться на конференцию</h1>
+            <div class="form-group">
+                <label for="name">Название:</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="file">Файл:</label>
+                <input type="file" name="file" required>
+            </div>
+            <select class="authInput" name="sec_id">
+                    <option value=""  disabled selected hidden>Секция</option>
+                    @foreach($sections as $section)
+                        <option name="sec_id"  value="{{$section->id}}">{{$section->name}}</option>
+                    @endforeach
+            </select>
+            <button>Отправить</button>
+        </form>
         </div>
     </div>
 @endsection
 
 @section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var modal = document.getElementById('myModal');
-            var btn = document.getElementById('subscribeButton'); // Получаем кнопку по идентификатору "subscribeButton"
-            var span = document.getElementsByClassName('close')[0];
-
-            btn.onclick = function () {
-                // AJAX запрос для получения списка секций конференции
-                var xhr = new XMLHttpRequest();
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === 4 && xhr.status === 200) {
-                        document.getElementById('sectionList').innerHTML = xhr.responseText;
-                        modal.style.display = 'block';
-                    }
-                };
-                xhr.open('GET', '{{ route('conf.sections', $conference->id) }}', true);
-                xhr.send();
-            }
-
-            span.onclick = function () {
-                modal.style.display = 'none';
-            }
-
-            window.onclick = function (event) {
-                if (event.target === modal) {
-                    modal.style.display = 'none';
-                }
-            }
-        });
+<script> 
+        function openModal() { 
+            var modal = document.getElementById('imageModal'); 
+ 
+            modal.style.display = 'block'; 
+        } 
+ 
+        function closeModal() { 
+            var modal = document.getElementById('imageModal'); 
+            modal.style.display = 'none'; 
+        } 
     </script>
 @endsection

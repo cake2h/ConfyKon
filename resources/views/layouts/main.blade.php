@@ -42,5 +42,6 @@
   <footer id="footer">
     <p style="text-align: left">&copy; 2024 Сервис для организации конференций</p>
   </footer>
+  @yield('scripts')
 </body>
 </html>

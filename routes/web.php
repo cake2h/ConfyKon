@@ -15,7 +15,8 @@ Route::prefix('')->group(function () {
 
     Route::prefix('conference')->group(function () {
         Route::get('/{conference}', [ConfController::class, 'show'])->name('conf.show');
-        Route::get('/conference/{conference}/sections', [ConfController::class, 'getSections'])->name('conf.sections');
+        Route::get('/{conference}/sections', [ConfController::class, 'getSections'])->name('conf.sections');
+        Route::post('/{conference}/subs', [ConfController::class, 'subscribe'])->name('conf.subscribe');
     });
 });
 
@@ -46,6 +47,7 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
 
 
             Route::delete('/{section}/destroy', [SectionController::class, 'destroy'])->name('admin.sections.destroy');
+
         });
     });
 });

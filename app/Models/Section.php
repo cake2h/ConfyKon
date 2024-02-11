@@ -20,4 +20,11 @@ class Section extends Model
     {
         return $this->belongsTo(Konf::class, 'konf_id', 'id');
     }
+
+    public function moder()
+    {
+        return $this->belongsTo(User::class, 'moder_id', 'id');
+    }
+
+
 }
