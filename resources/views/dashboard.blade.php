@@ -20,17 +20,19 @@
 
         <div class="conference-applications">
             <h3>Мои заявки</h3>
-            @if (count($conferences) === 0)
-                <p>Вы не отправили ни одной заявки (заглушка).</p>
+            @if (count(Auth::user()->applications) === 0)
+                <p>Вы не отправили ни одной заявки.</p>
             @else
-                @foreach($conferences as $conference)
-                    <div class="conference">
-                        <h4>{{ $conference->name }}</h4>
-                        <p><strong>Дата начала:</strong> {{ $conference->date_start }}</p>
-                        <p class="conference-description">{{ $conference->description }}</p>
-                        <a class="link" href="{{ route('conf.show', $conference->id) }}">Подробнее</a>
-                    </div> 
-                @endforeach
+                <div class="applications">
+                    @foreach(Auth::user()->applications as $application)
+                        <div class="application">
+                            <p>Конференция: {{ $application->section->konf->name }}</p>
+                            <p>Cекция: {{ $application->section->name }}</p>
+                            <p>Название работы: {{ $application->name }}</p>
+                            <a class="link" href="#">Подробнее</a>
+                        </div> 
+                    @endforeach
+                </div>
             @endif
         </div>
     </div>

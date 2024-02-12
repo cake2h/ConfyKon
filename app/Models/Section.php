@@ -18,7 +18,7 @@ class Section extends Model
 
     public function konf()
     {
-        return $this->belongsTo(Konf::class, 'konf_id', 'id');
+        return $this->belongsTo(Conf::class, 'konf_id', 'id');
     }
 
     public function moder()

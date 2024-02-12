@@ -30,7 +30,7 @@
     <div class="modal" id="imageModal"> 
         <div class="modal__container">
             <span class="close" onclick="closeModal()">&times;</span>
-            <form method="POST" action="{{ route('conf.subscribe', $conference) }}">
+            <form method="POST" action="{{ route('conf.subscribe', $conference) }}" enctype="multipart/form-data">
                 @csrf
                 <h1>Записаться на конференцию</h1>
                 <div class="form-group">
