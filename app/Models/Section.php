@@ -25,6 +25,4 @@ class Section extends Model
     {
         return $this->belongsTo(User::class, 'moder_id', 'id');
     }
-
-
 }

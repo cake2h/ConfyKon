@@ -32,11 +32,11 @@
         <form method="POST" action="{{ route('conf.subscribe', $conference) }}">
             @csrf
             <h1>Записаться на конференцию</h1>
-            <div class="form-group">
-                <label for="name">Название:</label>
+            <div class="section" class="form-group">
+                <label for="name">Тема доклада:</label>
                 <input type="text" name="name" required>
             </div>
-            <div class="form-group">
+            <div class="section" class="form-group">
                 <label for="file">Файл:</label>
                 <input type="file" name="file" required>
             </div>
@@ -46,7 +46,8 @@
                         <option name="sec_id"  value="{{$section->id}}">{{$section->name}}</option>
                     @endforeach
             </select>
-            <button>Отправить</button>
+            <br><br>
+            <button class="link">Отправить</button>
         </form>
         </div>
     </div>

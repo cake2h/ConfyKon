@@ -35,7 +35,7 @@ header {
   margin-top: 20px;
   
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-  background: linear-gradient(135deg, rgba(169, 169, 169, 0.1) 25%, transparent 25%, transparent 75%, rgba(169, 169, 169, 0.1) 75%, rgba(169, 169, 169, 0.1));
+  background: linear-gradient(135deg, rgba(135, 209, 214, 0.1) 25%, transparent 25%, transparent 75%, rgba(169, 169, 169, 0.1) 75%, rgba(169, 169, 169, 0.1));
   background-size: 5px 5px;
 }
 

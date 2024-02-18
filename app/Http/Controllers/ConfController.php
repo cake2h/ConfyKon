@@ -75,13 +75,10 @@ class ConfController extends Controller
 
     public function subscribe(Request $request)
     {
-        dd($request);
         $request->validate([
-        
+            
         ]);
         
-        
-
         return redirect()->route('mains.index');
     }
 

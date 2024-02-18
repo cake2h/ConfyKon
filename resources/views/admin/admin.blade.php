@@ -10,7 +10,8 @@
         @foreach($conferences as $conference)   
             <div class="conference">
                 <h1 class="title">{{ $conference->name }}</h1>
-                <p class="date">Дата начала: {{ $conference->date_start }}</p>
+                <p class="date">Дата проведения: {{ $conference->date_start }} | {{ $conference->date_end }}</p>
+                <p class="date">Дата окончания приема заявок: {{ $conference->deadline }}</p>
                 <p class="date">{!! nl2br($conference->description) !!}</p>
                 <div class="controls">
                     <a class="link" href="{{ route('conf.show', $conference->id) }}">Подробнее</a>
