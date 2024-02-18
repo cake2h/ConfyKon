@@ -98,3 +98,19 @@ p {
     cursor: pointer; 
 }
 
+
+.modal__container {
+    width: 50%;
+    margin: auto;
+    margin-top: 10%;
+    position: relative;
+
+    background-color: #fff;
+}
+
+.modal__container form {
+    padding: 40px;
+
+    display: flex;
+    flex-direction: column;
+}

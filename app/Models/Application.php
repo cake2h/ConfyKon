@@ -5,16 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Application extends Model
 {
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'status',
         'file_path',
         'user_id',
-        'konf_id',
         'section_id',
+        'type_id'
     ];
 
     public function section()

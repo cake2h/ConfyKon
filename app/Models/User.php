@@ -46,9 +46,9 @@ class User extends Authenticatable
         return $this->role === 'inteam';
     }
 
-    public function own_konf(): HasMany
+    public function applications(): HasMany
     {
-        return $this->hasMany(Konf::class);
+        return $this->hasMany(Application::class, 'user_id');
 
     }
     

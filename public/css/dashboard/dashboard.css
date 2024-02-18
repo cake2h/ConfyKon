@@ -55,3 +55,20 @@
 .link:hover {
     background-color: #45a049;
 }
+
+
+.applications {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    flex-direction: column;
+}
+
+.application {
+    padding: 8px 16px;
+
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid black;
+    border-radius: 16px;
+}

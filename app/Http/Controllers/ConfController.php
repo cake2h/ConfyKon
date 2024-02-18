@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Conf;
+use App\Models\Application;
 
 class ConfController extends Controller
 {
@@ -73,13 +75,33 @@ class ConfController extends Controller
         return view('main.subscribe');
     }
 
-    public function subscribe(Request $request)
+    public function subscribe(Request $request, Conf $conference)
     {
         $request->validate([
-            
+            'name' => ['required', 'string'],
+            'file' => ['required'], // Чек на то что файл, возможно только docx
+            'section_id' => ['required'] // Нужно Добавить чек на наличие в таблице
         ]);
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            
+            $file->move(public_path('publications'), $fileName);
+
+            Application::create([
+                'name' => $request->name,
+                'file_path' => 'publications/' . $fileName,
+                'status' => 0,
+                'user_id' => Auth::user()->id,
+                'section_id' => $request->section_id,
+                'type_id' => 1
+            ]);
+        }
         
-        return redirect()->route('mains.index');
+
+        return redirect()->route('dashboard.index');
     }
 
     public function getSections(Conf $conference)
