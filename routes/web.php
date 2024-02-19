@@ -7,9 +7,6 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
 
-
-Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
-
 Route::prefix('')->group(function () {
     Route::get('/', [ConfController::class, 'index'])->name('conf.index');
 
@@ -26,6 +23,8 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/export-users', [ProfileController::class, 'exportUsers'])->name('export_all_users');
+    Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
 
     Route::prefix('conference')->group(function () {
         Route::get('/add', [ConfController::class, 'add'])->name('conf.add');

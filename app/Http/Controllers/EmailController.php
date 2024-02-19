@@ -17,11 +17,11 @@ class EmailController extends Controller
                 $message->to($user->email, $user->name)
                         ->subject('Приглашение на Всероссийскую конференцию молодых ученых "МАТЕМАТИЧЕСКОЕ И ИНФОРМАЦИОННОЕ МОДЕЛИРОВАНИЕ" (МИМ-2024)')
                         ->from('misamaikl97@gmail.com', 'Организатор конференции МИМ-2024')
-                        ->attach(storage_path('app/mes.doc'));
+                        ->attach(storage_path('app\Информационное письмо МИМ2024_ТюмГУ .pdf'));
             });
         }
 
-        return redirect()->route('admin.index');
+        return redirect()->route('admin.index')->with('success', 'Приглашения успешно разосланы');;
     }
 }
 

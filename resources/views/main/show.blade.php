@@ -28,28 +28,30 @@
 
     
     <div class="modal" id="imageModal"> 
-        <div>
-        <span class="close" onclick="closeModal()">&times;</span>
-        <form method="POST" action="{{ route('conf.subscribe', $conference) }}">
-            @csrf
-            <h1>Записаться на конференцию</h1>
-            <div class="section" class="form-group">
-                <label for="name">Тема доклада:</label>
-                <input type="text" name="name" required>
-            </div>
-            <div class="section" class="form-group">
-                <label for="file">Файл:</label>
-                <input type="file" name="file" required>
-            </div>
-            <select class="authInput" name="sec_id">
-                    <option value=""  disabled selected hidden>Секция</option>
-                    @foreach($sections as $section)
-                        <option name="sec_id"  value="{{$section->id}}">{{$section->name}}</option>
-                    @endforeach
-            </select>
-            <br><br>
-            <button class="link">Отправить</button>
-        </form>
+        <div class="modal__container">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <form method="POST" action="{{ route('conf.subscribe', $conference) }}" enctype="multipart/form-data">
+                @csrf
+                <h1>Записаться на конференцию</h1>
+                <div class="form-group">
+                    <label for="name">Название работы:</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="file">Файл:</label>
+                    <input type="file" name="file" required>
+                </div>
+                <div class="form-group">
+                    <label for="section_id">Cекция:</label>
+                    <select id="section_id" class="authInput" name="section_id">
+                        <option value=""  disabled selected hidden>Секция</option>
+                        @foreach($sections as $section)
+                            <option name="section_id"  value="{{ $section->id }}">{{ $section->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button class="button" type="submit">Отправить</button>
+            </form>
         </div>
     </div>
 @endsection
