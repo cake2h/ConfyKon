@@ -16,7 +16,7 @@ class EmailController extends Controller
             Mail::send(['text' => 'emails/mail'], ['name', 'Гындыбин Михаил Викторович'], function($message) use ($user) {
                 $message->to($user->email, $user->name)
                         ->subject('Приглашение на Всероссийскую конференцию молодых ученых "МАТЕМАТИЧЕСКОЕ И ИНФОРМАЦИОННОЕ МОДЕЛИРОВАНИЕ" (МИМ-2024)')
-                        ->from('misamaikl97@gmail.com', 'Организатор конференции МИМ-2024')
+                        ->from('l.n.bakanovskaya@utmn.ru', 'Организатор конференции МИМ-2024')
                         ->attach(storage_path('app\Информационное письмо МИМ2024_ТюмГУ .pdf'));
             });
         }
