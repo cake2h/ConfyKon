@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    <div class="form-container">
+    
         <h2>Изменение секции {{ $section->name }} в конференции {{ $conference->name }}</h2>
         <form method="POST" action="{{ route('admin.sections.update', ['conference' => $conference->id, 'section' => $section->id]) }}" class="conference-form">
             @csrf
@@ -23,5 +23,4 @@
 
             <button type="submit" class="button">Изменить</button>
         </form>
-    </div>
 @endsection

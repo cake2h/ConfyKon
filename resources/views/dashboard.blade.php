@@ -6,7 +6,6 @@
 @endsection
 
 @section('content')
-    <div class="dashboard-container">
         <div class="user-info">
             <h2 class="user-name">{{ $user->surname }} {{ $user->name }} {{ $user->midname }}</h2>
             <ul class="user-details">
@@ -35,5 +34,4 @@
                 </div>
             @endif
         </div>
-    </div>
 @endsection

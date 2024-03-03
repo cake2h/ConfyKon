@@ -58,15 +58,15 @@
 
 @section('scripts')
 <script> 
-        function openModal() { 
-            var modal = document.getElementById('imageModal'); 
- 
-            modal.style.display = 'block'; 
-        } 
- 
-        function closeModal() { 
-            var modal = document.getElementById('imageModal'); 
-            modal.style.display = 'none'; 
-        } 
-    </script>
+    function openModal() { 
+        var modal = document.getElementById('imageModal'); 
+
+        modal.style.display = 'block'; 
+    } 
+
+    function closeModal() { 
+        var modal = document.getElementById('imageModal'); 
+        modal.style.display = 'none'; 
+    } 
+</script>
 @endsection

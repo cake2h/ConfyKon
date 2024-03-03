@@ -6,7 +6,6 @@
 @endsection
 
 @section('content')
-    <div class="form-container">
         <h2>Добавление секции к конференции {{ $conference->name }}</h2>
         <form method="POST" action="{{ route('admin.sections.store', $conference) }}" class="conference-form">
             @csrf
@@ -23,5 +22,5 @@
 
             <button type="submit" class="button">Добавить</button>
         </form>
-    </div>
+
 @endsection
