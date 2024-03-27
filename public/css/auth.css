@@ -8,7 +8,8 @@ body {
 
     display: flex;
     justify-content: center;
-    background-color: #f8ebe5;
+    background-color: #60c0ff; 
+    background-image: url('../img/noise.svg');
 }
 
 .content {
