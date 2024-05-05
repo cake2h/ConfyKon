@@ -41,7 +41,7 @@ class EmailController extends Controller
                 ['name' => ''],
                 function ($message) use ($email) {
                     $message->to($email)
-                        ->subject('Программа конференции "МАТЕМАТИЧЕСКОЕ И ИНФОРМАЦИОННОЕ МОДЕЛИРОВАНИЕ 2024"')
+                        ->subject('Договоры на публикацию статей')
                         ->from('l.n.bakanovskaya@utmn.ru', 'Организатор конференции МИМ-2024');
                 }
             );
