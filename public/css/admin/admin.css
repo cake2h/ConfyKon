@@ -49,6 +49,39 @@ a.link:hover, button.link:hover {
     border-radius: 16px;
 }
 
+.textBlock {
+    position: absolute;
+    margin-left: 35%;
+}
+
+.users {
+    position: absolute;
+}
+
+textarea {
+    width: 650px;
+    height: 500px;
+    resize: none; 
+    position: absolute;
+  }
+
+  #goBtn {   
+     position: absolute;
+     margin-top: 200%;
+  }
+
+#saveBtn {
+    position: absolute;
+    margin-top: 200%;
+}
+
+#filesBtn {
+    position: absolute;
+    margin-top: 200%;
+    margin-left: 55%;
+    white-space: nowrap;
+}
+
 .section__actions {
     display: flex;
     flex-direction: row;

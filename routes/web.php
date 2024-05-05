@@ -24,7 +24,11 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/export-users', [ProfileController::class, 'exportUsers'])->name('export_all_users');
+
+    Route::get('/page-emails', [EmailController::class, 'emailsPage'])->name('page.emails');
     Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
+    Route::post('/save-mail', [EmailController::class, 'saveMail'])->name('save.mail');
+
 
     Route::prefix('conference')->group(function () {
         Route::get('/add', [ConfController::class, 'add'])->name('conf.add');

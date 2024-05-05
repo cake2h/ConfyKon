@@ -6,10 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\EmailsForSend;
+use Illuminate\Support\Facades\File;
 
 
 class EmailController extends Controller
 {
+    public function emailsPage() 
+    {
+        $users = User::all();
+
+        return view('emails.email_page', compact('users'));
+    }
+
+    public function saveMail(Request $request)
+    {
+        $text = $request->input('mail_text');
+        $path = resource_path('views/emails/mail.blade.php');
+        File::put($path, $text);
+        
+        return redirect()->back()->with('message', 'Письмо успешно сохранено.');
+    }
+
     public function sendEmails()
     {
         ini_set('max_execution_time', 3600);
