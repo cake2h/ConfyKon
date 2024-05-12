@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\Conf;
 use App\Models\Application;
 
@@ -12,7 +13,8 @@ class ConfController extends Controller
     public function index()
     {
         $conferences = Conf::all();
-        return view('main.index', compact('conferences'));
+        $presentationTypes = DB::table('presentation_types')->get();
+        return view('main.index', compact('conferences', 'presentationTypes'));
     }
 
     public function show(Conf $conference)
@@ -79,28 +81,39 @@ class ConfController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string'],
-            'file' => ['required'], // Чек на то что файл, возможно только docx
-            'section_id' => ['required'] // Нужно Добавить чек на наличие в таблице
+            'section_id' => ['required']
+        ]);
+
+        Application::create([
+            'name' => $request->name,
+            'status' => 0,
+            'user_id' => Auth::user()->id,
+            'section_id' => $request->section_id,
+            'type_id' => $request->presentation_type_id
+        ]);
+
+        return redirect()->route('dashboard.index');
+    }
+
+    public function dock(Request $request)
+    {
+        $request->validate([
+            'file' => ['required'],
         ]);
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            
+
             $fileName = time() . '.' . $file->getClientOriginalExtension();
-            
+
             $file->move(public_path('publications'), $fileName);
 
-            Application::create([
-                'name' => $request->name,
+            $application = Application::findOrFail($request->application_id);
+
+            $application->update([
                 'file_path' => 'publications/' . $fileName,
-                'status' => 0,
-                'user_id' => Auth::user()->id,
-                'section_id' => $request->section_id,
-                'type_id' => 1
             ]);
         }
-        
-
         return redirect()->route('dashboard.index');
     }
 

@@ -17,6 +17,8 @@ Route::prefix('')->group(function () {
     });
 });
 
+Route::post('/dock', [ConfController::class, 'dock'])->name('conf.dock');
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard.index');
 });
