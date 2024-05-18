@@ -18,23 +18,23 @@
         </ul>
     </div>
 
-    <div class="conference-applications">
-        <h3>Мои заявки</h3>
-        @if (count(Auth::user()->applications) === 0)
-            <p>Вы не отправили ни одной заявки.</p>
-        @else
-            <div class="applications">
-                @foreach (Auth::user()->applications as $application)
-                    <div class="application">
-                        <p>Конференция: {{ $application->section->konf->name }}</p>
-                        <p>Cекция: {{ $application->section->name }}</p>
-                        <p>Название работы: {{ $application->name }}</p>
-                        <p>Форма выступления: Очная</p>
-                        <a class="link" onclick = "openModal()">Прикрепить публикацию</a>
-                    </div>
+    <div class="applications">
+        @foreach (Auth::user()->applications as $application)
+            <div class="application">
+                <p>Конференция: {{ $application->section->konf->name }}</p>
+                <p>Cекция: {{ $application->section->name }}</p>
+                <p>Название работы: {{ $application->name }}</p>
+                @foreach ($conferences as $conference)
+                    @php
+                        $currentDate = \Carbon\Carbon::now();
+                        $endDate = \Carbon\Carbon::parse($application->section->konf->conferenceDates->date_end);
+                        $endDatePlus14Days = $endDate->addDays(14);
+                    @endphp
+                    <button class="link @if ($currentDate->lte($endDatePlus14Days)) active @else inactive @endif"
+                        onclick="openModal()">Прикрепить публикацию</button>
                 @endforeach
             </div>
-        @endif
+        @endforeach
     </div>
 
     @if (count(Auth::user()->applications) > 0)

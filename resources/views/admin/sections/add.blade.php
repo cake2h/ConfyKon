@@ -6,21 +6,26 @@
 @endsection
 
 @section('content')
-        <h2>Добавление секции к конференции {{ $conference->name }}</h2>
-        <form method="POST" action="{{ route('admin.sections.store', $conference) }}" class="conference-form">
-            @csrf
+    <h2>Добавление секции к конференции {{ $conference->name }}</h2>
+    <form method="POST" action="{{ route('admin.sections.store', $conference) }}" class="conference-form">
+        @csrf
 
-            <div class="form-group">
-                <label for="name">Название:</label>
-                <input type="text" name="name" required>
-            </div>
+        <div class="form-group">
+            <label for="name">Название:</label>
+            <input type="text" name="name" required>
+        </div>
 
-            <div class="form-group">
-                <label for="description">Описание:</label>
-                <textarea type="textarea" name="description" rows="5" required></textarea>
-            </div>
+        <div class="form-group">
+            <label for="description">Описание:</label>
+            <textarea type="textarea" name="description" rows="5" required></textarea>
+        </div>
 
-            <button type="submit" class="button">Добавить</button>
-        </form>
+        <div class="form-group">
+            <label for="moderator_email">Email модератора:</label>
+            <input type="email" name="moderator_email" required>
+        </div>
+
+        <button type="submit" class="button">Добавить</button>
+    </form>
 
 @endsection

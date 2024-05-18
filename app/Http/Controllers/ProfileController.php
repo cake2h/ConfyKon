@@ -22,7 +22,12 @@ class ProfileController extends Controller
         $user = User::find(auth()->id());
         $conferences = [];
 
-        return view('dashboard', compact('user', 'conferences'));
+
+        $conferences = Conf::with('conferenceDates')->get();
+        $currentDate = now();
+        $conferenceDates = Conf::select('date_end', 'deadline')->first();
+
+        return view('dashboard', compact('user', 'conferences', 'currentDate', 'conferenceDates'));
     }
 
     public function exportUsers()

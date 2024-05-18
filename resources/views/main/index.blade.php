@@ -22,11 +22,20 @@
 
                 <p>{!! nl2br($conference->description) !!}</p>
 
-                @auth
-                    <p class="link" onclick ="openModal()">Записаться</p>
+                @php
+                    $startDateMinusOneDay = \Carbon\Carbon::parse($conference->date_start)->subDay();
+                    $currentDate = \Carbon\Carbon::now();
+                @endphp
+
+                @if ($currentDate->gt($startDateMinusOneDay))
+                    <p class="link">Запись закончилась</p>
                 @else
-                    <p class="message">Чтобы отправить заявку на участие, необходимо зарегистрироваться</p>
-                @endauth
+                    @auth
+                        <p class="link" onclick="openModal()">Записаться</p>
+                    @else
+                        <p class="message">Чтобы отправить заявку на участие, необходимо зарегистрироваться</p>
+                    @endauth
+                @endif
 
                 <h2>Направления конференции</h2>
                 <div class="sections">
@@ -35,11 +44,11 @@
                             <h3>{{ $section->name }}</h3>
                             <p class="moder"><strong>Ответственный: </strong>{{ $section->moder->surname }}
                                 {{ $section->moder->name }}</p>
-                            <p>{!! nl2br($section->description) !!}</p>
+                            <p>
+                                {!! strlen($section->description) > 410 ? substr($section->description, 0, 410) . '...' : $section->description !!}
+                            </p>
                         </div>
                     @endforeach
-
-
                 </div>
             </div>
 
