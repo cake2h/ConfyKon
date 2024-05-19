@@ -18,42 +18,56 @@
         </ul>
     </div>
 
-    <div class="applications">
-        @foreach (Auth::user()->applications as $application)
-            <div class="application">
-                <p>Конференция: {{ $application->section->konf->name }}</p>
-                <p>Cекция: {{ $application->section->name }}</p>
-                <p>Название работы: {{ $application->name }}</p>
-                @foreach ($conferences as $conference)
-                    @php
-                        $currentDate = \Carbon\Carbon::now();
-                        $endDate = \Carbon\Carbon::parse($application->section->konf->conferenceDates->date_end);
-                        $endDatePlus14Days = $endDate->addDays(14);
-                    @endphp
-                    <button class="link @if ($currentDate->lte($endDatePlus14Days)) active @else inactive @endif"
-                        onclick="openModal()">Прикрепить публикацию</button>
+    <div class="conference-applications">
+        <h3>Мои заявки</h3>
+        @if (count(Auth::user()->applications) === 0)
+            <p>Вы не отправили ни одной заявки.</p>
+        @else
+            <div class="applications">
+                @foreach(Auth::user()->applications as $application)
+                    <div class="application">
+                        <p>Конференция: {{ $application->section->konf->name }}</p>
+                        <p>Cекция: {{ $application->section->name }}</p>
+                        <p>Название работы: {{ $application->name }}</p>
+                        @foreach($conferences as $conference)
+                            <div class="conference">
+                                <p>Название конференции: {{ $conference->name }}</p>
+                                <a class="link @if(!$currentDate->between($conference->conferenceDates->deadline, $conference->conferenceDates->date_end)) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
+                            </div>
+                        @endforeach
+                        @if ($application->file_path)
+                            <p>
+                                Статус:
+                                @if ($application->status == 1)
+                                    <span class="status status-approved">Одобрено</span>
+                                @elseif ($application->status == 2)
+                                    <span class="status status-rejected">Забраковано</span>
+                                @else
+                                    <span class="status status-pending">В ожидании</span>
+                                @endif
+                            </p>
+                        @endif
+                    </div>
                 @endforeach
             </div>
-        @endforeach
+        @endif
     </div>
 
-    @if (count(Auth::user()->applications) > 0)
-        <div class="modal" id="imageModal">
-            <div class="modal__container">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <form method="POST" action="{{ route('conf.dock') }}" enctype="multipart/form-data">
-                    @csrf
-                    <input type="hidden" name="application_id" value="{{ $application->id }}">
-                    <h1>Публикация доклада</h1>
-                    <div class="form-group">
-                        <label for="file">Файл:</label>
-                        <input type="file" name="file" required>
-                    </div>
-                    <button class="button" type="submit">Отправить</button>
-                </form>
-            </div>
+    <div class="modal" id="imageModal">
+        <div class="modal__container">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <form method="POST" action="{{ route('conf.dock') }}" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="application_id" value="{{ isset($application) ? $application->id : '' }}">
+                <h1>Публикация доклада</h1>
+                <div class="form-group">
+                    <label for="file">Файл:</label>
+                    <input type="file" name="file" required>
+                </div>
+                <button class="button" type="submit">Отправить</button>
+            </form>
         </div>
-    @endif
+    </div>
 @endsection
 
 @section('scripts')

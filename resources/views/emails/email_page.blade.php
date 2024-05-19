@@ -14,7 +14,7 @@
 @endforeach
     </textarea>
 
-        <form method="POST" action="{{ route('send.emails') }}">
+        <form method="POST" action="{{ route('send.emails.all') }}">
             @csrf
             <button class="link" id="goBtn" type="submit">
                 Рассылка

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Conf;
 use App\Models\Section;
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 
 class SectionController extends Controller
 {
@@ -24,13 +25,13 @@ class SectionController extends Controller
         $request->validate([
             'name' => ['required', 'string'],
             'description' => ['required', 'string'],
-            'moderator_email' => ['required', 'email'], 
+            'moderator_email' => ['required', 'email'],
         ]);
 
         $moderator = User::where('email', $request->moderator_email)->first();
 
         if ($moderator && $moderator->role !== 'moderator') {
-            $moderator->role = 'moder';
+            $moderator->role = 'moderator';
             $moderator->save();
         }
 
@@ -38,7 +39,7 @@ class SectionController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'konf_id' => $conference->id,
-            'moder_id' => $moderator ? $moderator->id : null, 
+            'moder_id' => $moderator ? $moderator->id : null,
         ]);
 
         return redirect()->route('admin.sections.index', $conference);
@@ -46,23 +47,44 @@ class SectionController extends Controller
 
     public function edit(Conf $conference, Section $section)
     {
-        return view('admin.sections.edit', compact('conference', 'section'));
+        $moderatorEmail = $section->moder->email;
+        return view('admin.sections.edit', compact('conference', 'section', 'moderatorEmail'));
     }
 
     public function update(Request $request, Conf $conference, Section $section)
     {
         $request->validate([
             'name' => ['required', 'string'],
-            'description' => ['required', 'string']
+            'description' => ['required', 'string'],
+            'moderator_email' => ['required', 'email'],
         ]);
+
+        $newModerator = User::where('email', $request->moderator_email)->first();
+
+        if (!$newModerator) {
+            return Redirect::back()->withErrors(['moderator_email' => 'Пользователь с указанным email не найден.']);
+        }
+
+        if ($section->moder_id && $section->moder_id !== $newModerator->id) {
+            $currentModerator = User::find($section->moder_id);
+            if ($currentModerator && $currentModerator->role === 'moderator') {
+                $currentModerator->role = 'user';
+                $currentModerator->save();
+            }
+        }
+
+        if ($newModerator->role !== 'moderator') {
+            $newModerator->role = 'moderator';
+            $newModerator->save();
+        }
 
         $section->update([
             'name' => $request->name,
             'description' => $request->description,
-            'moder_id' => 1,
+            'moder_id' => $newModerator->id,
         ]);
 
-        return redirect()->route('admin.sections.index', $conference);
+        return redirect()->route('admin.sections.index', $conference)->with('success', 'Секция успешно обновлена.');
     }
 
     public function destroy(Conf $conference, Section $section)

@@ -15,7 +15,7 @@
                     <p>Дата проведения: {{ $conference->date_start }} - {{ $conference->date_end }}</p>
                     <p>Крайний срок подачи заявок: {{ $conference->deadline }}</p>
                 </div>
-                
+
                 <p class="date">{!! nl2br($conference->description) !!}</p>
                 <div class="actions">
                     <a class="link" href="{{ route('admin.sections.add', $conference) }}">Добавить секцию</a>
@@ -28,10 +28,10 @@
                 </div>
                 <h2>Направления конференции</h2>
                 <div class="sections">
-                    @foreach ($conference->sections as $section) 
+                    @foreach ($conference->sections as $section)
                         <div class="section">
                             <h3>{{ $section->name }}</h3>
-                            <p class="moder"><strong>Ответственный: </strong>{{ $section->moder->surname }} {{ $section->moder->name }}</p>
+                            <p class="moder"><strong>Ответственный: </strong>{{ $section->moder->surname }} {{ $section->moder->name }} {{ $section->moder->midname }}</p>
                             <div class="section__actions">
                                 <a class="section__link" href="{{ route('admin.sections.update', ['conference' => $conference->id, 'section' => $section->id]) }}">Изменить</a>
                                 <form method="POST" action="{{ route('admin.sections.destroy', ['conference' => $conference->id, 'section' => $section->id]) }}" class="delete-form">

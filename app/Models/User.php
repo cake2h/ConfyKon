@@ -41,6 +41,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function isModerator()
+    {
+        return $this->role === 'moderator';
+    }
+
     public function inTeam()
     {
         return $this->role === 'inteam';
@@ -51,7 +56,7 @@ class User extends Authenticatable
         return $this->hasMany(Application::class, 'user_id');
 
     }
-    
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ModeratorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConfController;
@@ -23,12 +24,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [ProfileController::class, 'dashboard'])->name('dashboard.index');
 });
 
+Route::prefix('moder')->middleware('moder')->group(function () {
+    Route::get('/mainModerator', [ModeratorController::class, 'index'])->name('moderator.index');
+    Route::post('/application/approve/{id}', [ModeratorController::class, 'approve'])->name('application.approve');
+    Route::post('/application/reject/{id}', [ModeratorController::class, 'reject'])->name('application.reject');
+});
+
+
 Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/export-users', [ProfileController::class, 'exportUsers'])->name('export_all_users');
 
     Route::get('/page-emails', [EmailController::class, 'emailsPage'])->name('page.emails');
-    Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
+
+    Route::post('/send-emails-all', [EmailController::class, 'sendEmailsAll'])->name('send.emails.all');
+    Route::post('/send-emails', [EmailController::class, 'sendEmailsKonf'])->name('send.emails.konf');
+    Route::post('/send-emails', [EmailController::class, 'sendEmailsCustom'])->name('send.emails.custom');
+    Route::post('/send-emails', [EmailController::class, 'sendEmailsModer'])->name('send.emails.moders');
+
     Route::post('/save-mail', [EmailController::class, 'saveMail'])->name('save.mail');
 
 

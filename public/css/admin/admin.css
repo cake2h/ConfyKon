@@ -1,5 +1,5 @@
 .actions {
-    display: flex; 
+    display: flex;
     flex-direction: row;
     gap: 10px;
 }
@@ -61,11 +61,11 @@ a.link:hover, button.link:hover {
 textarea {
     width: 650px;
     height: 500px;
-    resize: none; 
+    resize: none;
     position: absolute;
   }
 
-  #goBtn {   
+  #goBtn {
      position: absolute;
      margin-top: 200%;
   }
@@ -122,4 +122,43 @@ a.section__link:hover, button.section__link:hover {
 .simple__info p {
     margin: 0;
     margin-bottom: 5px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.approve-button, .reject-button {
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.approve-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.reject-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.status {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.status-approved {
+    color: #4CAF50;
+}
+
+.status-rejected {
+    color: #f44336;
+}
+
+.status-pending {
+    color: #FFC107;
 }
