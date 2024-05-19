@@ -26,15 +26,16 @@
             <div class="applications">
                 @foreach(Auth::user()->applications as $application)
                     <div class="application">
+                        <div class="up">
                         <p>Конференция: {{ $application->section->konf->name }}</p>
                         <p>Cекция: {{ $application->section->name }}</p>
-                        <p>Название работы: {{ $application->name }}</p>
-                        @foreach($conferences as $conference)
-                            <div class="conference">
-                                <p>Название конференции: {{ $conference->name }}</p>
-                                <a class="link @if(!$currentDate->between($conference->conferenceDates->deadline, $conference->conferenceDates->date_end)) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
-                            </div>
-                        @endforeach
+                        </div>
+                        <div class="down">
+                            <p>Название доклада: {{ $application->name }}</p>
+
+                            <a class="link @if(!$currentDate->between($application->section->konf->conferenceDates->deadline,
+                                    $application->section->konf->conferenceDates->date_end)) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
+
                         @if ($application->file_path)
                             <p>
                                 Статус:
@@ -46,7 +47,13 @@
                                     <span class="status status-pending">В ожидании</span>
                                 @endif
                             </p>
+                        @else
+                            <p>
+                                Статус:
+                                <span class="status status-pending">Не прикреплено</span>
+                            </p>
                         @endif
+                        </div>
                     </div>
                 @endforeach
             </div>

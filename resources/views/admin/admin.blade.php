@@ -31,14 +31,16 @@
                     @foreach ($conference->sections as $section)
                         <div class="section">
                             <h3>{{ $section->name }}</h3>
-                            <p class="moder"><strong>Ответственный: </strong>{{ $section->moder->surname }} {{ $section->moder->name }} {{ $section->moder->midname }}</p>
-                            <div class="section__actions">
-                                <a class="section__link" href="{{ route('admin.sections.update', ['conference' => $conference->id, 'section' => $section->id]) }}">Изменить</a>
-                                <form method="POST" action="{{ route('admin.sections.destroy', ['conference' => $conference->id, 'section' => $section->id]) }}" class="delete-form">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="section__link" onclick="return confirm('Вы уверены?')">Удалить</button>
-                                </form>
+                            <div class="up">
+                                <p class="moder"><strong>Ответственный: </strong>{{ $section->moder->surname }} {{ $section->moder->name }} {{ $section->moder->midname }}</p>
+                                <div class="section__actions">
+                                    <a class="section__link" href="{{ route('admin.sections.update', ['conference' => $conference->id, 'section' => $section->id]) }}">Редактировать</a>
+                                    <form method="POST" action="{{ route('admin.sections.destroy', ['conference' => $conference->id, 'section' => $section->id]) }}" class="delete-form">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="section__link" onclick="return confirm('Вы уверены?')">Удалить</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     @endforeach
