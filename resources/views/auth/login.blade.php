@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -34,31 +33,33 @@
                     <p>{{ $message }}</p>
                 @enderror
                 <button type="submit" class="authButton">Войти</button>
-                <script>
-                    window.YaAuthSuggest.init({
-                                client_id: "e5a3827b11ac429bacd45356b27d829c",
-                                response_type: "token",
-                                redirect_uri: "https://oauth.yandex.ru/verification_code"
-                            },
-                            "https://oauth.yandex.ru", {
-                                view: "button",
-                                parentId: "buttonContainerId",
-                                buttonSize: 'm',
-                                buttonView: 'additional',
-                                buttonTheme: 'light',
-                                buttonBorderRadius: "22",
-                                buttonIcon: 'ya',
-                            }
-                        )
-                        .then(({
-                            handler
-                        }) => handler())
-                        .then(data => console.log('Сообщение с токеном', data))
-                        .catch(error => console.log('Обработка ошибки', error))
-                </script>
             </form>
 
             <p class="link">Нет аккаунта? <a href={{ route('register.page') }}>Зарегистрируйтесь!</a></p>
+           {{-- <script>
+                window.onload = function() {
+                    window.YaAuthSuggest.init(
+                        {
+                            client_id: "e5a3827b11ac429bacd45356b27d829c",
+                            response_type: "token",
+                            redirect_uri: "http://127.0.0.1:8000/"
+                        },
+                        "http://127.0.0.1",
+                        {
+                            view: "button",
+                            parentId: "buttonContainerId",
+                            buttonSize: 'm',
+                            buttonView: 'main',
+                            buttonTheme: 'light',
+                            buttonBorderRadius: "22",
+                            buttonIcon: 'ya',
+                        }
+                    )
+                        .then(({handler}) => handler())
+                        .then(data => console.log('Сообщение с токеном', data))
+                        .catch(error => console.log('Обработка ошибки', error))
+                    };
+            </script>--}}
         </div>
     </div>
 </body>

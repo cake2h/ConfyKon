@@ -75,6 +75,13 @@ textarea {
     margin-top: 200%;
 }
 
+#emailType {
+    position: fixed;
+    z-index: 100;
+    margin-left: 280px;
+    margin-top: -44px;
+}
+
 #filesBtn {
     position: absolute;
     margin-top: 200%;

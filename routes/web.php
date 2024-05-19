@@ -35,14 +35,10 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/export-users', [ProfileController::class, 'exportUsers'])->name('export_all_users');
 
-    Route::get('/page-emails', [EmailController::class, 'emailsPage'])->name('page.emails');
-
-    Route::post('/send-emails-all', [EmailController::class, 'sendEmailsAll'])->name('send.emails.all');
-    Route::post('/send-emails', [EmailController::class, 'sendEmailsKonf'])->name('send.emails.konf');
-    Route::post('/send-emails', [EmailController::class, 'sendEmailsCustom'])->name('send.emails.custom');
-    Route::post('/send-emails', [EmailController::class, 'sendEmailsModer'])->name('send.emails.moders');
-
+    Route::get('/emails', [EmailController::class, 'emailsPage'])->name('page.emails');
     Route::post('/save-mail', [EmailController::class, 'saveMail'])->name('save.mail');
+    Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
+    Route::post('/get-emails', [EmailController::class, 'getEmails'])->name('get.emails');
 
 
     Route::prefix('conference')->group(function () {

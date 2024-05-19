@@ -2,53 +2,54 @@
 @section('title', 'Главная')
 
 @section('some_styles')
-
+    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-token-with-polyfills-latest.js">
+        YaSendSuggestToken(
+            'https://examplesite.com',
+            {
+                flag: true
+            }
+        )
+    </script>
     <link rel="stylesheet" href="{{ asset('css/admin/form.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/main/conference.css') }}" />
+    <link rel="stylesheet" href="{{asset('css/main/conference.css')}}" />
 @endsection
 
 @section('content')
     <div class="conferences">
-        @foreach ($conferences as $conference)
+        @foreach($conferences as $conference)
             <div class="conference">
                 <h1 class="title">{{ $conference->name }}</h1>
 
                 <div class="simple__info">
-                    <p>Место проведения: {{ $conference->country }}, {{ $conference->city }}
+                    <p>Место проведения: {{ $conference->country }}, {{ $conference->city }}</p>
                     <p>Дата проведения: {{ $conference->date_start }} - {{ $conference->date_end }}</p>
                     <p>Крайний срок подачи заявок: {{ $conference->deadline }}</p>
                 </div>
 
 
-                <p>{!! nl2br($conference->description) !!}</p>
+                <p>{!! nl2br(e($conference->description)) !!}</p>
 
-                @php
-                    $startDateMinusOneDay = \Carbon\Carbon::parse($conference->date_start)->subDay();
-                    $currentDate = \Carbon\Carbon::now();
-                @endphp
-
-                @if ($currentDate->gt($startDateMinusOneDay))
-                    <p class="link">Запись закончилась</p>
-                @else
-                    @auth
+                @auth
+                    @if(now() < $conference->date_start)
                         <p class="link" onclick="openModal()">Записаться</p>
                     @else
-                        <p class="message">Чтобы отправить заявку на участие, необходимо зарегистрироваться</p>
-                    @endauth
-                @endif
+                        <button class="link" style="color: gray; opacity: 0.5" disabled>Запись закончилась</button>
+                    @endif
+                @else
+                    <p class="message">Чтобы отправить заявку на участие, необходимо зарегистрироваться</p>
+                @endauth
 
                 <h2>Направления конференции</h2>
                 <div class="sections">
-                    @foreach ($conference->sections as $section)
+                    @foreach($conference->sections as $section)
                         <div class="section">
                             <h3>{{ $section->name }}</h3>
-                            <p class="moder"><strong>Ответственный: </strong>{{ $section->moder->surname }}
-                                {{ $section->moder->name }}</p>
-                            <p>
-                                {!! strlen($section->description) > 410 ? substr($section->description, 0, 410) . '...' : $section->description !!}
-                            </p>
+                            <p class="moder"><strong>Ответственный: </strong>{{ $section->moder->surname }} {{ $section->moder->name }}</p>
+                            <p>{!! nl2br(e($section->description)) !!}</p>
                         </div>
                     @endforeach
+
+
                 </div>
             </div>
 
@@ -64,24 +65,23 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="section_id">Cекция:</label>
+                            <label for="section_id">Секция:</label>
                             <select id="section_id" class="authInput" name="section_id">
                                 <option value="" disabled selected hidden>Секция</option>
-                                @foreach ($conference->sections as $section)
-                                    <option name="section_id" value="{{ $section->id }}">{{ $section->name }}</option>
+                                @foreach($conference->sections as $section)
+                                    <option value="{{ $section->id }}">{{ $section->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="presentation_type_id">Форма выступления:</label>
+                            <label for="presentation_type_id">Формат выступления:</label>
                             <select id="presentation_type_id" class="authInput" name="presentation_type_id">
-                                <option value="" disabled selected hidden>Выберите форму</option>
-                                @foreach ($presentationTypes as $type)
+                                <option value="" disabled selected hidden>Выберите формат</option>
+                                @foreach($presentationTypes as $type)
                                     <option value="{{ $type->id }}">{{ $type->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-
                         <button class="button" type="submit">Отправить</button>
                     </form>
                 </div>
