@@ -3,13 +3,13 @@ body {
 
   font-family: 'Mulish', sans-serif;
 
-  display: flex; 
+  display: flex;
   flex-direction: column;
   align-items: center;
 
   height: 100vh;
-  background-color: #60c0ff; 
-  background-image: url('../img/noise.svg');
+  background-color: #60c0ff;
+  background-image: url('../img/bg.png');
 }
 
 .content {
@@ -46,10 +46,10 @@ header img {
 
 
 .controls {
-  display: flex; 
+  display: flex;
   flex-direction: row;
   gap: 5px;
-  
+
   font-size: 12px;
   font-weight: 600;
 }
@@ -104,7 +104,7 @@ header img {
 }
 
 .material-icons {
-  font-size: 24px; 
+  font-size: 24px;
   color: #555;
 }
 
