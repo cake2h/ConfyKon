@@ -2,14 +2,6 @@
 @section('title', 'Главная')
 
 @section('some_styles')
-    <script src="https://yastatic.net/s3/passport-sdk/autofill/v1/sdk-suggest-token-with-polyfills-latest.js">
-        YaSendSuggestToken(
-            'https://examplesite.com',
-            {
-                flag: true
-            }
-        )
-    </script>
     <link rel="stylesheet" href="{{ asset('css/admin/form.css') }}">
     <link rel="stylesheet" href="{{asset('css/main/conference.css')}}" />
 @endsection
@@ -23,9 +15,9 @@
                 <div class="simple__info">
                     <p>Место проведения: {{ $conference->country }}, {{ $conference->city }}</p>
                     <p>Дата проведения: {{ $conference->date_start }} - {{ $conference->date_end }}</p>
-                    <p>Крайний срок подачи заявок: {{ $conference->deadline }}</p>
+                    <p>Крайний срок подачи заявок: {{ \Carbon\Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }}</p>
+                    <p>Крайний срок загрузки публикаций: {{ $conference->deadline }}</p>
                 </div>
-
 
                 <p>{!! nl2br(e($conference->description)) !!}</p>
 

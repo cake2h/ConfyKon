@@ -30,16 +30,16 @@ Route::prefix('moder')->middleware('moder')->group(function () {
     Route::post('/application/reject/{id}', [ModeratorController::class, 'reject'])->name('application.reject');
 });
 
-
 Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/export-users', [ProfileController::class, 'exportUsers'])->name('export_all_users');
+
+    Route::post('/export-users', [ProfileController::class, 'exportUsers'])->name('export_all_users');
+    Route::post('/export-conference-results', [ProfileController::class, 'exportConferenceResults'])->name('export_conference_results');
 
     Route::get('/emails', [EmailController::class, 'emailsPage'])->name('page.emails');
     Route::post('/save-mail', [EmailController::class, 'saveMail'])->name('save.mail');
     Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
     Route::post('/get-emails', [EmailController::class, 'getEmails'])->name('get.emails');
-
 
     Route::prefix('conference')->group(function () {
         Route::get('/add', [ConfController::class, 'add'])->name('conf.add');
@@ -59,9 +59,7 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
             Route::get('/{section}/edit', [SectionController::class, 'edit'])->name('admin.sections.edit');
             Route::put('/{section}/edit', [SectionController::class, 'update'])->name('admin.sections.update');
 
-
             Route::delete('/{section}/destroy', [SectionController::class, 'destroy'])->name('admin.sections.destroy');
-
         });
     });
 });

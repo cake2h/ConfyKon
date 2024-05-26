@@ -11,9 +11,10 @@
             <div class="conference">
                 <h1 class="title">{{ $conference->name }}</h1>
                 <div class="simple__info">
-                    <p>Место проведения: {{ $conference->country }}, {{ $conference->city }}
+                    <p>Место проведения: {{ $conference->country }}, {{ $conference->city }}</p>
                     <p>Дата проведения: {{ $conference->date_start }} - {{ $conference->date_end }}</p>
-                    <p>Крайний срок подачи заявок: {{ $conference->deadline }}</p>
+                    <p>Крайний срок подачи заявок: {{ \Carbon\Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }}</p>
+                    <p>Крайний срок загрузки публикаций: {{ $conference->deadline }}</p>
                 </div>
 
                 <p class="date">{!! nl2br($conference->description) !!}</p>

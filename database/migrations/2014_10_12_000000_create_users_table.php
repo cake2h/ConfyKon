@@ -11,20 +11,18 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('surname');
-            $table->string('midname')->nullable();
-            $table->date('birthday');
+            $table->date('birthday')->nullable();
 
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('phone_number')->unique()->nullable();
             $table->string('password');
 
-            $table->string('city');
-            $table->string('study_place');
+            $table->string('city')->nullable();
+            $table->string('study_place')->nullable();
 
-            $table->string('role')->default('user');
-            $table->foreignId('edu_id')->constrained('education_levels');
+            $table->string('role')->nullable()->default('user');
+            $table->foreignId('edu_id')->nullable()->constrained('education_levels');
 
             $table->rememberToken();
             $table->timestamps();

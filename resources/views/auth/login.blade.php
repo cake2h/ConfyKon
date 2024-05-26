@@ -34,32 +34,9 @@
                 @enderror
                 <button type="submit" class="authButton">Войти</button>
             </form>
+            <a href="/login/yandex" class="yandexButton">Войти через Яндекс ID</a>
 
             <p class="link">Нет аккаунта? <a href={{ route('register.page') }}>Зарегистрируйтесь!</a></p>
-           {{-- <script>
-                window.onload = function() {
-                    window.YaAuthSuggest.init(
-                        {
-                            client_id: "e5a3827b11ac429bacd45356b27d829c",
-                            response_type: "token",
-                            redirect_uri: "http://127.0.0.1:8000/"
-                        },
-                        "http://127.0.0.1",
-                        {
-                            view: "button",
-                            parentId: "buttonContainerId",
-                            buttonSize: 'm',
-                            buttonView: 'main',
-                            buttonTheme: 'light',
-                            buttonBorderRadius: "22",
-                            buttonIcon: 'ya',
-                        }
-                    )
-                        .then(({handler}) => handler())
-                        .then(data => console.log('Сообщение с токеном', data))
-                        .catch(error => console.log('Обработка ошибки', error))
-                    };
-            </script>--}}
         </div>
     </div>
 </body>

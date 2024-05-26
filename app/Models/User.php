@@ -15,8 +15,6 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
-        'surname',
-        'midname',
         'email',
         'password',
         'birthday',
@@ -24,6 +22,7 @@ class User extends Authenticatable
         'phone_number',
         'edu_id',
         'study_place',
+        'role',
     ];
 
     protected $hidden = [
@@ -44,11 +43,6 @@ class User extends Authenticatable
     public function isModerator()
     {
         return $this->role === 'moderator';
-    }
-
-    public function inTeam()
-    {
-        return $this->role === 'inteam';
     }
 
     public function applications(): HasMany

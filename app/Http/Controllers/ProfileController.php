@@ -20,8 +20,6 @@ class ProfileController extends Controller
     public function dashboard(Request $request): View
     {
         $user = User::find(auth()->id());
-        $conferences = [];
-
 
         $conferences = Conf::with('conferenceDates')->get();
         $currentDate = now();
@@ -30,35 +28,78 @@ class ProfileController extends Controller
         return view('dashboard', compact('user', 'conferences', 'currentDate', 'conferenceDates'));
     }
 
-    public function exportUsers()
+    public function exportUsers(Request $request)
     {
-        $users = DB::table('users')
-            ->select('name', 'surname', 'midname', 'birthday', 'email', 'phone_number', 'city', 'study_place')
-            ->where('role', 'user')
-            ->get();
-
-        $csvFileName = 'users.csv';
-        $csvHeaders = ['Имя', 'Фамилия', 'Отчество', 'Дата рождения', 'Email', 'Номер телефона', 'Город', 'Место обучения'];
-
-        $callback = function() use ($users, $csvHeaders) {
-            $file = fopen('php://output', 'w');
-            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF)); // UTF-8 BOM
-            fputcsv($file, $csvHeaders, ';'); // Используем точку с запятой в качестве разделителя
-
-            foreach ($users as $user) {
-                $userData = get_object_vars($user);
-                array_walk($userData, function(&$value) {
-                    $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
-                });
-                fputcsv($file, $userData, ';'); // Используем точку с запятой в качестве разделителя
-            }
-
-            fclose($file);
-        };
-
-        return Response::stream($callback, 200, [
-            'Content-Type' => 'text/csv; charset=utf-8',
-            'Content-Disposition' => 'attachment; filename="' . $csvFileName . '"',
+        $request->validate([
+            'section_id' => ['required', 'exists:sections,id'],
         ]);
+
+        $sectionId = $request->input('section_id');
+
+        $users = User::whereHas('applications', function ($query) use ($sectionId) {
+            $query->where('section_id', $sectionId);
+        })->get();
+
+        $csvFileName = 'Итоги_секции' . $sectionId . '.csv';
+        $csvData = $this->setProperties($users);
+
+        $file = fopen('php://temp', 'w');
+        fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+        foreach ($csvData as $row) {
+            fputcsv($file, $row, ';');
+        }
+        rewind($file);
+        $csvContent = stream_get_contents($file);
+        fclose($file);
+
+        return response($csvContent)
+            ->header('Content-Type', 'text/csv; charset=UTF-8')
+            ->header('Content-Disposition', 'attachment; filename="' . $csvFileName . '"');
+    }
+
+    public function exportConferenceResults()
+    {
+        $users = User::whereHas('applications')->get();
+
+        $csvFileName = 'Итоги_конференции.csv';
+        $csvData = $this->setProperties($users);
+
+        $csvContent = chr(0xEF).chr(0xBB).chr(0xBF);
+
+        foreach ($csvData as $row) {
+            $csvContent .= implode(';', $row) . "\r\n";
+        }
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => 'attachment; filename="' . $csvFileName . '"',
+        ];
+
+        return response($csvContent, 200, $headers);
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Collection|array|\LaravelIdea\Helper\App\Models\_IH_User_C $users
+     * @return array
+     */
+    public function setProperties(\Illuminate\Database\Eloquent\Collection|array|\LaravelIdea\Helper\App\Models\_IH_User_C $users): array
+    {
+        $csvHeaders = ['ФИО', 'Email', 'Номер телефона', 'Дата рождения', 'Город', 'Место обучения', 'Ученая степень'];
+        $csvData = [];
+
+        $csvData[] = $csvHeaders;
+
+        foreach ($users as $user) {
+            $csvData[] = [
+                $user->name,
+                $user->email,
+                $user->phone_number,
+                $user->birthday,
+                $user->city,
+                $user->study_place,
+                $user->education_level->title,
+            ];
+        }
+        return $csvData;
     }
 }

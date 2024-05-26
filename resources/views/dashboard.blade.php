@@ -8,12 +8,13 @@
 
 @section('content')
     <div class="user-info">
-        <h2 class="user-name">{{ $user->surname }} {{ $user->name }} {{ $user->midname }}</h2>
+        <h2 class="user-name">{{ $user->name }}</h2>
         <ul class="user-details">
+            <li><strong>Email:</strong> {{ $user->email }}</li>
+            <li><strong>Номер телефона:</strong> {{ $user->phone_number }}</li>
             <li><strong>Дата рождения:</strong> {{ $user->birthday }}</li>
-            <li><strong>Почта:</strong> {{ $user->email }}</li>
             <li><strong>Город:</strong> {{ $user->city }}</li>
-            <li><strong>Уровень образования:</strong> {{ $user->education_level->title }}</li>
+            <li><strong>Уровень образования:</strong> @if($user->edu_id != null) {{ $user->education_level->title }}@endif</li>
             <li><strong>Место учебы:</strong> {{ $user->study_place }}</li>
         </ul>
     </div>
@@ -34,7 +35,7 @@
                             <p>Название доклада: {{ $application->name }}</p>
 
                             <a class="link @if(!$currentDate->between($application->section->konf->conferenceDates->deadline,
-                                    $application->section->konf->conferenceDates->date_end)) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
+                                    $application->section->konf->conferenceDates->date_end) and $application->status != 1) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
 
                         @if ($application->file_path)
                             <p>
@@ -42,7 +43,7 @@
                                 @if ($application->status == 1)
                                     <span class="status status-approved">Одобрено</span>
                                 @elseif ($application->status == 2)
-                                    <span class="status status-rejected">Забраковано</span>
+                                    <span class="status status-rejected">Отклонено</span>
                                 @else
                                     <span class="status status-pending">В ожидании</span>
                                 @endif

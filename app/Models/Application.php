@@ -13,6 +13,7 @@ class Application extends Model
     protected $fillable = [
         'name',
         'status',
+        'otherAuthors',
         'file_path',
         'user_id',
         'section_id',

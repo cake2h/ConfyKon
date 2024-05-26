@@ -138,6 +138,22 @@ body {
     margin-bottom: 12px;
 }
 
+.yandexButton {
+    margin-top: 20px;
+    padding: 12px 20px;
+
+    text-align: center;
+
+    font-weight: 500;
+    font-size: 16px;
+    color: #FFFFFF;
+
+    background-color: #000000;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
 .authButton {
     margin-top: 20px;
     padding: 12px 20px;
@@ -156,7 +172,8 @@ body {
 }
 
 .authButton:hover {
-    background-color: #e91616;
+    background-color: #168ae9;
+    cursor: pointer;
 }
 
 .bg-ex-fixed{

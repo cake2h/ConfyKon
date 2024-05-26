@@ -6,7 +6,7 @@
     <link rel="stylesheet" href='{{asset("./css/auth.css")}}'>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap">
     <title>Регистрация</title>
-    
+
 </head>
 <body class="bg-ex-fixed">
     <div class="container">
@@ -19,28 +19,13 @@
 
             <form method="POST" action="{{ route('register') }}" class="formContainer">
                 @csrf
-                <input
-                    class="authInput"
-                    type="text"
-                    placeholder="Фамилия"
-                    name="surname"
-                    value="{{old('surname')}}"
-                />
 
                 <input
                     class="authInput"
                     type="text"
-                    placeholder="Имя"
+                    placeholder="ФИО (полностью)"
                     name="name"
                     value="{{old('name')}}"
-                />
-
-                <input
-                    class="authInput"
-                    type="text"
-                    placeholder="Отчество"
-                    name="midname"
-                    value="{{old('midname')}}"
                 />
 
                 <input
@@ -127,6 +112,10 @@
                     <p>{{$message}}</p>
                 @enderror
 
+                @if ($errors->has('phone_number'))
+                    <div class="error">{{ $errors->first('phone_number') }}</div>
+                @endif
+
                 @error('password')
                     <p>{{$message}}</p>
                 @enderror
@@ -153,7 +142,7 @@
 
                 <button type="submit" class="authButton">Зарегистрироваться</button>
             </form>
-
+            <a href="/login/yandex" class="yandexButton">Войти через Яндекс ID</a>
             <p class="link">Уже есть аккаунт? <a href={{route('login.page')}}>Авторизируйтесь!</a></p>
         </div>
     </div>
