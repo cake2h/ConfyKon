@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Section;
 use App\Models\Application;
+use Illuminate\Support\Facades\Mail;
 
 class ModeratorController extends Controller
 {
@@ -32,9 +33,20 @@ class ModeratorController extends Controller
     public function approve($id)
     {
         $application = Application::find($id);
+        $user = User::find($application->user_id);
+
         if ($application) {
             $application->status = 1;
             $application->save();
+
+            $email = $user->email;
+
+            Mail::send([], [], function($message) use ($email) {
+                $message->to($email)
+                    ->subject('Одобрение статьи на конференцию МИМ-2024')
+                    ->from('stud0000264064@utmn.ru', 'Организатор конференции МИМ-2024')
+                    ->text('Ваша статья одобрена');
+            });
         }
 
         return redirect()->back()->with('success', 'Заявка одобрена.');
@@ -43,9 +55,20 @@ class ModeratorController extends Controller
     public function reject($id)
     {
         $application = Application::find($id);
+        $user = User::find($application->user_id);
+
         if ($application) {
             $application->status = 2;
             $application->save();
+
+            $email = $user->email;
+
+            Mail::send([], [], function($message) use ($email) {
+                $message->to($email)
+                    ->subject('Отклонение статьи на конференцию МИМ-2024')
+                    ->from('stud0000264064@utmn.ru', 'Организатор конференции МИМ-2024')
+                    ->text('Ваша статья отклонена');
+            });
         }
 
         return redirect()->back()->with('success', 'Заявка отклонена.');

@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            
+
             $table->unsignedBigInteger('moder_id');
             $table->unsignedBigInteger('konf_id');
 

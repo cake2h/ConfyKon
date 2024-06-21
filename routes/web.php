@@ -5,8 +5,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ConfController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\PythonController;
 use App\Http\Controllers\SectionController;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Process\Process;
+
 
 Route::prefix('')->group(function () {
     Route::get('/', [ConfController::class, 'index'])->name('conf.index');
@@ -33,13 +36,12 @@ Route::prefix('moder')->middleware('moder')->group(function () {
 Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
 
-    Route::post('/export-users', [ProfileController::class, 'exportUsers'])->name('export_all_users');
-    Route::post('/export-conference-results', [ProfileController::class, 'exportConferenceResults'])->name('export_conference_results');
-
     Route::get('/emails', [EmailController::class, 'emailsPage'])->name('page.emails');
     Route::post('/save-mail', [EmailController::class, 'saveMail'])->name('save.mail');
     Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
     Route::post('/get-emails', [EmailController::class, 'getEmails'])->name('get.emails');
+
+    Route::get('/stats', [ProfileController::class, 'exportUsers'])->name('stats');
 
     Route::prefix('conference')->group(function () {
         Route::get('/add', [ConfController::class, 'add'])->name('conf.add');

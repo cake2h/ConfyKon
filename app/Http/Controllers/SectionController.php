@@ -24,13 +24,16 @@ class SectionController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string'],
-            'description' => ['required', 'string'],
             'moderator_email' => ['required', 'email'],
         ]);
 
         $moderator = User::where('email', $request->moderator_email)->first();
 
-        if ($moderator && $moderator->role !== 'moderator') {
+        if (!$moderator) {
+            return redirect()->back()->withInput()->withErrors(['moderator_email' => 'Модератор с указанным email не найден.']);
+        }
+
+        if ($moderator->role !== 'moderator') {
             $moderator->role = 'moderator';
             $moderator->save();
         }
@@ -39,11 +42,12 @@ class SectionController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'konf_id' => $conference->id,
-            'moder_id' => $moderator ? $moderator->id : null,
+            'moder_id' => $moderator->id,
         ]);
 
         return redirect()->route('admin.sections.index', $conference);
     }
+
 
     public function edit(Conf $conference, Section $section)
     {
@@ -55,7 +59,6 @@ class SectionController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string'],
-            'description' => ['required', 'string'],
             'moderator_email' => ['required', 'email'],
         ]);
 

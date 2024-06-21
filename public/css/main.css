@@ -7,9 +7,8 @@ body {
   flex-direction: column;
   align-items: center;
 
-    background-image: url('../img/bg.png');
+    background: linear-gradient(to right, #c1d5f3, #f2e0e0);
     height: 100vh;
-  background-color: #60c0ff;
 }
 
 .content {

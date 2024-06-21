@@ -17,12 +17,14 @@
         </div>
 
         <div class="form-group">
-            <label for="description">Описание:</label>
-            <textarea name="description" rows="5" required>{{ $section->description }}</textarea>
-        </div>
-        <div class="form-group">
-            <label for="moderator_email">Email модератора:</label>
+            <label for="mosderator_email">Email модератора:</label>
             <input type="email" name="moderator_email" value="{{ $moderatorEmail }}" required>
+        </div>
+
+        <div class="form-group">
+            @error('moderator_email')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
         </div>
 
         <button type="submit" class="button">Изменить</button>

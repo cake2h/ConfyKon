@@ -29,19 +29,36 @@
         </a>
 
         @auth
+            @if (Auth::user()->isModerator())
+                <a href="{{ route('moderator.index') }}" class="control">
+                    <i class="material-icons {{ request()->routeIs('moderator.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
+                    <p>Панель модератора</p>
+                </a>
+            @endif
+
+                <a class="control" href="{{ route('dashboard.index') }}">
+                    <i class="material-icons {{ request()->routeIs('dashboard.index') ? ' active_icon' : '' }}">person</i>
+                    <p>Профиль</p>
+                </a>
+
             @if (Auth::user()->isAdmin())
                 <a href="{{ route('admin.index') }}" class="control">
                     <i class="material-icons {{ request()->routeIs('admin.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
                     <p>Админ-панель</p>
                 </a>
 
-                <a href="#" class="control" onclick="openModal()">
-                    <i class="material-icons">download</i>
-                    <p>Выгрузка пользователей</p>
-                </a>
+                    <div class="control">
+                        <form method="GET" action="{{ route('stats') }}">
+                            @csrf
+                            <button class="controls__button" type="submit">
+                                <i class="material-icons">download</i>
+                                Статистика
+                            </button>
+                        </form>
+                    </div>
 
                 <div class="control">
-                    <form method="POST" action="{{ route('send.emails') }}">
+                    <form method="GET" action="{{ route('page.emails') }}">
                         @csrf
                         <button class="controls__button" type="submit">
                             <i class="material-icons">forward_to_inbox</i>
@@ -66,31 +83,6 @@
     @yield('content')
 </main>
 
-@if (Auth::user()->isAdmin())
-    <div class="modal" id="exportModal">
-        <div class="modal__container">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <form method="POST" action="{{ route('export_all_users') }}">
-                @csrf
-                <h1>Выгрузка пользователей</h1>
-                <div class="form-group">
-                    <label for="section_id">Секция:</label>
-                    <select id="section_id" class="authInput" name="section_id">
-                        <option value="" disabled selected hidden>Выберите секцию</option>
-                        @foreach($conference->sections as $section)
-                            <option value="{{ $section->id }}">{{ $section->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <button class="button" type="submit">Выгрузить секцию</button>
-            </form>
-            <form method="POST" action="{{ route('export_conference_results') }}">
-                @csrf
-                <button class="button" type="submit">Выгрузить итоги конференции</button>
-            </form>
-        </div>
-    </div>
-@endif
 @yield('scripts')
 <script>
     function openModal() {

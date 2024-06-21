@@ -21,6 +21,16 @@ class Section extends Model
         return $this->belongsTo(Conf::class, 'konf_id', 'id');
     }
 
+    public function users()
+    {
+        return $this->hasManyThrough(User::class, Application::class, 'section_id', 'id');
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
     public function moder()
     {
         return $this->belongsTo(User::class, 'moder_id', 'id');

@@ -16,13 +16,13 @@
                     <p>Место проведения: {{ $conference->country }}, {{ $conference->city }}</p>
                     <p>Дата проведения: {{ $conference->date_start }} - {{ $conference->date_end }}</p>
                     <p>Крайний срок подачи заявок: {{ \Carbon\Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }}</p>
-                    <p>Крайний срок загрузки публикаций: {{ $conference->deadline }}</p>
+                    <p>Крайний срок загрузки публикаций: {{ \Carbon\Carbon::parse($conference->deadline)->addDays(7)->format('d-m-Y') }}</p>
                 </div>
 
                 <p>{!! nl2br(e($conference->description)) !!}</p>
 
                 @auth
-                    @if(now() < $conference->date_start)
+                    @if(now() < \Carbon\Carbon::parse($conference->date_start)->subDays(2))
                         <p class="link" onclick="openModal()">Записаться</p>
                     @else
                         <button class="link" style="color: gray; opacity: 0.5" disabled>Запись закончилась</button>
@@ -37,7 +37,7 @@
                         <div class="section">
                             <h3>{{ $section->name }}</h3>
                             <p class="moder"><strong>Ответственный: </strong>{{ $section->moder->surname }} {{ $section->moder->name }}</p>
-                            <p>{!! nl2br(e($section->description)) !!}</p>
+                            <p class="moder"><strong>Email: </strong>{{ $section->moder->email }}</p>
                         </div>
                     @endforeach
 
@@ -54,6 +54,11 @@
                         <div class="form-group">
                             <label for="name">Название работы:</label>
                             <input type="text" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="otherAuthors">Соавторы (ФИО через запятую):</label>
+                            <input type="text" name="otherAuthors">
                         </div>
 
                         <div class="form-group">

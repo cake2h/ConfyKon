@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Section;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Models\Conf;
 use App\Models\Application;
+use Illuminate\Support\Facades\Mail;
 
 class ConfController extends Controller
 {
@@ -35,10 +38,10 @@ class ConfController extends Controller
         return view('admin.edit_conference', compact('conf'));
     }
 
-    public function update(Request $request, $id) 
+    public function update(Request $request, $id)
     {
         $conf = Conf::find($id);
-        
+
         $conf->name = $request->input('name');
         $conf->country = $request->input('country');
         $conf->city = $request->input('city');
@@ -51,7 +54,7 @@ class ConfController extends Controller
         return redirect()->route('admin.index');
     }
 
-    public function add() 
+    public function add()
     {
         return view('admin.add_conference');
     }
@@ -81,12 +84,13 @@ class ConfController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string'],
-            'section_id' => ['required']
+            'section_id' => ['required'],
         ]);
 
         Application::create([
             'name' => $request->name,
             'status' => 0,
+            'otherAuthors' => $request->otherAuthors,
             'user_id' => Auth::user()->id,
             'section_id' => $request->section_id,
             'type_id' => $request->presentation_type_id
@@ -113,6 +117,17 @@ class ConfController extends Controller
             $application->update([
                 'file_path' => 'publications/' . $fileName,
             ]);
+
+            $section = Section::find($application->section_id);
+            $moder = User::find($section->moder_id);
+            $email = $moder->email;
+
+            Mail::send([], [], function($message) use ($email) {
+                $message->to($email)
+                    ->subject('Новая статья на конференции МИМ-2024')
+                    ->from('stud0000264064@utmn.ru', 'Организатор конференции МИМ-2024')
+                    ->text('Загружена новая статья в вашей секции');
+            });
         }
         return redirect()->route('dashboard.index');
     }

@@ -81,10 +81,10 @@
                     value="{{old('study_place')}}"
                 />
 
-                <select class="authInput" name="edu_id">
-                    <option value="" style="color: #B1B1B7" disabled selected hidden>Уровень образования</option>
+                <select class="authInput eduSelect" name="edu_id" id="eduSelect">
+                    <option value="" disabled selected hidden>Уровень образования</option>
                     @foreach($educationLevels as $educationLevel)
-                        <option style="color: black" name="edu_id"  value="{{ $educationLevel->id }}">{{ $educationLevel->title }}</option>
+                        <option value="{{ $educationLevel->id }}">{{ $educationLevel->title }}</option>
                     @endforeach
                 </select>
 
