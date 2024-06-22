@@ -16,6 +16,10 @@
             <li><strong>Город:</strong> {{ $user->city }}</li>
             <li><strong>Уровень образования:</strong> @if($user->edu_id != null) {{ $user->education_level->title }}@endif</li>
             <li><strong>Место обучения/работы:</strong> {{ $user->study_place }}</li>
+
+            <br/>
+            <a class="link" href="{{ asset('public/publications/Документ.docx') }}" download>Оформление статьи</a>
+            <a class="link" href="{{ asset('public/publications/Документ.docx') }}" download>Условия загрузки статьи</a>
         </ul>
     </div>
 

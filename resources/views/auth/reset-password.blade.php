@@ -14,49 +14,60 @@
 <div class="container">
     <div class="content">
         <div class="logo">
-            <img src="./img/logo.png" alt="logo" />
+            <img src="/img/logo.png" alt="logo" />
         </div>
 
         <h1 class="title">Новый пароль</h1>
 
-        <form method="POST" action="{{ route('password.store') }}">
+        <form method="POST" class="formContainer" action="{{ route('password.store') }}">
             @csrf
 
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-            <div>
-                <x-input-label for="email" :value="__('Email')" />
-                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
+            <input id="email" style="display: none;" class="authInput"
+                   type="email" name="email" value="{{ old('email', $request->email) }}"
+                   required autofocus autocomplete="username" />
 
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
+            <input id="password" class="authInput"
+                   placeholder="Новый пароль" type="password" name="password"
+                   required autocomplete="new-password" />
 
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            <input id="password_confirmation" class="authInput"
+                   type="password"
+                   placeholder="Подтвердите пароль"
+                   name="password_confirmation" required autocomplete="new-password" />
 
-                <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                              type="password"
-                              name="password_confirmation" required autocomplete="new-password" />
-
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-primary-button>
-                    {{ __('Reset Password') }}
-                </x-primary-button>
-            </div>
+                <button type="submit" class="authButton">
+                    {{ __('Восстановить пароль') }}
+                </button>
         </form>
+
+        <!-- Session Status -->
+        @if (session('status'))
+            <div class="mb-4 text-green-600">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        <!-- Validation Errors -->
+        @if ($errors->any())
+            <div class="mt-2 text-red-600">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     </div>
 </div>
+
+<script>
+    // Log the form submission event to debug
+    document.querySelector('form').addEventListener('submit', function(event) {
+        console.log('Form submitted');
+    });
+</script>
+
 </body>
-
 </html>
-

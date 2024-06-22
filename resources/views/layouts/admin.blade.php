@@ -61,7 +61,7 @@
                     <form method="GET" action="{{ route('page.emails') }}">
                         @csrf
                         <button class="controls__button" type="submit">
-                            <i class="material-icons">forward_to_inbox</i>
+                            <i class="material-icons {{ request()->routeIs('page.emails') ? ' active_icon' : '' }}">forward_to_inbox</i>
                             Рассылка
                         </button>
                     </form>
