@@ -76,7 +76,7 @@
                 <input
                     class="authInput"
                     type="text"
-                    placeholder="Место обучения"
+                    placeholder="Место обучения/работы"
                     name="study_place"
                     value="{{old('study_place')}}"
                 />
@@ -147,5 +147,14 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        document.getElementById('eduSelect').addEventListener('change', function() {
+            if (this.value === "") {
+                this.style.color = '#B1B1B7';
+            } else {
+                this.style.color = 'black';
+            }
+        });
+    </script>
 </body>
 </html>

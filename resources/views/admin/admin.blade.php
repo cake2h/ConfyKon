@@ -9,12 +9,12 @@
     <div class="conferences">
         @foreach ($conferences as $conference)
             <div class="conference">
-                <h1 class="title">{{ $conference->name }}</h1>
+                <h2 class="title">{{ $conference->name }}</h2>
                 <div class="simple__info">
-                    <p>Место проведения: {{ $conference->country }}, {{ $conference->city }}</p>
-                    <p>Дата проведения: {{ $conference->date_start }} - {{ $conference->date_end }}</p>
-                    <p>Крайний срок подачи заявок: {{ \Carbon\Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }}</p>
-                    <p>Крайний срок загрузки публикаций: {{ $conference->deadline }}</p>
+                    <p>Место проведения: {{ $conference->address }}</p>
+                    <p>Дата проведения: {{ \Carbon\Carbon::parse($conference->date_start)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($conference->date_end)->format('d-m-Y') }} </p>
+                    <p>Срок регистрации на конфернецию до: <span style="color: #ff0000">{{ \Carbon\Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }} </span></p>
+                    <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ \Carbon\Carbon::parse($conference->deadline)->addDays(7)->format('d-m-Y') }} </span></p>
                 </div>
 
                 <p class="date">{!! nl2br($conference->description) !!}</p>

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('phone_number')->unique()->nullable();
             $table->string('password');
 
+            $table->string('diplom_path')->nullable();
+
             $table->string('city')->nullable();
             $table->string('study_place')->nullable();
 

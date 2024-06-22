@@ -11,10 +11,14 @@ return new class extends Migration
         Schema::create('sections', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
 
             $table->unsignedBigInteger('moder_id');
             $table->unsignedBigInteger('konf_id');
+
+            $table->date('event_date')->nullable();
+            $table->time('event_time')->nullable();
+            $table->string('event_place')->nullable();
 
             $table->foreign('moder_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('konf_id')->references('id')->on('konfs')->onDelete('cascade');

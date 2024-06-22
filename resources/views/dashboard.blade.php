@@ -12,17 +12,17 @@
         <ul class="user-details">
             <li><strong>Email:</strong> {{ $user->email }}</li>
             <li><strong>Номер телефона:</strong> {{ $user->phone_number }}</li>
-            <li><strong>Дата рождения:</strong> {{ $user->birthday }}</li>
+            <li><strong>Дата рождения:</strong> {{ \Carbon\Carbon::parse($user->birthday)->format('d-m-Y') }}</li>
             <li><strong>Город:</strong> {{ $user->city }}</li>
             <li><strong>Уровень образования:</strong> @if($user->edu_id != null) {{ $user->education_level->title }}@endif</li>
-            <li><strong>Место учебы:</strong> {{ $user->study_place }}</li>
+            <li><strong>Место обучения/работы:</strong> {{ $user->study_place }}</li>
         </ul>
     </div>
 
     <div class="conference-applications">
-        <h3>Мои заявки</h3>
+        <h3>Мои регистрации</h3>
         @if (count(Auth::user()->applications) === 0)
-            <p>Вы не отправили ни одной заявки.</p>
+            <p>Вы не зарегистрированы ни на одну секцию</p>
         @else
             <div class="applications">
                 @foreach(Auth::user()->applications as $application)

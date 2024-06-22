@@ -37,6 +37,7 @@
             <a href="/login/yandex" class="yandexButton">Войти через Яндекс ID</a>
 
             <p class="link">Нет аккаунта? <a href={{ route('register.page') }}>Зарегистрируйтесь!</a></p>
+            <span class="link"><a href={{ route('password.request') }}>Забыли пароль?</a></span>
         </div>
     </div>
 </body>

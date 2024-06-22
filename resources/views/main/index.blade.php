@@ -6,26 +6,37 @@
     <link rel="stylesheet" href="{{asset('css/main/conference.css')}}" />
 @endsection
 
+@php
+    use Carbon\Carbon;
+
+    if (Auth::user()) {
+        $birthday = Auth::user()->birthday;
+        $age = Carbon::parse($birthday)->age;
+    }
+@endphp
+
 @section('content')
     <div class="conferences">
         @foreach($conferences as $conference)
             <div class="conference">
-                <h1 class="title">{{ $conference->name }}</h1>
+                <h2 class="title">{{ $conference->name }}</h2>
 
                 <div class="simple__info">
-                    <p>Место проведения: {{ $conference->country }}, {{ $conference->city }}</p>
-                    <p>Дата проведения: {{ $conference->date_start }} - {{ $conference->date_end }}</p>
-                    <p>Крайний срок подачи заявок: {{ \Carbon\Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }}</p>
-                    <p>Крайний срок загрузки публикаций: {{ \Carbon\Carbon::parse($conference->deadline)->addDays(7)->format('d-m-Y') }}</p>
+                    <p>Место проведения: {{ $conference->address }}</p>
+                    <p>Дата проведения: {{ Carbon::parse($conference->date_start)->format('d-m-Y') }} - {{ Carbon::parse($conference->date_end)->format('d-m-Y') }} </p>
+                    <p>Срок регистрации на конфернецию до: <span style="color: #ff0000">{{ Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }} </span></p>
+                    <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ Carbon::parse($conference->deadline)->addDays(7)->format('d-m-Y') }} </span></p>
                 </div>
 
                 <p>{!! nl2br(e($conference->description)) !!}</p>
 
                 @auth
-                    @if(now() < \Carbon\Carbon::parse($conference->date_start)->subDays(2))
-                        <p class="link" onclick="openModal()">Записаться</p>
+                    @if($age < 35 and now() < Carbon::parse($conference->date_start)->subDays(2))
+                        <p class="link" onclick="openModal()">Регистрация на конфренцию</p>
+                    @elseif ($age > 35)
+                        <button class="link" style="color: gray; opacity: 0.5" disabled>Ваш возраст превышает допустимый</button>
                     @else
-                        <button class="link" style="color: gray; opacity: 0.5" disabled>Запись закончилась</button>
+                        <button class="link" style="color: gray; opacity: 0.5" disabled>Регистрация закончилась</button>
                     @endif
                 @else
                     <p class="message">Чтобы отправить заявку на участие, необходимо зарегистрироваться</p>
@@ -50,14 +61,14 @@
                     <span class="close" onclick="closeModal()">&times;</span>
                     <form method="POST" action="{{ route('conf.subscribe', $conference) }}" enctype="multipart/form-data">
                         @csrf
-                        <h1>Записаться на конференцию</h1>
+                        <h2 style="margin-left:40px">Регистрация на конференцию</h2>
                         <div class="form-group">
-                            <label for="name">Название работы:</label>
+                            <label for="name">Наименование доклада:</label>
                             <input type="text" name="name" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="otherAuthors">Соавторы (ФИО через запятую):</label>
+                            <label for="otherAuthors">Соавторы (ФИО <b>полностью</b> через запятую):</label>
                             <input type="text" name="otherAuthors">
                         </div>
 
@@ -71,9 +82,9 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="presentation_type_id">Формат выступления:</label>
+                            <label for="presentation_type_id">Форма участия:</label>
                             <select id="presentation_type_id" class="authInput" name="presentation_type_id">
-                                <option value="" disabled selected hidden>Выберите формат</option>
+                                <option value="" disabled selected hidden>Выберите форму</option>
                                 @foreach($presentationTypes as $type)
                                     <option value="{{ $type->id }}">{{ $type->name }}</option>
                                 @endforeach
