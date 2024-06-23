@@ -17,13 +17,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="country">Страна:</label>
-                        <input type="text" name="country" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="city">Город:</label>
-                        <input type="text" name="city" required>
+                        <label for="address">Место проведения:</label>
+                        <input type="text" name="address" required>
                     </div>
 
                     <div class="form-group">
@@ -46,10 +41,10 @@
                         <label for="deadline">Дедлайн:</label>
                         <input type="date" name="deadline" required>
                     </div>
-                    
+
                     <button type="submit" class="button">Добавить</button>
-                
-                    
+
+
                 </div>
             </div>
         </form>

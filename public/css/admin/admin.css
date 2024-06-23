@@ -103,6 +103,13 @@ a.section__link {
     color: #000;
 }
 
+.create__conf {
+    text-decoration: none;
+    margin-top: 30px;
+    margin-left: 40%;
+    color: #000;
+}
+
 button.section__link {
     border: none;
     background-color: #fff;

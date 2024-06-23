@@ -17,13 +17,8 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="country">Страна:</label>
-                    <input type="text" name="country" required value="{{ $conf->country }}"><br>
-                </div>
-
-                <div class="form-group">
-                    <label for="city">Город:</label>
-                    <input type="text" name="city" required value="{{ $conf->city }}"><br>
+                    <label for="address">Страна:</label>
+                    <input type="text" name="address" required value="{{ $conf->address }}"><br>
                 </div>
 
                 <div class="form-group">

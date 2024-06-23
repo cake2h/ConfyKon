@@ -24,7 +24,7 @@
 
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-            <input id="email" style="display: none;" class="authInput"
+            <input id="email" class="authInput" placeholder="Электронная почта"
                    type="email" name="email" value="{{ old('email', $request->email) }}"
                    required autofocus autocomplete="username" />
 

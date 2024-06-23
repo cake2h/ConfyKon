@@ -16,6 +16,16 @@
         </div>
 
         <div class="form-group">
+            <label for="event_date">Дата начала:</label>
+            <input type="date" name="event_date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="event_place">Место проведения:</label>
+            <input type="text" name="event_place" required>
+        </div>
+
+        <div class="form-group">
             <label for="moderator_email">Email модератора:</label>
             <input type="email" name="moderator_email" required>
         </div>
@@ -28,5 +38,4 @@
 
         <button type="submit" class="button">Добавить</button>
     </form>
-
 @endsection

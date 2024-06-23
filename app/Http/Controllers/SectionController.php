@@ -25,6 +25,8 @@ class SectionController extends Controller
         $request->validate([
             'name' => ['required', 'string'],
             'moderator_email' => ['required', 'email'],
+            'event_date' => ['required', 'date'],
+            'event_place' => ['required', 'string'],
         ]);
 
         $moderator = User::where('email', $request->moderator_email)->first();
@@ -43,11 +45,12 @@ class SectionController extends Controller
             'description' => $request->description,
             'konf_id' => $conference->id,
             'moder_id' => $moderator->id,
+            'event_date' => $request->event_date,
+            'event_place' => $request->event_place,
         ]);
 
         return redirect()->route('admin.sections.index', $conference);
     }
-
 
     public function edit(Conf $conference, Section $section)
     {
@@ -60,6 +63,8 @@ class SectionController extends Controller
         $request->validate([
             'name' => ['required', 'string'],
             'moderator_email' => ['required', 'email'],
+            'event_date' => ['required', 'date'],
+            'event_place' => ['required', 'string'],
         ]);
 
         $newModerator = User::where('email', $request->moderator_email)->first();
@@ -85,6 +90,8 @@ class SectionController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'moder_id' => $newModerator->id,
+            'event_date' => $request->event_date,
+            'event_place' => $request->event_place,
         ]);
 
         return redirect()->route('admin.sections.index', $conference)->with('success', 'Секция успешно обновлена.');

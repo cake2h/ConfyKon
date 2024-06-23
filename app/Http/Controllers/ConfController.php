@@ -43,8 +43,7 @@ class ConfController extends Controller
         $conf = Conf::find($id);
 
         $conf->name = $request->input('name');
-        $conf->country = $request->input('country');
-        $conf->city = $request->input('city');
+        $conf->address = $request->input('address');
         $conf->date_start = $request->input('date_start');
         $conf->date_end = $request->input('date_end');
         $conf->deadline = $request->input('deadline');
@@ -64,8 +63,7 @@ class ConfController extends Controller
         $conf = new Conf();
 
         $conf->name = $request->input('name');
-        $conf->country = $request->input('country');
-        $conf->city = $request->input('city');
+        $conf->address = $request->input('address');
         $conf->date_start = $request->input('date_start');
         $conf->date_end = $request->input('date_end');
         $conf->deadline = $request->input('deadline');

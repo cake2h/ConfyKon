@@ -32,14 +32,17 @@
                 @foreach(Auth::user()->applications as $application)
                     <div class="application">
                         <div class="up">
-                        <p>Конференция: {{ $application->section->konf->name }}</p>
-                        <p>Cекция: {{ $application->section->name }}</p>
+                            <p>Соавторы: {{ $application->otherAuthors }}</p>
+                            <p>Конференция: {{ $application->section->konf->name }}</p>
+                            <p>Cекция: {{ $application->section->name }}</p>
+                            <p>Дата проведения: {{ $application->section->event_date }}</p>
+                            <p>Место проведения: {{ $application->section->event_place }}</p>
                         </div>
                         <div class="down">
                             <p>Название доклада: {{ $application->name }}</p>
 
-                            <a class="link @if(!$currentDate->between($application->section->konf->conferenceDates->deadline,
-                                    $application->section->konf->conferenceDates->date_end) and $application->status != 1) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
+                            <a class="link @if(!$currentDate->between($application->section->konf->conferenceDates->date_start,
+                                    $application->section->konf->conferenceDates->deadline) and $application->status != 1) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
 
                         @if ($application->file_path)
                             <p>

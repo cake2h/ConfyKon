@@ -14,6 +14,9 @@ class Section extends Model
         'description',
         'konf_id',
         'moder_id',
+        'event_date',
+        'event_time',
+        'event_place'
     ];
 
     public function konf()

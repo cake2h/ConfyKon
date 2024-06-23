@@ -17,6 +17,16 @@
         </div>
 
         <div class="form-group">
+            <label for="event_date">Дата начала:</label>
+            <input type="date" name="event_date" value="{{ $section->event_date }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="event_place">Место проведения:</label>
+            <input type="text" name="event_place" value="{{ $section->event_place }}" required>
+        </div>
+
+        <div class="form-group">
             <label for="mosderator_email">Email модератора:</label>
             <input type="email" name="moderator_email" value="{{ $moderatorEmail }}" required>
         </div>

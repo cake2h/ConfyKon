@@ -17,8 +17,7 @@ class Conf extends Model
 
     protected $fillable = [
         'name',
-        'country',
-        'city',
+        'address',
         'date_start',
         'date_end',
         'deadline',
