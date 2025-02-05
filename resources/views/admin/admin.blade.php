@@ -8,6 +8,9 @@
 @section('content')
     <div class="conferences">
         @if(count($conferences) > 0)
+            <div class="create__conf">
+                <a class="link" href="{{ route('conf.add') }}">Создать конференецию</a>
+            </div>
             @foreach ($conferences as $conference)
                 <div class="conference">
                     <h2 class="title">{{ $conference->name }}</h2>
@@ -49,6 +52,7 @@
                     </div>
                 </div>
             @endforeach
+
         @else
             <div class="create__conf">
                 <a class="link" href="{{ route('conf.add') }}">Создать конференецию</a>

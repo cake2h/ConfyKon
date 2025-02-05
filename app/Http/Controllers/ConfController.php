@@ -135,4 +135,52 @@ class ConfController extends Controller
         $sections = $conference->sections()->select('id', 'name')->get();
         return response()->json($sections);
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $month = $request->input('monthRange');
+        
+        $monthMap = [
+            'Январь' => 1, 'Февраль' => 2, 'Март' => 3, 'Апрель' => 4, 'Май' => 5, 'Июнь' => 6,
+            'Июль' => 7, 'Август' => 8, 'Сентябрь' => 9, 'Октябрь' => 10, 'Ноябрь' => 11, 'Декабрь' => 12
+        ];
+
+        $conferences = Conf::query();
+
+        if ($query) {
+            $conferences->where('name', 'LIKE', "%{$query}%");
+        }
+
+        if (!empty($month)) {
+            $parts = explode(' ', trim($month));
+
+            if (count($parts) === 2) {
+                $monthName = $parts[0];
+                $year = (int) $parts[1];
+
+                if (isset($monthMap[$monthName]) && $year > 2000) {
+                    $monthNumber = $monthMap[$monthName];
+
+                    $monthStart = "{$year}-" . str_pad($monthNumber, 2, '0', STR_PAD_LEFT) . "-01";
+                    $monthEnd = date("Y-m-t", strtotime($monthStart));
+
+                    $conferences->where(function ($query) use ($monthStart, $monthEnd) {
+                        $query->whereBetween('date_start', [$monthStart, $monthEnd])
+                            ->orWhereBetween('date_end', [$monthStart, $monthEnd])
+                            ->orWhere(function ($q) use ($monthStart, $monthEnd) {
+                                $q->where('date_start', '<=', $monthStart)
+                                    ->where('date_end', '>=', $monthEnd);
+                            });
+                    });
+                }
+            }
+        }
+
+        $conferences = $conferences->get();
+
+        $presentationTypes = DB::table('presentation_types')->get();
+
+        return view('main.index', compact('conferences', 'presentationTypes'));
+    }
 }

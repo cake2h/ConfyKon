@@ -42,9 +42,10 @@
                         <input type="date" name="deadline" required>
                     </div>
 
-                    <button type="submit" class="button">Добавить</button>
-
-
+                    <div class="button-container">
+                        <button type="submit" class="button">Добавить</button>
+                        <button type="button" class="button cancel-button" onclick="history.back()">Отмена</button>
+                    </div>
                 </div>
             </div>
         </form>

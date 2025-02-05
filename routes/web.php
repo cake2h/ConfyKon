@@ -18,6 +18,8 @@ Route::prefix('')->group(function () {
         Route::get('/{conference}', [ConfController::class, 'show'])->name('conf.show');
         Route::get('/{conference}/sections', [ConfController::class, 'getSections'])->name('conf.sections');
         Route::post('/{conference}/subs', [ConfController::class, 'subscribe'])->name('conf.subscribe');
+        Route::get('/conference}/search', [ConfController::class, 'search'])->name('conference.search');
+
     });
 });
 
