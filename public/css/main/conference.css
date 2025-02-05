@@ -11,6 +11,9 @@
 }
 
 .conference {
+    display: flex;
+    flex-direction: column;
+
     background-color: white;
     padding: 20px 30px;
     border-radius: 8px;
@@ -60,7 +63,6 @@
 }
 
 .link {
-    width: 20%;
     text-align: center;
 
     margin: 0;
@@ -69,7 +71,11 @@
     border: 1px solid black;
     border-radius: 4px;
 
+    overflow: hidden;
+
     transition: background-color 0.3s ease;
+
+    align-self: flex-start;
 }
 
 .link:hover {
@@ -138,10 +144,12 @@ h2 {
     position: relative;
 
     background-color: #fff;
+
+    border-radius: 24px;
 }
 
 .modal__container form {
-    padding: 40px;
+    padding: 20px;
 
     display: flex;
     flex-direction: column;
@@ -229,4 +237,8 @@ h2 {
     flex-grow: 1;
     max-width: 1200px;
     padding: 0;
+}
+
+.button {
+    margin: 0 auto;
 }
