@@ -17,8 +17,8 @@
                     <div class="simple__info">
                         <p>Место проведения: {{ $conference->address }}</p>
                         <p>Дата проведения: {{ \Carbon\Carbon::parse($conference->date_start)->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($conference->date_end)->format('d-m-Y') }} </p>
-                        <p>Срок регистрации на конфернецию до: <span style="color: #ff0000">{{ \Carbon\Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }} </span></p>
-                        <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ \Carbon\Carbon::parse($conference->deadline)->addDays(7)->format('d-m-Y') }} </span></p>
+                        <p>Срок регистрации на конференцию до: <span style="color: #ff0000">{{ $conference->registration_deadline ? \Carbon\Carbon::parse($conference->registration_deadline)->format('d-m-Y') : 'Не указан' }}</span></p>
+                        <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ $conference->publication_deadline ? \Carbon\Carbon::parse($conference->publication_deadline)->format('d-m-Y') : 'Не указан' }}</span></p>
                     </div>
 
                     <p class="date">{!! nl2br($conference->description) !!}</p>

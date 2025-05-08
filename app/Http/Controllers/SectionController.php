@@ -35,11 +35,6 @@ class SectionController extends Controller
             return redirect()->back()->withInput()->withErrors(['moderator_email' => 'Модератор с указанным email не найден.']);
         }
 
-        if ($moderator->role !== 'moderator') {
-            $moderator->role = 'moderator';
-            $moderator->save();
-        }
-
         Section::create([
             'name' => $request->name,
             'description' => $request->description,
@@ -73,19 +68,6 @@ class SectionController extends Controller
             return Redirect::back()->withErrors(['moderator_email' => 'Пользователь с указанным email не найден.']);
         }
 
-        if ($section->moder_id && $section->moder_id !== $newModerator->id) {
-            $currentModerator = User::find($section->moder_id);
-            if ($currentModerator && $currentModerator->role === 'moderator') {
-                $currentModerator->role = 'user';
-                $currentModerator->save();
-            }
-        }
-
-        if ($newModerator->role !== 'moderator') {
-            $newModerator->role = 'moderator';
-            $newModerator->save();
-        }
-
         $section->update([
             'name' => $request->name,
             'description' => $request->description,
@@ -114,9 +96,6 @@ class SectionController extends Controller
         if (!$moderator) {
             return redirect()->back()->with('error', 'Пользователь с указанным email не найден.');
         }
-
-        $moderator->role = 'moder';
-        $moderator->save();
 
         return redirect()->back()->with('success', 'Модератор успешно добавлен.');
     }

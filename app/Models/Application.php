@@ -17,7 +17,8 @@ class Application extends Model
         'file_path',
         'user_id',
         'section_id',
-        'type_id'
+        'type_id',
+        'role_id'
     ];
 
     public function section()
@@ -28,5 +29,10 @@ class Application extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id', 'id');
     }
 }

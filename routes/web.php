@@ -16,10 +16,10 @@ Route::prefix('')->group(function () {
 
     Route::prefix('conference')->group(function () {
         Route::get('/{conference}', [ConfController::class, 'show'])->name('conf.show');
-        Route::get('/{conference}/sections', [ConfController::class, 'getSections'])->name('conf.sections');
+        Route::get('/{conference}/sections', [ConfController::class, 'showSections'])->name('conf.sections.show');
+        Route::get('/{conference}/sections/list', [ConfController::class, 'getSections'])->name('conf.sections.list');
         Route::post('/{conference}/subs', [ConfController::class, 'subscribe'])->name('conf.subscribe');
         Route::get('/conference}/search', [ConfController::class, 'search'])->name('conference.search');
-
     });
 });
 
@@ -67,5 +67,11 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
         });
     });
 });
+
+Route::get('/conferences/{conference}/sections', [ConfController::class, 'getSections'])->name('conferences.sections');
+Route::post('/conferences/{conference}/subscribe', [ConfController::class, 'subscribe'])->name('conf.subscribe');
+Route::get('/applications/{id}/edit', [ConfController::class, 'editApplication'])->name('conf.edit_application');
+Route::put('/applications/{id}', [ConfController::class, 'updateApplication'])->name('conf.update_application');
+Route::delete('/applications/{id}', [ConfController::class, 'deleteApplication'])->name('conf.delete_application');
 
 require __DIR__.'/auth.php';

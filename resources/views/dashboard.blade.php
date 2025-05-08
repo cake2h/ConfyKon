@@ -20,6 +20,7 @@
             <br/>
             <a class="link" href="{{ asset('public/publications/Документ.docx') }}" download>Оформление статьи</a>
             <a class="link" href="{{ asset('public/publications/Документ.docx') }}" download>Условия загрузки статьи</a>
+            <a class="link" href="">Мои дипломы</a>
         </ul>
     </div>
 
@@ -32,35 +33,48 @@
                 @foreach(Auth::user()->applications as $application)
                     <div class="application">
                         <div class="up">
-                            <p>Соавторы: {{ $application->otherAuthors }}</p>
                             <p>Конференция: {{ $application->section->konf->name }}</p>
                             <p>Cекция: {{ $application->section->name }}</p>
                             <p>Дата проведения: {{ $application->section->event_date }}</p>
                             <p>Место проведения: {{ $application->section->event_place }}</p>
+                            <p>Роль: {{ $application->role->name }}</p>
+                            
+                            @if($currentDate < \Carbon\Carbon::parse($application->section->konf->date_start)->subDays(3))
+                                <div class="application-actions">
+                                    <a href="{{ route('conf.edit_application', $application->id) }}" class="link">Редактировать</a>
+                                    <form method="POST" action="{{ route('conf.delete_application', $application->id) }}" style="display: inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="link" style="color: red;" onclick="return confirm('Вы уверены, что хотите удалить эту регистрацию?')">Удалить</button>
+                                    </form>
+                                </div>
+                            @endif
                         </div>
                         <div class="down">
-                            <p>Название доклада: {{ $application->name }}</p>
+                            @if($application->role->name === 'Докладчик' || $application->role->name === 'Выступающий')
+                                <p>Название доклада: {{ $application->name }}</p>
+                                <p>Соавторы: {{ $application->otherAuthors }}</p>
 
-                            <a class="link @if(!$currentDate->between($application->section->konf->conferenceDates->date_start,
-                                    $application->section->konf->conferenceDates->deadline) and $application->status != 1) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
+                                <a class="link @if(now() > \Carbon\Carbon::parse($application->section->konf->publication_deadline) or $application->status == 1) inactive @endif" onclick="openModal()">Прикрепить публикацию</a>
 
-                        @if ($application->file_path)
-                            <p>
-                                Статус:
-                                @if ($application->status == 1)
-                                    <span class="status status-approved">Одобрено</span>
-                                @elseif ($application->status == 2)
-                                    <span class="status status-rejected">Отклонено</span>
+                                @if ($application->file_path)
+                                    <p>
+                                        Статус:
+                                        @if ($application->status == 1)
+                                            <span class="status status-approved">Одобрено</span>
+                                        @elseif ($application->status == 2)
+                                            <span class="status status-rejected">Отклонено</span>
+                                        @else
+                                            <span class="status status-pending">В ожидании</span>
+                                        @endif
+                                    </p>
                                 @else
-                                    <span class="status status-pending">В ожидании</span>
+                                    <p>
+                                        Статус:
+                                        <span class="status status-pending">Не прикреплено</span>
+                                    </p>
                                 @endif
-                            </p>
-                        @else
-                            <p>
-                                Статус:
-                                <span class="status status-pending">Не прикреплено</span>
-                            </p>
-                        @endif
+                            @endif
                         </div>
                     </div>
                 @endforeach

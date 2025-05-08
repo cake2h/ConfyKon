@@ -43,12 +43,19 @@
                 </div>
                 <div class="form-group">
                     <label for="section_id">Cекция:</label>
-                    <select id="section_id" class="authInput" name="section_id">
-                        <option value=""  disabled selected hidden>Секция</option>
-                        @foreach($sections as $section)
-                            <option name="section_id"  value="{{ $section->id }}">{{ $section->name }}</option>
-                        @endforeach
+                    <select id="section_id" class="authInput" name="section_id" required>
+                        <option value="" disabled selected>Выберите секцию</option>
+                        @if($sections->count() > 0)
+                            @foreach($sections as $section)
+                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                            @endforeach
+                        @else
+                            <option value="" disabled>Нет доступных секций</option>
+                        @endif
                     </select>
+                    @if($sections->count() == 0)
+                        <p style="color: red;">Внимание: Нет доступных секций для этой конференции</p>
+                    @endif
                 </div>
                 <button class="button" type="submit">Отправить</button>
             </form>

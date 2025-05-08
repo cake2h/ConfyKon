@@ -43,12 +43,12 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->role === 'admin';
+        return Conf::where('user_id', $this->id)->exists();
     }
 
     public function isModerator()
     {
-        return $this->role === 'moderator';
+        return Section::where('moder_id', $this->id)->exists();
     }
 
     public function applications(): HasMany

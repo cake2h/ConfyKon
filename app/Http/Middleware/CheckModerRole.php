@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Section;
 
 class CheckModerRole
 {
@@ -16,12 +17,13 @@ class CheckModerRole
      */
     public function handle($request, Closure $next)
     {
-        // Проверяем, авторизован ли пользователь и является ли его роль 'moder'
-        if (Auth::check() && Auth::user()->role === 'moderator') {
-            return $next($request);
+        if (Auth::check()) {
+            $user = Auth::user();
+            if (Section::where('moder_id', $user->id)->exists()) {
+                return $next($request);
+            }
         }
 
-        // Если не авторизован или не 'moder', перенаправляем на главную страницу или выводим ошибку
-        return redirect('/')->with('error', 'У вас нет доступа к этому разделу');
+        return redirect('/')->with('error', 'У вас нет прав для доступа к панели модератора');
     }
 }

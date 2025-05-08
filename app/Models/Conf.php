@@ -21,7 +21,22 @@ class Conf extends Model
         'date_start',
         'date_end',
         'deadline',
+        'registration_deadline',
+        'publication_deadline',
         'description',
+        'user_id',
+        'min_age',
+        'max_age'
+    ];
+
+    protected $dates = [
+        'date_start',
+        'date_end',
+        'deadline',
+        'registration_deadline',
+        'publication_deadline',
+        'created_at',
+        'updated_at'
     ];
 
     public function sections() : HasMany
@@ -32,5 +47,10 @@ class Conf extends Model
     public function conferenceDates(): HasOne
     {
         return $this->hasOne(Conf::class, 'id');
+    }
+
+    public function organizer()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

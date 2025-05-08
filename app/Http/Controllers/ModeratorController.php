@@ -14,20 +14,28 @@ class ModeratorController extends Controller
     {
         $moderator = auth()->user();
 
-        $section = Section::where('moder_id', $moderator->id)->first();
+        $sections = Section::where('moder_id', $moderator->id)->get();
 
-        if (!$section) {
-            return redirect()->back()->with('error', 'Секция не найдена для текущего модератора.');
+        if ($sections->isEmpty()) {
+            return view('moderator.moderator', [
+                'error' => 'Вы не являетесь модератором ни одной секции.'
+            ]);
         }
 
-        $sectionName = $section->name;
-
-        $applicants = Application::where('section_id', $section->id)
+        $applicants = Application::whereIn('section_id', $sections->pluck('id'))
             ->join('users', 'applications.user_id', '=', 'users.id')
-            ->select('users.name', 'applications.name as work_name', 'applications.file_path', 'applications.id as application_id', 'applications.status')
+            ->join('sections', 'applications.section_id', '=', 'sections.id')
+            ->select(
+                'users.name as user_name',
+                'applications.name as work_name',
+                'applications.file_path',
+                'applications.id as application_id',
+                'applications.status',
+                'sections.name as section_name'
+            )
             ->get();
 
-        return view('moderator.moderator', compact('sectionName', 'applicants'));
+        return view('moderator.moderator', compact('sections', 'applicants'));
     }
 
     public function approve($id)

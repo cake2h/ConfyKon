@@ -16,6 +16,11 @@
         </div>
 
         <div class="form-group">
+            <label for="description">Описание:</label>
+            <textarea name="description" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
             <label for="event_date">Дата начала:</label>
             <input type="date" name="event_date" required>
         </div>

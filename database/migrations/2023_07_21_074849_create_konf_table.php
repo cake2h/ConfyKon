@@ -16,6 +16,8 @@ return new class extends Migration
             $table->date('date_end');
             $table->date('deadline');
             $table->text('description');
+            $table->unsignedBigInteger('organizer_id');
+            $table->foreign('organizer_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

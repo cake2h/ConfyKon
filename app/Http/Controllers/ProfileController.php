@@ -15,7 +15,7 @@ class ProfileController extends Controller
 {
     public function dashboard(Request $request): View
     {
-        $user = User::find(auth()->id());
+        $user = User::with(['applications.section.konf', 'applications.role'])->find(auth()->id());
 
         $conferences = Conf::with('conferenceDates')->get();
         $currentDate = now();

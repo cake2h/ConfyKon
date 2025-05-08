@@ -91,22 +91,17 @@
                     <div class="simple__info">
                         <p>Место проведения: {{ $conference->address }}</p>
                         <p>Дата проведения: {{ Carbon::parse($conference->date_start)->format('d-m-Y') }} - {{ Carbon::parse($conference->date_end)->format('d-m-Y') }} </p>
-                        <p>Срок регистрации на конференцию до: <span style="color: #ff0000">{{ Carbon::parse($conference->date_start)->subDays(3)->format('d-m-Y') }} </span></p>
-                        <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ Carbon::parse($conference->deadline)->addDays(7)->format('d-m-Y') }} </span></p>
+                        <p>Срок регистрации на конференцию до: <span style="color: #ff0000">{{ $conference->registration_deadline ? Carbon::parse($conference->registration_deadline)->format('d-m-Y') : 'Не указан' }}</span></p>
+                        <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ $conference->publication_deadline ? Carbon::parse($conference->publication_deadline)->format('d-m-Y') : 'Не указан' }}</span></p>
                     </div>
                     <p>{!! nl2br(e($conference->description)) !!}</p>
 
-                    @auth
-                        @if($age < 35 and now() < Carbon::parse($conference->date_start)->subDays(2))
-                            <p class="link" onclick="openModal()">Зарегистрироваться</p>
-                        @elseif ($age > 35)
-                            <button class="link" style="color: gray; opacity: 0.5" disabled>Ваш возраст превышает допустимый</button>
-                        @else
-                            <button class="link" style="color: gray; opacity: 0.5" disabled>Регистрация закончилась</button>
-                        @endif
+                    @if(now() < Carbon::parse($conference->date_start)->subDays(2))
+                        <p class="link"><a href="{{ route('conf.sections.show', $conference->id) }}">Подробнее</a></p>
                     @else
-                        <p class="message">Чтобы отправить заявку на участие, необходимо зарегистрироваться</p>
-                    @endauth
+                        <button class="link" style="color: gray; opacity: 0.5" disabled>Регистрация закончилась</button>
+                    @endif
+
                 </div>
             @endforeach
         </div>
@@ -116,7 +111,7 @@
     <div class="modal" id="imageModal">
         <div class="modal__container">
             <span class="close" onclick="closeModal()">&times;</span>
-            <form method="POST" action="{{ route('conf.subscribe', $conference ?? '') }}" enctype="multipart/form-data">
+            <form method="POST" action="" id="registrationForm" enctype="multipart/form-data">
                 @csrf
                 <h2 style="margin-left:40px">Регистрация на конференцию</h2>
                 <div class="form-group">
@@ -133,11 +128,16 @@
                     <label for="section_id">Секция:</label>
                     <select id="section_id" class="authInput" name="section_id">
                         <option value="" disabled selected hidden>Секция</option>
-                        @foreach($conference->sections ?? [] as $section)
-                            <option value="{{ $section->id }}">{{ $section->name }}</option>
-                        @endforeach
+                        @if(isset($conference->sections) && $conference->sections->count() > 0)
+                            @foreach($conference->sections as $section)
+                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                            @endforeach
+                        @else
+                            <option value="" disabled>Нет доступных секций</option>
+                        @endif
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label for="presentation_type_id">Форма участия:</label>
                     <select id="presentation_type_id" class="authInput" name="presentation_type_id">
@@ -155,8 +155,36 @@
 
 @section('scripts')
     <script>
-        function openModal() {
-            document.getElementById('imageModal').style.display = 'block';
+        function openModal(conferenceId) {
+            const modal = document.getElementById('imageModal');
+            const form = document.getElementById('registrationForm');
+            const sectionSelect = document.getElementById('section_id');
+            
+            form.action = `/conference/${conferenceId}/subs`;
+            
+            sectionSelect.innerHTML = '<option value="" disabled selected hidden>Секция</option>';
+            
+            fetch(`/conference/${conferenceId}/sections`)
+                .then(response => response.json())
+                .then(sections => {
+                    if (sections.length === 0) {
+                        sectionSelect.innerHTML = '<option value="" disabled>Нет доступных секций</option>';
+                        return;
+                    }
+                    
+                    sections.forEach(section => {
+                        const option = document.createElement('option');
+                        option.value = section.id;
+                        option.textContent = section.name;
+                        sectionSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading sections:', error);
+                    sectionSelect.innerHTML = '<option value="" disabled>Ошибка загрузки секций</option>';
+                });
+            
+            modal.style.display = 'block';
         }
 
         function closeModal() {

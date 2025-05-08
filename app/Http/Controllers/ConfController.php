@@ -10,19 +10,26 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Conf;
 use App\Models\Application;
 use Illuminate\Support\Facades\Mail;
+use App\Models\ParticipantRole;
+use App\Models\Role;
 
 class ConfController extends Controller
 {
     public function index()
     {
-        $conferences = Conf::all();
+        $conferences = Conf::with('sections')->get();
         $presentationTypes = DB::table('presentation_types')->get();
         return view('main.index', compact('conferences', 'presentationTypes'));
     }
 
     public function show(Conf $conference)
     {
-        $sections = $conference->sections;
+        $sections = Section::where('konf_id', $conference->id)->get();
+        dd([
+            'conference_id' => $conference->id,
+            'sections_count' => $sections->count(),
+            'sections' => $sections->toArray()
+        ]);
         return view('main.show', compact('conference', 'sections'));
     }
 
@@ -41,14 +48,24 @@ class ConfController extends Controller
     public function update(Request $request, $id)
     {
         $conf = Conf::find($id);
+        if (!$conf) {
+            return redirect()->back()->with('error', 'Конференция не найдена');
+        }
 
         $conf->name = $request->input('name');
         $conf->address = $request->input('address');
         $conf->date_start = $request->input('date_start');
         $conf->date_end = $request->input('date_end');
-        $conf->deadline = $request->input('deadline');
+        $conf->deadline = $request->input('registration_deadline');
+        $conf->publication_deadline = $request->input('publication_deadline');
+        $conf->registration_deadline = $request->input('registration_deadline');
         $conf->description = $request->input('description');
-        $conf->update();
+        $conf->min_age = $request->input('no_min_age') ? null : $request->input('min_age');
+        $conf->max_age = $request->input('no_max_age') ? null : $request->input('max_age');
+        
+        if (!$conf->update()) {
+            return redirect()->back()->with('error', 'Ошибка при обновлении конференции');
+        }
 
         return redirect()->route('admin.index');
     }
@@ -66,9 +83,17 @@ class ConfController extends Controller
         $conf->address = $request->input('address');
         $conf->date_start = $request->input('date_start');
         $conf->date_end = $request->input('date_end');
-        $conf->deadline = $request->input('deadline');
+        $conf->deadline = $request->input('registration_deadline');
+        $conf->publication_deadline = $request->input('publication_deadline');
+        $conf->registration_deadline = $request->input('registration_deadline');
         $conf->description = $request->input('description');
-        $conf->save();
+        $conf->min_age = $request->input('no_min_age') ? null : $request->input('min_age');
+        $conf->max_age = $request->input('no_max_age') ? null : $request->input('max_age');
+        $conf->user_id = Auth::id();
+        
+        if (!$conf->save()) {
+            return redirect()->back()->with('error', 'Ошибка при создании конференции');
+        }
 
         return redirect()->route('admin.index');
     }
@@ -81,18 +106,32 @@ class ConfController extends Controller
     public function subscribe(Request $request, Conf $conference)
     {
         $request->validate([
-            'name' => ['required', 'string'],
             'section_id' => ['required'],
+            'role_id' => ['required'],
+            'presentation_type_id' => ['required'],
         ]);
 
-        Application::create([
-            'name' => $request->name,
+        $data = [
             'status' => 0,
-            'otherAuthors' => $request->otherAuthors,
             'user_id' => Auth::user()->id,
             'section_id' => $request->section_id,
-            'type_id' => $request->presentation_type_id
-        ]);
+            'type_id' => $request->presentation_type_id,
+            'role_id' => $request->role_id
+        ];
+
+        // Если роль "Выступающий", добавляем обязательные поля
+        $role = Role::find($request->role_id);
+        if ($role && ($role->name === 'Докладчик' || $role->name === 'Выступающий')) {
+            $request->validate([
+                'name' => ['required', 'string'],
+                'otherAuthors' => ['string', 'nullable'],
+            ]);
+
+            $data['name'] = $request->name;
+            $data['otherAuthors'] = $request->otherAuthors;
+        }
+
+        $application = Application::create($data);
 
         return redirect()->route('dashboard.index');
     }
@@ -133,6 +172,9 @@ class ConfController extends Controller
     public function getSections(Conf $conference)
     {
         $sections = $conference->sections()->select('id', 'name')->get();
+        if ($sections->isEmpty()) {
+            return response()->json([]);
+        }
         return response()->json($sections);
     }
 
@@ -182,5 +224,98 @@ class ConfController extends Controller
         $presentationTypes = DB::table('presentation_types')->get();
 
         return view('main.index', compact('conferences', 'presentationTypes'));
+    }
+
+    public function showSections(Conf $conference)
+    {
+        $sections = Section::where('konf_id', $conference->id)->with('moder')->get();
+        $presentationTypes = DB::table('presentation_types')->get();
+        $roles = Role::all();
+        $age = Auth::check() ? \Carbon\Carbon::parse(Auth::user()->birthday)->age : null;
+
+        return view('main.sections', compact('conference', 'sections', 'presentationTypes', 'roles', 'age'));
+    }
+
+    public function editApplication($id)
+    {
+        $application = Application::with(['section.konf', 'role'])->findOrFail($id);
+        
+        // Проверяем, что заявка принадлежит текущему пользователю
+        if ($application->user_id !== Auth::id()) {
+            return redirect()->route('dashboard.index')->with('error', 'У вас нет прав на редактирование этой заявки');
+        }
+
+        // Проверяем, что не прошла дата окончания регистрации
+        if (now() >= \Carbon\Carbon::parse($application->section->konf->date_start)->subDays(3)) {
+            return redirect()->route('dashboard.index')->with('error', 'Срок редактирования заявки истек');
+        }
+
+        $roles = Role::all();
+        $presentationTypes = DB::table('presentation_types')->get();
+        
+        return view('main.edit_application', compact('application', 'roles', 'presentationTypes'));
+    }
+
+    public function updateApplication(Request $request, $id)
+    {
+        $application = Application::findOrFail($id);
+
+        // Проверяем, что заявка принадлежит текущему пользователю
+        if ($application->user_id !== Auth::id()) {
+            return redirect()->route('dashboard.index')->with('error', 'У вас нет прав на редактирование этой заявки');
+        }
+
+        // Проверяем, что не прошла дата окончания регистрации
+        if (now() >= \Carbon\Carbon::parse($application->section->konf->date_start)->subDays(3)) {
+            return redirect()->route('dashboard.index')->with('error', 'Срок редактирования заявки истек');
+        }
+
+        $request->validate([
+            'role_id' => ['required'],
+            'presentation_type_id' => ['required'],
+        ]);
+
+        $data = [
+            'role_id' => $request->role_id,
+            'type_id' => $request->presentation_type_id,
+        ];
+
+        $role = Role::find($request->role_id);
+        if ($role && ($role->name === 'Докладчик' || $role->name === 'Выступающий')) {
+            $request->validate([
+                'name' => ['required', 'string'],
+                'otherAuthors' => ['string', 'nullable'],
+            ]);
+            $data['name'] = $request->name;
+            $data['otherAuthors'] = $request->otherAuthors;
+        } else {
+            $data['name'] = null;
+            $data['otherAuthors'] = null;
+        }
+
+        if (!$application->update($data)) {
+            return redirect()->back()->with('error', 'Ошибка при обновлении заявки');
+        }
+
+        return redirect()->route('dashboard.index')->with('success', 'Заявка успешно обновлена');
+    }
+
+    public function deleteApplication($id)
+    {
+        $application = Application::findOrFail($id);
+        
+        // Проверяем, что заявка принадлежит текущему пользователю
+        if ($application->user_id !== Auth::id()) {
+            return redirect()->route('dashboard.index')->with('error', 'У вас нет прав на удаление этой заявки');
+        }
+
+        // Проверяем, что не прошла дата окончания регистрации
+        if (now() >= \Carbon\Carbon::parse($application->section->konf->date_start)->subDays(3)) {
+            return redirect()->route('dashboard.index')->with('error', 'Срок удаления заявки истек');
+        }
+
+        $application->delete();
+
+        return redirect()->route('dashboard.index')->with('success', 'Заявка успешно удалена');
     }
 }
