@@ -19,7 +19,7 @@ class CheckModerRole
     {
         if (Auth::check()) {
             $user = Auth::user();
-            if (Section::where('moder_id', $user->id)->exists()) {
+            if (Section::where('user_id', $user->id)->exists()) {
                 return $next($request);
             }
         }

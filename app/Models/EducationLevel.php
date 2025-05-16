@@ -10,9 +10,6 @@ class EducationLevel extends Model
     use HasFactory;
 
     protected $table = 'education_levels';
-
-    public function getTitleAttribute()
-    {
-        return $this->attributes['title'];
-    }
+    
+    protected $fillable = ['name'];
 }

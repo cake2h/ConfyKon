@@ -21,14 +21,19 @@
         </div>
 
         <div class="form-group">
-            <label for="event_date">Дата начала:</label>
-            <input type="date" name="event_date" required>
+            <label for="date_start">Дата начала:</label>
+            <input type="date" name="date_start" required>
         </div>
 
         <div class="form-group">
+            <label for="date_end">Дата завершения:</label>
+            <input type="date" name="date_end" required>
+        </div>
+
+        <!-- <div class="form-group">
             <label for="event_place">Место проведения:</label>
             <input type="text" name="event_place" required>
-        </div>
+        </div> -->
 
         <div class="form-group">
             <label for="moderator_email">Email модератора:</label>

@@ -11,19 +11,19 @@ class Application extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'status',
-        'otherAuthors',
-        'file_path',
-        'user_id',
         'section_id',
-        'type_id',
-        'role_id'
+        'user_id',
+        'presentation_type_id',
+        'report_id',
+        'participation_type_id',
+        'application_status_id',
+        'contributors',
+        'title'
     ];
 
     public function section()
     {
-        return $this->belongsTo(Section::class, 'section_id', 'id');
+        return $this->belongsTo(Section::class);
     }
 
     public function user()
@@ -31,8 +31,28 @@ class Application extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function presentationType()
+    {
+        return $this->belongsTo(PresentationType::class);
+    }
+
+    public function participationType()
+    {
+        return $this->belongsTo(ParticipationType::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(ApplicationStatus::class, 'application_status_id');
+    }
+
     public function role()
     {
-        return $this->belongsTo(Role::class, 'role_id', 'id');
+        return $this->belongsTo(ParticipationType::class, 'participation_type_id');
+    }
+
+    public function report()
+    {
+        return $this->belongsTo(Report::class);
     }
 }

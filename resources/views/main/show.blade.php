@@ -9,9 +9,10 @@
 @section('content')
     <div class="conference">
         <h1>{{ $conference->name }}</h1>
-        <p class="section"><strong>Место проведения:</strong> {{ $conference->city }}, {{ $conference->country }}</p>
+        <p class="section"><strong>Город проведения:</strong> {{ $conference->city->name }}</p>
+        <p class="section"><strong>Место проведения:</strong> {{ $conference->address }}</p>
         <p class="section"><strong>Дата проведения:</strong> {{ date('d-m-Y', strtotime($conference->date_start)) }} - {{ date('d-m-Y', strtotime($conference->date_end)) }}</p>
-        <p class="section"><strong>Крайний срок подачи заявок:</strong> {{ date('d-m-Y', strtotime($conference->deadline)) }}</p>
+        <p class="section"><strong>Крайний срок подачи заявок:</strong> {{ date('d-m-Y', strtotime($conference->deadline_applications)) }}</p>
         <p class="section"><strong>Описание:</strong> {!! nl2br($conference->description) !!}</p>
 
         <div class="conference__sections">

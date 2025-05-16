@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{ asset('css/admin/form.css') }}">
     <style>
         .speaker-fields {
-            display: {{ in_array($application->role->name, ['Слушатель']) ? 'none' : 'block' }};
+            display: {{ $application->participation_type_id == 1 ? 'none' : 'block' }};
         }
     </style>
 @endsection
@@ -25,11 +25,11 @@
             @method('PUT')
 
             <div class="form-group">
-                <label for="role_id">Роль участия:</label>
-                <select id="role_id" class="authInput" name="role_id" required onchange="toggleFields()">
+                <label for="participation_type_id">Роль участия:</label>
+                <select id="participation_type_id" class="authInput" name="participation_type_id" required onchange="toggleFields()">
                     <option value="" disabled selected hidden>Выберите роль</option>
                     @foreach($roles as $role)
-                        <option value="{{ $role->id }}" data-name="{{ $role->name }}" {{ $application->role_id == $role->id ? 'selected' : '' }}>
+                        <option value="{{ $role->id }}" {{ $application->participation_type_id == $role->id ? 'selected' : '' }}>
                             {{ $role->name }}
                         </option>
                     @endforeach
@@ -39,15 +39,15 @@
             <div id="speakerFields" class="speaker-fields">
                 <div class="form-group">
                     <label for="name">Название доклада</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $application->name) }}" {{ $application->role->name !== 'Слушатель' ? 'required' : '' }}>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $application->report ? $application->report->report_theme : '') }}" {{ $application->participation_type_id != 1 ? 'required' : '' }}>
                     @error('name')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="otherAuthors">Соавторы (ФИО <b>полностью</b> через запятую):</label>
-                    <input type="text" name="otherAuthors" id="otherAuthors" value="{{ $application->otherAuthors }}">
+                    <label for="contributors">Соавторы (ФИО <b>полностью</b> через запятую):</label>
+                    <input type="text" name="contributors" id="contributors" value="{{ old('contributors', $application->contributors) }}">
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                 <select id="presentation_type_id" class="authInput" name="presentation_type_id" required>
                     <option value="" disabled selected hidden>Выберите форму участия</option>
                     @foreach($presentationTypes as $type)
-                        <option value="{{ $type->id }}" {{ $application->type_id == $type->id ? 'selected' : '' }}>
+                        <option value="{{ $type->id }}" {{ $application->presentation_type_id == $type->id ? 'selected' : '' }}>
                             {{ $type->name }}
                         </option>
                     @endforeach
@@ -71,7 +71,7 @@
 @section('scripts')
     <script>
         function toggleFields() {
-            const roleSelect = document.getElementById('role_id');
+            const roleSelect = document.getElementById('participation_type_id');
             const speakerFields = document.getElementById('speakerFields');
             const nameInput = document.getElementById('name');
             
@@ -80,10 +80,8 @@
             const selectedOption = roleSelect.options[roleSelect.selectedIndex];
             if (!selectedOption) return;
             
-            const roleName = selectedOption.textContent.trim();
-            const isSpeaker = roleName !== 'Слушатель';
-            
-            console.log('Role:', roleName, 'Is speaker:', isSpeaker);
+            const roleId = parseInt(selectedOption.value);
+            const isSpeaker = roleId !== 1;
             
             speakerFields.style.display = isSpeaker ? 'block' : 'none';
             nameInput.required = isSpeaker;

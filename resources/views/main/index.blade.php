@@ -89,10 +89,11 @@
                 <div class="conference">
                     <h2 class="title">{{ $conference->name }}</h2>
                     <div class="simple__info">
-                        <p>Место проведения: {{ $conference->address }}</p>
+                        <p><strong>Город:</strong> {{ $conference->city->name }}</p>
                         <p>Дата проведения: {{ Carbon::parse($conference->date_start)->format('d-m-Y') }} - {{ Carbon::parse($conference->date_end)->format('d-m-Y') }} </p>
-                        <p>Срок регистрации на конференцию до: <span style="color: #ff0000">{{ $conference->registration_deadline ? Carbon::parse($conference->registration_deadline)->format('d-m-Y') : 'Не указан' }}</span></p>
-                        <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ $conference->publication_deadline ? Carbon::parse($conference->publication_deadline)->format('d-m-Y') : 'Не указан' }}</span></p>
+                        <p>Срок регистрации на конференцию до: <span style="color: #ff0000">{{ $conference->deadline_applications ? Carbon::parse($conference->deadline_applications)->format('d-m-Y') : 'Не указан' }}</span></p>
+                        <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ $conference->deadline_reports ? Carbon::parse($conference->deadline_reports)->format('d-m-Y') : 'Не указан' }}</span></p>
+                        <p>Формат проведения: {{ $conference->format->name }}</p>
                     </div>
                     <p>{!! nl2br(e($conference->description)) !!}</p>
 

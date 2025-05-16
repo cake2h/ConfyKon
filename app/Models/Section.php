@@ -12,30 +12,30 @@ class Section extends Model
     protected $fillable = [
         'name',
         'description',
-        'konf_id',
-        'moder_id',
-        'event_date',
-        'event_time',
-        'event_place'
+        'date_start',
+        'date_end',
+        'event_place',
+        'conference_id',
+        'user_id',
     ];
 
-    public function konf()
+    public function conference()
     {
-        return $this->belongsTo(Conf::class, 'konf_id', 'id');
+        return $this->belongsTo(Conference::class, 'conference_id', 'id');
     }
 
-    public function users()
+    public function user()
     {
-        return $this->hasManyThrough(User::class, Application::class, 'section_id', 'id');
-    }
-
-    public function applications()
-    {
-        return $this->hasMany(Application::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function moder()
     {
-        return $this->belongsTo(User::class, 'moder_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'section_id', 'id');
     }
 }
