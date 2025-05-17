@@ -8,6 +8,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\PythonController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\AiHelpController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Process\Process;
 
@@ -85,6 +86,11 @@ Route::middleware(['auth', 'moder'])->group(function () {
     Route::get('/moderator/reports/{section}', [ModeratorController::class, 'reports'])->name('moderator.reports');
     Route::post('/application/{id}/reject-application', [ModeratorController::class, 'rejectApplication'])->name('application.reject-application');
     Route::post('/application/{id}/restore', [ModeratorController::class, 'restoreApplication'])->name('application.restore-application');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/ai-help', [AiHelpController::class, 'index'])->name('ai.help');
+    Route::post('/ai-help/analyze', [AiHelpController::class, 'analyze'])->name('ai.analyze');
 });
 
 require __DIR__.'/auth.php';

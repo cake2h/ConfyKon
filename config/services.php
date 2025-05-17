@@ -18,6 +18,7 @@ return [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
         'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        'scheme' => 'https',
     ],
 
     'postmark' => [
@@ -34,5 +35,10 @@ return [
         'client_id' => env('YANDEX_CLIENT_ID'),
         'client_secret' => env('YANDEX_CLIENT_SECRET'),
         'redirect' => env('YANDEX_REDIRECT_URI')
+    ],
+
+    'deepseek' => [
+        'url' => env('DEEPSEEK_API_URL', 'https://api.deepseek.com'),
+        'api_key' => env('DEEPSEEK_API_KEY'),
     ],
 ];
