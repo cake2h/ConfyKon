@@ -10,20 +10,26 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Conference;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
+        'surname',
         'name',
+        'patronymic',
         'email',
         'password',
         'birthday',
-        'city',
+        'city_id',
         'phone_number',
-        'edu_id',
-        'study_place',
+        'education_level_id',
+        'study_place_id',
         'role',
+        'consent_to_mailing',
     ];
 
     protected $hidden = [
@@ -31,9 +37,19 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function education_level()
+    public function education_level(): BelongsTo
     {
-        return $this->belongsTo(EducationLevel::class, 'edu_id', 'id');
+        return $this->belongsTo(EducationLevel::class);
+    }
+
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    public function study_place(): BelongsTo
+    {
+        return $this->belongsTo(StudyPlace::class);
     }
 
     public function sendPasswordResetNotification($token)
@@ -43,21 +59,27 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->role === 'admin';
+        return Conference::where('user_id', $this->id)->exists();
     }
 
     public function isModerator()
     {
-        return $this->role === 'moderator';
+        return Section::where('user_id', $this->id)->exists();
     }
 
     public function applications(): HasMany
     {
         return $this->hasMany(Application::class, 'user_id');
+    }
 
+    public function hasConferences()
+    {
+        return Conference::where('user_id', $this->id)->exists();
     }
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'consent_to_mailing' => 'boolean',
+        'birthday' => 'date',
     ];
 }

@@ -29,12 +29,10 @@
         </a>
 
         @auth
-            @if (Auth::user()->isAdmin())
-                <a href="{{ route('admin.index') }}" class="control">
-                    <i class="material-icons {{ request()->routeIs('admin.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
-                    <p>Админ-панель</p>
-                </a>
-            @endif
+            <a href="{{ route('admin.index') }}" class="control">
+                <i class="material-icons {{ request()->routeIs('admin.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
+                <p>Админ-панель</p>
+            </a>
 
             @if (Auth::user()->isModerator())
                 <a href="{{ route('moderator.index') }}" class="control">

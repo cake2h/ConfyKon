@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('presentation_types', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+        Schema::create('participation_types', function (Blueprint $table) {
+            $table->id('id');
+            $table->string('name', 255);
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('presentation_types');
+        Schema::dropIfExists('participation_types');
     }
-};
+}; 

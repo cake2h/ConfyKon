@@ -9,9 +9,10 @@
 @section('content')
     <div class="conference">
         <h1>{{ $conference->name }}</h1>
-        <p class="section"><strong>Место проведения:</strong> {{ $conference->city }}, {{ $conference->country }}</p>
+        <p class="section"><strong>Город проведения:</strong> {{ $conference->city->name }}</p>
+        <p class="section"><strong>Место проведения:</strong> {{ $conference->address }}</p>
         <p class="section"><strong>Дата проведения:</strong> {{ date('d-m-Y', strtotime($conference->date_start)) }} - {{ date('d-m-Y', strtotime($conference->date_end)) }}</p>
-        <p class="section"><strong>Крайний срок подачи заявок:</strong> {{ date('d-m-Y', strtotime($conference->deadline)) }}</p>
+        <p class="section"><strong>Крайний срок подачи заявок:</strong> {{ date('d-m-Y', strtotime($conference->deadline_applications)) }}</p>
         <p class="section"><strong>Описание:</strong> {!! nl2br($conference->description) !!}</p>
 
         <div class="conference__sections">
@@ -43,12 +44,19 @@
                 </div>
                 <div class="form-group">
                     <label for="section_id">Cекция:</label>
-                    <select id="section_id" class="authInput" name="section_id">
-                        <option value=""  disabled selected hidden>Секция</option>
-                        @foreach($sections as $section)
-                            <option name="section_id"  value="{{ $section->id }}">{{ $section->name }}</option>
-                        @endforeach
+                    <select id="section_id" class="authInput" name="section_id" required>
+                        <option value="" disabled selected>Выберите секцию</option>
+                        @if($sections->count() > 0)
+                            @foreach($sections as $section)
+                                <option value="{{ $section->id }}">{{ $section->name }}</option>
+                            @endforeach
+                        @else
+                            <option value="" disabled>Нет доступных секций</option>
+                        @endif
                     </select>
+                    @if($sections->count() == 0)
+                        <p style="color: red;">Внимание: Нет доступных секций для этой конференции</p>
+                    @endif
                 </div>
                 <button class="button" type="submit">Отправить</button>
             </form>

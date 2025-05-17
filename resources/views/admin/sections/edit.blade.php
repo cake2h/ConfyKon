@@ -17,14 +17,24 @@
         </div>
 
         <div class="form-group">
-            <label for="event_date">Дата начала:</label>
-            <input type="date" name="event_date" value="{{ $section->event_date }}" required>
+            <label for="description">Описание:</label>
+            <textarea name="description" rows="4">{{ $section->description }}</textarea>
         </div>
 
         <div class="form-group">
+            <label for="date_start">Дата начала:</label>
+            <input type="date" name="date_start" value="{{ $section->date_start ? \Carbon\Carbon::parse($section->date_start)->format('Y-m-d') : '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="date_end">Дата завершения:</label>
+            <input type="date" name="date_end" value="{{ $section->date_end ? \Carbon\Carbon::parse($section->date_end)->format('Y-m-d') : '' }}" required>
+        </div>
+
+        <!-- <div class="form-group">
             <label for="event_place">Место проведения:</label>
             <input type="text" name="event_place" value="{{ $section->event_place }}" required>
-        </div>
+        </div> -->
 
         <div class="form-group">
             <label for="mosderator_email">Email модератора:</label>

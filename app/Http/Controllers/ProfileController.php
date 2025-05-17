@@ -7,7 +7,7 @@ use App\Models\Section;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\User;
-use App\Models\Conf;
+use App\Models\Conference;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -15,11 +15,22 @@ class ProfileController extends Controller
 {
     public function dashboard(Request $request): View
     {
-        $user = User::find(auth()->id());
+        $user = User::with([
+            'applications' => function($query) {
+                $query->where('application_status_id', '!=', 2);
+            },
+            'applications.section.conference',
+            'applications.role',
+            'applications.report.reportStatus',
+            'applications.report.reportComments',
+            'city',
+            'education_level',
+            'study_place'
+        ])->find(auth()->id());
 
-        $conferences = Conf::with('conferenceDates')->get();
+        $conferences = Conference::all();
         $currentDate = now();
-        $conferenceDates = Conf::select('date_end', 'deadline')->first();
+        $conferenceDates = Conference::select('date_end', 'deadline_applications')->first();
 
         return view('dashboard', compact('user', 'conferences', 'currentDate', 'conferenceDates'));
     }

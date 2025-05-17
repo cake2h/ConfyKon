@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('emails_for_sends', function (Blueprint $table) {
-            $table->id();
-            $table->string('email')->unique();
-            $table->timestamps();
+        Schema::table('sections', function (Blueprint $table) {
+            $table->string('name', 255)->change();
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('emails_for_sends');
+        Schema::table('sections', function (Blueprint $table) {
+            $table->string('name', 20)->change();
+        });
     }
 };

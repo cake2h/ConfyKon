@@ -105,3 +105,403 @@ textarea {
 
 
 
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px;
+}
+
+.page-title {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.conference-form {
+    background: #fff;
+    padding: 50px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    position: relative;
+    padding-bottom: 120px;
+}
+
+.columns {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 50px;
+}
+
+.form-group {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: #333;
+    font-size: 18px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 150px;
+    width: 100%;
+}
+
+.checkbox-group {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+}
+
+.checkbox-group label {
+    margin: 0;
+    font-size: 16px;
+}
+
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: border-color 0.3s;
+    min-width: 250px;
+}
+
+.button-container {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    padding: 0 50px;
+    box-sizing: border-box;
+}
+
+.button {
+    padding: 16px 32px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 500;
+    transition: all 0.3s;
+    min-width: 250px;
+    text-align: center;
+}
+
+.button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button[type="submit"]:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
+}
+
+.cancel-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.cancel-button:hover {
+    background-color: #da190b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.2);
+}
+
+/* Стили для Select2 */
+.select2-container {
+    width: 100% !important;
+}
+
+.select2-container .select2-selection--single,
+.select2-container .select2-selection--multiple {
+    height: 55px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 55px;
+    padding-left: 15px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 53px;
+    width: 40px;
+}
+
+.select2-container--default .select2-selection--multiple {
+    height: auto !important;
+    min-height: 55px;
+    padding: 5px;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 0;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: white;
+    margin-left: 10px;
+    order: 2;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: #f44336;
+}
+
+.select2-dropdown {
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 18px;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #4CAF50;
+}
+
+/* Стили для работы с файлами */
+.file-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    flex-wrap: wrap;
+}
+
+.file-input-group input[type="text"] {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.file-input-group input[type="file"] {
+    flex: 2;
+    min-width: 250px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    font-size: 14px;
+}
+
+.file-input-group input[type="file"]::-webkit-file-upload-button {
+    background: #4CAF50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.file-input-group .button {
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.file-input-group .button:hover {
+    background-color: #45a049;
+}
+
+.file-input-group .remove-file {
+    padding: 8px 15px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.file-input-group .remove-file:hover {
+    background-color: #da190b;
+}
+
+#add-file {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#add-file:hover {
+    background-color: #0b7dda;
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+    .container {
+        padding: 20px;
+    }
+
+    .conference-form {
+        padding: 30px;
+        padding-bottom: 120px;
+    }
+
+    .columns {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .form-group {
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .button-container {
+        padding: 0 30px;
+    }
+
+    .button {
+        min-width: 200px;
+    }
+
+    .file-input-group {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+    }
+
+    .file-input-group input[type="text"],
+    .file-input-group input[type="file"] {
+        max-width: none;
+        width: 100%;
+    }
+
+    .remove-file {
+        max-width: none;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .conference-form {
+        padding: 20px;
+        padding-bottom: 120px;
+    }
+
+    .page-title {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+    .form-group label {
+        font-size: 16px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .form-group input[type="date"] {
+        min-width: 200px;
+    }
+
+    .button-container {
+        padding: 0 20px;
+        bottom: 20px;
+    }
+
+    .button {
+        width: 100%;
+        max-width: 300px;
+        padding: 14px 28px;
+        font-size: 16px;
+    }
+
+    .file-input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .file-input-group input[type="text"],
+    .file-input-group input[type="file"] {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .file-input-group .button,
+    .file-input-group .remove-file {
+        width: 100%;
+    }
+}
