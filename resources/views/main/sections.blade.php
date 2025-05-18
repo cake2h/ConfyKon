@@ -314,7 +314,7 @@
     <div class="modal" id="uploadConditionsModal">
         <div class="modal__container">
             <span class="close" onclick="closeUploadConditions()">&times;</span>
-            <h2>Условия загрузки статьи</h2>
+            <h2>Дополительные материалы</h2>
             <div class="upload-conditions">
                 @if($conference->files->count() > 0)
                     <div class="files-list">
