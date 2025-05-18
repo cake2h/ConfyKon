@@ -124,7 +124,7 @@
                     <div class="button-container">
                         <button type="submit" class="button">Сохранить изменения</button>
                         <a href="{{ route('admin.konfs.edit.faq', $konf->id) }}" class="button">Редактировать FAQ</a>
-                        <button type="button" class="button cancel-button" onclick="history.back()">Отмена</button>
+                        <a href="{{ route('admin.index') }}" class="button cancel-button">Назад</a>
                     </div>
                 </div>
             </div>
