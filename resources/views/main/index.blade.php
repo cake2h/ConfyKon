@@ -19,6 +19,7 @@
     <div class="container">
         <div class="sidebar">
             <h3>Поиск конференций</h3>
+            
             <form method="GET" action="{{ route('conference.search') }}" id="searchForm">
                 <input type="text" name="query" placeholder="Введите название" value="{{ request('query') }}">
                 <button type="submit">Искать</button>

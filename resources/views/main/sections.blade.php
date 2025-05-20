@@ -216,6 +216,10 @@
                                 @php
                                     $canRegister = true;
                                     $ageMessage = '';
+                                    $isRegistered = auth()->user()->applications()
+                                        ->where('section_id', $section->id)
+                                        ->where('application_status_id', '!=', 2)
+                                        ->exists();
                                     
                                     if (!is_null($conference->min_age) && $age < $conference->min_age) {
                                         $canRegister = false;
@@ -229,7 +233,11 @@
                                 @endphp
 
                                 @if($canRegister)
-                                    <button class="button" onclick="openModal({{ $section->id }})">Зарегистрироваться</button>
+                                    @if($isRegistered)
+                                        <button class="button" disabled>Вы уже зарегистрированы</button>
+                                    @else
+                                        <button class="button" onclick="openModal({{ $section->id }})">Зарегистрироваться</button>
+                                    @endif
                                 @else
                                     <p class="error-message">{{ $ageMessage }}</p>
                                 @endif
@@ -314,7 +322,7 @@
     <div class="modal" id="uploadConditionsModal">
         <div class="modal__container">
             <span class="close" onclick="closeUploadConditions()">&times;</span>
-            <h2>Условия загрузки статьи</h2>
+            <h2>Дополительные материалы</h2>
             <div class="upload-conditions">
                 @if($conference->files->count() > 0)
                     <div class="files-list">
