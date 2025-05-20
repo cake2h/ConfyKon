@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Application;
 use App\Models\Conference;
 use App\Models\City;
 use App\Models\Format;
@@ -456,62 +457,60 @@ class KonfController extends Controller
 
     public function downloadPDF(Conference $konf)
     {
+        $applications = Application::with(['user', 'report', 'section'])
+            ->whereHas('section', fn($q) => $q->where('conference_id', $konf->id))
+            ->get();
+
+        $totalParticipants = $applications->count();
+
         $sections = Section::where('conference_id', $konf->id)
-            ->withCount(['applications as participants_count'])
-            ->get();
+            ->with(['applications.user', 'applications.report'])
+            ->get()
+            ->map(function ($section) use ($konf) {
+                $participants = $section->applications;
+                $nonResidentCount = $participants->filter(fn($app) =>
+                    $app->user && $app->user->city_id != $konf->city_id
+                )->count();
 
-        $totalParticipants = $sections->sum('participants_count');
+                return [
+                    'name' => $section->name,
+                    'participants_count' => $participants->count(),
+                    'non_resident_count' => $nonResidentCount,
+                    'reports_count' => $participants->filter(fn($a) => $a->report !== null)->count(),
+                ];
+            });
 
-        $sections = $sections->map(function ($section) use ($totalParticipants) {
-            $percentage = $totalParticipants > 0
-                ? round(($section->participants_count / $totalParticipants) * 100, 2)
-                : 0;
+        $educationStats = $applications->groupBy(fn($app) => optional($app->user->education_level)->name)
+            ->map(function ($group) use ($totalParticipants) {
+                $count = $group->count();
+                return [
+                    'name' => $group->first()->user->education_level->name ?? 'Неизвестно',
+                    'count' => $count,
+                    'percentage' => $totalParticipants > 0 ? round(($count / $totalParticipants) * 100, 2) : 0,
+                ];
+            })->values();
 
-            return [
-                'name' => $section->name,
-                'participants_count' => $section->participants_count,
-                'percentage' => $percentage,
-            ];
-        });
+        $studyPlaceStats = $applications->groupBy(fn($app) => optional($app->user->study_place)->name)
+            ->map(function ($group) use ($totalParticipants) {
+                $count = $group->count();
+                return [
+                    'name' => $group->first()->user->study_place->name ?? 'Неизвестно',
+                    'count' => $count,
+                    'percentage' => $totalParticipants > 0 ? round(($count / $totalParticipants) * 100, 2) : 0,
+                ];
+            })->values();
 
-        $educationStats = DB::table('applications')
-            ->join('users', 'applications.user_id', '=', 'users.id')
-            ->join('sections', 'applications.section_id', '=', 'sections.id')
-            ->join('education_levels', 'users.education_level_id', '=', 'education_levels.id')
-            ->where('sections.conference_id', $konf->id)
-            ->select('education_levels.name', DB::raw('COUNT(*) as count'))
-            ->groupBy('education_levels.name')
-            ->get();
-
-        $total = $educationStats->sum('count');
-
-        $educationStats = $educationStats->map(function ($item) use ($total) {
-            $item->percentage = $total > 0 ? round(($item->count / $total) * 100, 2) : 0;
-            return $item;
-        });
-
-         $studyPlaceStats = DB::table('applications')
-            ->join('users', 'applications.user_id', '=', 'users.id')
-            ->join('sections', 'applications.section_id', '=', 'sections.id')
-            ->join('study_places', 'users.study_place_id', '=', 'study_places.id')
-            ->where('sections.conference_id', $konf->id)
-            ->select('study_places.name', DB::raw('COUNT(*) as count'))
-            ->groupBy('study_places.name')
-            ->get();
-
-        $total = $studyPlaceStats->sum('count');
-
-        $studyPlaceStats = $studyPlaceStats->map(function ($item) use ($total) {
-            $item->percentage = $total > 0 ? round(($item->count / $total) * 100, 2) : 0;
-            return $item;
-        });
-
-        $pdf = Pdf::loadView('pdf.report', [
-            'educationStats' => $educationStats,
+        $data = [
+            'conference' => $konf,
+            'totalParticipants' => $totalParticipants,
             'sections' => $sections,
-            'studyPlaceStats' => $studyPlaceStats
-        ]);
+            'educationStats' => $educationStats,
+            'studyPlaceStats' => $studyPlaceStats,
+        ];
 
-        return $pdf->download('test.pdf');
+        dd($data);
+
+        $pdf = Pdf::loadView('pdf.report', $data);
+        return $pdf->download('report.pdf');
     }
 } 
