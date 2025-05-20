@@ -82,7 +82,6 @@
             margin: 15px 0;
             padding: 8px;
             background-color: #f8f9fa;
-            border: 1px solid #000;
         }
         .info-section {
             margin-top: 20px;
@@ -129,50 +128,48 @@
         </table>
     </div>
 
-    <div class="stats-container">
-        <div class="stats-box">
-            <h3>Статистика по уровню образования</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 60%">Уровень образования</th>
-                        <th style="width: 20%">Количество</th>
-                        <th style="width: 20%">Процент</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($educationStats as $stat)
-                    <tr>
-                        <td>{{ $stat['name'] }}</td>
-                        <td>{{ $stat['count'] }}</td>
-                        <td>{{ $stat['percentage'] }}%</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+    <div class="section">
+        <h2>Статистика по уровню образования</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 60%">Уровень образования</th>
+                    <th style="width: 20%">Количество</th>
+                    <th style="width: 20%">Процент</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($educationStats as $stat)
+                <tr>
+                    <td>{{ $stat['name'] }}</td>
+                    <td>{{ $stat['count'] }}</td>
+                    <td>{{ $stat['percentage'] }}%</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
-        <div class="stats-box">
-            <h3>Статистика по местам обучения</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th style="width: 60%">Место обучения</th>
-                        <th style="width: 20%">Количество</th>
-                        <th style="width: 20%">Процент</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($studyPlaceStats as $stat)
-                    <tr>
-                        <td>{{ $stat['name'] }}</td>
-                        <td>{{ $stat['count'] }}</td>
-                        <td>{{ $stat['percentage'] }}%</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+    <div class="section">
+        <h2>Статистика по местам обучения</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 60%">Место обучения</th>
+                    <th style="width: 20%">Количество</th>
+                    <th style="width: 20%">Процент</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($studyPlaceStats as $stat)
+                <tr>
+                    <td>{{ $stat['name'] }}</td>
+                    <td>{{ $stat['count'] }}</td>
+                    <td>{{ $stat['percentage'] }}%</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 
     <div class="info-section">
