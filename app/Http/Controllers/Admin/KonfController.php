@@ -508,8 +508,6 @@ class KonfController extends Controller
             'studyPlaceStats' => $studyPlaceStats,
         ];
 
-        dd($data);
-
         $pdf = Pdf::loadView('pdf.report', $data);
         return $pdf->download('report.pdf');
     }

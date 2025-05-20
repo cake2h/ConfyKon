@@ -2,118 +2,183 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Отчёт по конференции</title>
+    <title>Отчет по конференции</title>
     <style>
+        @page {
+            margin: 2cm;
+        }
         body {
             font-family: DejaVu Sans, sans-serif;
-            font-size: 14px;
-            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            font-size: 12px;
+            line-height: 1.4;
         }
-        h1, h2 {
-            color: #2c3e50;
-            border-bottom: 1px solid #ccc;
-            padding-bottom: 5px;
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            page-break-after: avoid;
+        }
+        .header h1 {
+            color: #333;
+            font-size: 18px;
+            margin: 0 0 10px 0;
+            padding: 0;
+        }
+        .header p {
+            color: #666;
+            font-size: 12px;
+            margin: 3px 0;
+            padding: 0;
+        }
+        .section {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        .section h2 {
+            color: #333;
+            font-size: 14px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 3px;
+            margin: 0 0 10px 0;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
+            page-break-inside: avoid;
         }
         th, td {
-            border: 1px solid #999;
-            padding: 6px;
+            border: 1px solid #000;
+            padding: 4px 6px;
             text-align: left;
+            font-size: 11px;
+            vertical-align: top;
         }
-        .progress {
-            background-color: #f1f1f1;
-            border-radius: 4px;
-            overflow: hidden;
-            height: 14px;
+        th {
+            background-color: #f5f5f5;
+            font-weight: bold;
         }
-        .progress-bar {
-            height: 14px;
-            background-color: #3498db;
+        .stats-container {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        .stats-box {
+            width: 100%;
+            border: 1px solid #000;
+            padding: 8px;
+            margin-bottom: 15px;
+        }
+        .stats-box h3 {
+            margin: 0 0 8px 0;
+            padding: 0;
+            color: #333;
+            font-size: 13px;
+        }
+        .total-participants {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+            padding: 8px;
+            background-color: #f8f9fa;
+            border: 1px solid #000;
+        }
+        .info-section {
+            margin-top: 20px;
+            page-break-inside: avoid;
+        }
+        .info-section p {
+            margin: 5px 0;
+            padding: 0;
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>Отчет по конференции "{{ $conference->name }}"</h1>
+        <p>Дата проведения: {{ \Carbon\Carbon::parse($conference->date_start)->format('d.m.Y') }} - {{ \Carbon\Carbon::parse($conference->date_end)->format('d.m.Y') }}</p>
+        <p>Место проведения: {{ $conference->city->name }}, {{ $conference->address }}</p>
+    </div>
 
-    <h1>Отчёт по конференции</h1>
+    <div class="total-participants">
+        Общее количество участников: {{ $totalParticipants }}
+    </div>
 
-    <h2>Секции и количество участников</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Секция</th>
-                <th>Количество участников</th>
-                <th>Процент</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($sections as $section)
+    <div class="section">
+        <h2>Статистика по секциям</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th style="width: 40%">Название секции</th>
+                    <th style="width: 20%">Количество участников</th>
+                    <th style="width: 20%">Количество иногородних</th>
+                    <th style="width: 20%">Количество докладов</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($sections as $section)
                 <tr>
                     <td>{{ $section['name'] }}</td>
                     <td>{{ $section['participants_count'] }}</td>
-                    <td>
-                        {{ $section['percentage'] }}%
-                        <div class="progress">
-                            <div class="progress-bar" style="width: {{ $section['percentage'] }}%;"></div>
-                        </div>
-                    </td>
+                    <td>{{ $section['non_resident_count'] }}</td>
+                    <td>{{ $section['reports_count'] }}</td>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
-    <h2>Уровни образования</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Уровень образования</th>
-                <th>Количество</th>
-                <th>Процент</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($educationStats as $stat)
-                <tr>
-                    <td>{{ $stat->name }}</td>
-                    <td>{{ $stat->count }}</td>
-                    <td> 
-                        <p>{{ $stat->percentage }}%</p>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: {{ $stat->percentage }}%;"></div>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+    <div class="stats-container">
+        <div class="stats-box">
+            <h3>Статистика по уровню образования</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 60%">Уровень образования</th>
+                        <th style="width: 20%">Количество</th>
+                        <th style="width: 20%">Процент</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($educationStats as $stat)
+                    <tr>
+                        <td>{{ $stat['name'] }}</td>
+                        <td>{{ $stat['count'] }}</td>
+                        <td>{{ $stat['percentage'] }}%</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-    <h2>Учебные заведения</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Учебное заведение</th>
-                <th>Количество</th>
-                <th>Процент</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($studyPlaceStats as $stat)
-                <tr>
-                    <td>{{ $stat->name }}</td>
-                    <td>{{ $stat->count }}</td>
-                    <td>
-                        <p>{{ $stat->percentage }}%</p>
-                        <div class="progress">
-                            <div class="progress-bar" style="width: {{ $stat->percentage }}%;"></div>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+        <div class="stats-box">
+            <h3>Статистика по местам обучения</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 60%">Место обучения</th>
+                        <th style="width: 20%">Количество</th>
+                        <th style="width: 20%">Процент</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($studyPlaceStats as $stat)
+                    <tr>
+                        <td>{{ $stat['name'] }}</td>
+                        <td>{{ $stat['count'] }}</td>
+                        <td>{{ $stat['percentage'] }}%</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
+    <div class="info-section">
+        <h2>Дополнительная информация</h2>
+        <p>Формат проведения: {{ $conference->format->name }}</p>
+        <p>Организатор: {{ $conference->organizer->surname }} {{ $conference->organizer->name }} {{ $conference->organizer->patronymic }}</p>
+    </div>
 </body>
 </html>
