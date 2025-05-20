@@ -7,14 +7,17 @@ use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use App\Models\EmailsForSend;
 use Illuminate\Support\Facades\File;
+use App\Jobs\SendEmailWithAttachments;
+use Illuminate\Support\Facades\Storage;
+use App\Models\Conference;
+use App\Models\Application;
 
 class EmailController extends Controller
 {
     public function emailsPage()
     {
-        $users = User::all();
-
-        return view('emails.email_page', compact('users'));
+        $conferences = Conference::where('user_id', auth()->id())->get();
+        return view('emails.email_page', compact('conferences'));
     }
 
     public function saveMail(Request $request)
@@ -26,42 +29,124 @@ class EmailController extends Controller
         return redirect()->back()->with('message', 'Письмо успешно сохранено.');
     }
 
-    public function sendEmails(Request $request)
+    public function uploadAttachment(Request $request)
     {
-        ini_set('max_execution_time', 3600);
+        $request->validate([
+            'file' => 'required|file|max:10240', // 10MB max
+        ]);
 
-        $emailList = request('emails');
-        $emails = explode("\n", $emailList);
+        $file = $request->file('file');
+        $path = $file->store('temp/email-attachments');
 
-        foreach ($emails as $email) {
-            Mail::send(['text' => 'emails/mail'], ['name' => ''], function($message) use ($email) {
-                $message->to($email)
-                    ->subject('Приглашение на Всероссийскую конференцию молодых ученых "МАТЕМАТИЧЕСКОЕ И ИНФОРМАЦИОННОЕ МОДЕЛИРОВАНИЕ" (МИМ-2024)')
-                    ->from('stud0000264064@utmn.ru', 'Организатор конференции МИМ-2024');
-            });
+        return response()->json([
+            'success' => true,
+            'attachment' => [
+                'id' => uniqid(),
+                'original_name' => $file->getClientOriginalName(),
+                'file_path' => $path,
+                'mime_type' => $file->getMimeType(),
+                'size' => $file->getSize(),
+            ]
+        ]);
+    }
 
-            set_time_limit(0);
+    public function removeAttachment(Request $request)
+    {
+        $path = $request->input('path');
+        if ($path && Storage::exists($path)) {
+            Storage::delete($path);
         }
 
-        return redirect()->back()->with('success', 'Приглашения успешно разосланы');
+        return response()->json(['success' => true]);
+    }
+
+    public function sendEmails(Request $request)
+    {
+        $emailList = request('emails');
+        $emails = explode("\n", $emailList);
+        $attachments = $request->input('attachments', []);
+
+        foreach ($emails as $email) {
+            SendEmailWithAttachments::dispatch(
+                trim($email),
+                'Приглашение на Всероссийскую конференцию молодых ученых "МАТЕМАТИЧЕСКОЕ И ИНФОРМАЦИОННОЕ МОДЕЛИРОВАНИЕ" (МИМ-2024)',
+                file_get_contents(resource_path('views/emails/mail.blade.php')),
+                $attachments
+            );
+        }
+
+        // Очищаем временные файлы после отправки
+        foreach ($attachments as $attachment) {
+            if (Storage::exists($attachment['file_path'])) {
+                Storage::delete($attachment['file_path']);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Приглашения поставлены в очередь на отправку');
     }
 
     public function getEmails(Request $request)
     {
-        switch ($request->input('type')) {
-            case 'conference':
-                $users = User::whereHas('applications')->get();
-                break;
-            case 'moderators':
-                $users = User::where('role', 'moderator')->get();
-                break;
-            default:
-                $users = User::all();
-        }
+        try {
+            $type = $request->input('type');
+            $conferenceId = $request->input('conference_id');
 
-        return response()->json($users->map(function($user) {
-            return "{$user->email}";
-        }));
+            if (!$type) {
+                return response()->json(['error' => 'Type parameter is required'], 400);
+            }
+
+            if (!$conferenceId && $type !== 'custom') {
+                return response()->json(['error' => 'Conference ID is required'], 400);
+            }
+
+            switch ($type) {
+                case 'conference':
+                    if ($conferenceId) {
+                        try {
+                            $users = User::whereHas('applications', function($query) use ($conferenceId) {
+                                $query->whereHas('section', function($q) use ($conferenceId) {
+                                    $q->where('conference_id', $conferenceId);
+                                })
+                                ->where('application_status_id', 1);
+                            })->get();
+                        } catch (\Exception $e) {
+                            throw $e;
+                        }
+                    } else {
+                        $users = collect();
+                    }
+                    break;
+                case 'moderators':
+                    if ($conferenceId) {
+                        try {
+                            $users = User::whereHas('sections', function($query) use ($conferenceId) {
+                                $query->where('conference_id', $conferenceId);
+                            })->get();
+                        } catch (\Exception $e) {
+                            throw $e;
+                        }
+                    } else {
+                        $users = collect();
+                    }
+                    break;
+                case 'custom':
+                    $users = collect();
+                    break;
+                default:
+                    return response()->json(['error' => 'Invalid type specified'], 400);
+            }
+
+            $userData = $users->map(function($user) {
+                return [
+                    'name' => trim($user->surname . ' ' . $user->name . ' ' . $user->patronymic),
+                    'email' => $user->email
+                ];
+            });
+
+            return response()->json($userData);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Internal server error'], 500);
+        }
     }
 }
 

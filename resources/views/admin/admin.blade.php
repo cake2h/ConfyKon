@@ -25,6 +25,7 @@
                     <div class="actions">
                         <a class="link" href="{{ route('admin.sections.add', ['conference' => $conference->id]) }}">Добавить секцию</a>
                         <a class="link" href="{{ route('admin.konfs.edit', ['konf' => $conference->id]) }}">Редактировать конференцию</a>
+                        <a class="link" href="{{ route('conference.program', ['conferenceId' => $conference->id]) }}">Скачать программу (Excel)</a>
                         <form method="POST" action="{{ route('admin.konfs.destroy', ['konf' => $conference->id]) }}" class="delete-form">
                             @csrf
                             @method('DELETE')

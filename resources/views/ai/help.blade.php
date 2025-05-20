@@ -85,32 +85,72 @@
         cursor: not-allowed;
     }
 
-    .result-section {
+    .result-section, .bibliography-section {
         margin-top: 20px;
         display: none;
     }
 
-    .result-title {
+    .result-title, .bibliography-title {
         font-size: 18px;
         font-weight: 600;
         margin-bottom: 10px;
         color: #333;
     }
 
-    .result-text {
+    .result-text, .bibliography-text {
         background: #f5f5f5;
         border-radius: 6px;
         padding: 15px;
-        white-space: pre-wrap;
+        /* white-space: pre-wrap;  ПОКА ЗАКОММЕНТИРУЕМ, чтобы <p> и <br> работали как обычно */
         font-size: 14px;
-        line-height: 1.6;
+        line-height: 1.5; /* Стандартный line-height, можно попробовать уменьшить до 1.3 или 1.4, если строки слишком "разреженные" */
         color: #333;
+        min-height: 100px;
+        border: 1px solid #e0e0e0;
+        text-align: left; /* Явно зададим выравнивание по левому краю */
+    }
+
+    /* Стили для HTML, сгенерированного из Markdown */
+    .result-text strong, .bibliography-text strong, 
+    .result-text b, .bibliography-text b {
+        font-weight: bold;
+    }
+
+    /* Уменьшаем или убираем отступы у ВСЕХ блочных элементов внутри блоков с результатами */
+    .result-text > *, 
+    .bibliography-text > * {
+        margin-top: 0.2em !important;
+        margin-bottom: 0.2em !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    /* Более конкретно для параграфов, если предыдущее не сработает как надо */
+    .result-text p, 
+    .bibliography-text p {
+        margin-top: 0.2em !important;
+        margin-bottom: 0.2em !important;
+        line-height: 1.4; /* Можно еще немного сжать высоту строки параграфа */
+    }
+    /* Отдельно для списков, если они используются */
+    .result-text ul, .bibliography-text ul,
+    .result-text ol, .bibliography-text ol {
+        margin-top: 0.5em !important;
+        margin-bottom: 0.5em !important;
+        padding-left: 20px !important; /* Стандартный отступ для списков */
+    }
+    .result-text li, .bibliography-text li {
+        margin-bottom: 0.1em !important;
     }
 
     .error-message {
         color: #dc3545;
         margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #f5c6cb;
+        border-radius: 4px;
+        background-color: #f8d7da;
         display: none;
+        white-space: pre-wrap;
     }
 
     .loading {
@@ -163,7 +203,7 @@
 
         <div class="loading" id="loading">
             <div class="loading-spinner"></div>
-            <p>Анализируем документ...</p>
+            <p>Анализируем документ... Это может занять несколько минут.</p>
         </div>
 
         <div class="error-message" id="errorMessage"></div>
@@ -172,9 +212,15 @@
             <h2 class="result-title">Аннотация к докладу:</h2>
             <div class="result-text" id="resultText"></div>
         </div>
+
+        <div class="bibliography-section" id="bibliographySection">
+            <h2 class="bibliography-title">Анализ ссылок и списка литературы (ГОСТ Р 7.0.5–2008):</h2>
+            <div class="bibliography-text" id="bibliographyText"></div>
+        </div>
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('documentForm');
@@ -183,8 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const analyzeBtn = document.getElementById('analyzeBtn');
     const loading = document.getElementById('loading');
     const errorMessage = document.getElementById('errorMessage');
+    
     const resultSection = document.getElementById('resultSection');
     const resultText = document.getElementById('resultText');
+
+    const bibliographySection = document.getElementById('bibliographySection');
+    const bibliographyText = document.getElementById('bibliographyText');
 
     fileInput.addEventListener('change', function() {
         const file = this.files[0];
@@ -192,6 +242,10 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedFile.textContent = `Выбран файл: ${file.name}`;
             selectedFile.style.display = 'block';
             analyzeBtn.disabled = false;
+            resultSection.style.display = 'none';
+            bibliographySection.style.display = 'none';
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
         } else {
             selectedFile.style.display = 'none';
             analyzeBtn.disabled = true;
@@ -203,9 +257,10 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const formData = new FormData(form);
         
-        // Reset UI
         errorMessage.style.display = 'none';
+        errorMessage.textContent = '';
         resultSection.style.display = 'none';
+        bibliographySection.style.display = 'none';
         loading.style.display = 'block';
         analyzeBtn.disabled = true;
 
@@ -214,27 +269,53 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 body: formData,
                 headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
                 }
             });
 
             const data = await response.json();
 
-            if (data.success) {
-                resultText.textContent = data.annotation;
-                resultSection.style.display = 'block';
-            } else {
-                let errorMsg = data.message;
-                if (data.error_details) {
-                    errorMsg += '\nСтатус: ' + data.error_details.status;
-                    if (data.error_details.response) {
-                        errorMsg += '\nОтвет сервера: ' + JSON.stringify(data.error_details.response, null, 2);
-                    }
+            if (response.ok && data.success) {
+                const markedOptions = { breaks: true, gfm: true };
+
+                if (data.annotation) {
+                    resultText.innerHTML = marked.parse(data.annotation, markedOptions);
+                    resultSection.style.display = 'block';
+                } else {
+                    resultText.textContent = 'Аннотация не была получена.';
+                    resultSection.style.display = 'block';
                 }
-                throw new Error(errorMsg);
+
+                if (data.bibliography) {
+                    bibliographyText.innerHTML = marked.parse(data.bibliography, markedOptions);
+                    bibliographySection.style.display = 'block';
+                } else {
+                    bibliographyText.textContent = 'Информация по библиографии не была получена.';
+                    bibliographySection.style.display = 'block';
+                }
+
+            } else {
+                let errorMsg = data.message || `Ошибка сервера: ${response.status}`;
+                let displayedError = false;
+                if (data.annotation && data.annotation.startsWith('Ошибка')) {
+                    errorMessage.textContent += data.annotation + '\n';
+                    displayedError = true;
+                }
+                if (data.bibliography && data.bibliography.startsWith('Ошибка')) {
+                    errorMessage.textContent += data.bibliography + '\n';
+                    displayedError = true;
+                }
+                if (!displayedError && errorMsg) {
+                    errorMessage.textContent = errorMsg;
+                }
+                if (errorMessage.textContent) {
+                    errorMessage.style.display = 'block';
+                }
             }
         } catch (error) {
-            errorMessage.textContent = error.message;
+            console.error('Fetch error:', error);
+            errorMessage.textContent = 'Произошла ошибка при отправке запроса: ' + error.message;
             errorMessage.style.display = 'block';
         } finally {
             loading.style.display = 'none';

@@ -9,6 +9,7 @@ use App\Http\Controllers\PythonController;
 use App\Http\Controllers\SectionController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\AiHelpController;
+use App\Http\Controllers\ConferenceProgramController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Process\Process;
 
@@ -40,11 +41,14 @@ Route::prefix('moder')->middleware('moder')->group(function () {
 
 Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/main', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('/conference/{conferenceId}/program', [ConferenceProgramController::class, 'index'])->name('conference.program');
 
     Route::get('/emails', [EmailController::class, 'emailsPage'])->name('page.emails');
     Route::post('/save-mail', [EmailController::class, 'saveMail'])->name('save.mail');
     Route::post('/send-emails', [EmailController::class, 'sendEmails'])->name('send.emails');
     Route::post('/get-emails', [EmailController::class, 'getEmails'])->name('get.emails');
+    Route::post('/upload-attachment', [EmailController::class, 'uploadAttachment'])->name('upload.attachment');
+    Route::delete('/remove-attachment', [EmailController::class, 'removeAttachment'])->name('remove.attachment');
 
     Route::get('/stats', [ProfileController::class, 'exportUsers'])->name('stats');
 

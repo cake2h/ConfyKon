@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use App\Models\Conference;
+use App\Models\Section;
 
 class User extends Authenticatable
 {
@@ -70,6 +71,11 @@ class User extends Authenticatable
     public function applications(): HasMany
     {
         return $this->hasMany(Application::class, 'user_id');
+    }
+
+    public function sections(): HasMany
+    {
+        return $this->hasMany(Section::class, 'user_id');
     }
 
     public function hasConferences()

@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             PresentationTypesTableSeeder::class,
             ApplicationStatusesTableSeeder::class,
             ReportStatusesTableSeeder::class,
+            TestDataSeeder::class,
         ]);
         $this->call(QuestionThemeSeeder::class);
     }
