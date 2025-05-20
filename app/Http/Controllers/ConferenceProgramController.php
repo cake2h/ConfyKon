@@ -26,19 +26,16 @@ class ConferenceProgramController extends Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         
-        // Устанавливаем заголовки
         $sheet->setCellValue('A1', 'Программа конференции');
         $sheet->mergeCells('A1:D1');
         $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
         $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-        // Заголовки колонок
         $sheet->setCellValue('A3', 'Секция');
         $sheet->setCellValue('B3', 'Модератор');
         $sheet->setCellValue('C3', 'Время проведения');
         $sheet->setCellValue('D3', 'Участники и темы докладов');
         
-        // Стили для заголовков
         $headerStyle = [
             'font' => ['bold' => true],
             'alignment' => ['horizontal' => Alignment::HORIZONTAL_CENTER],
@@ -54,7 +51,6 @@ class ConferenceProgramController extends Controller
 
         $row = 4;
         foreach ($sections as $section) {
-            // Стили для секции, модератора и времени (жирный шрифт и центрирование)
             $boldCenterStyle = [
                 'font' => ['bold' => true],
                 'alignment' => [
@@ -68,38 +64,33 @@ class ConferenceProgramController extends Controller
             $sheet->setCellValue('C' . $row, \Carbon\Carbon::parse($section->date_start)->format('d.m.Y H:i') . ' - ' . 
                 \Carbon\Carbon::parse($section->date_end)->format('H:i'));
             
-            // Применяем стили к ячейкам A, B и C
             $sheet->getStyle('A' . $row)->applyFromArray($boldCenterStyle);
             $sheet->getStyle('B' . $row)->applyFromArray($boldCenterStyle);
             $sheet->getStyle('C' . $row)->applyFromArray($boldCenterStyle);
 
             $participants = [];
             foreach ($section->applications as $application) {
-                // Получаем тип выступления
-                $participationType = $application->participationType->name ?? '';
+                if ($application->report_id != null) {
+                    $presentationType = $application->presentationType->name ?? '';
+                    
+                    $fullName = $application->user->surname . ' ' . $application->user->name . ' ' . 
+                        $application->user->patronymic;
+                    
+                    $richText = new \PhpOffice\PhpSpreadsheet\RichText\RichText();
+                    
+                    $nameRun = $richText->createTextRun($fullName);
+                    $nameRun->getFont()->setItalic(true);
+                    
+                    $richText->createTextRun(' - ' . $application->report->report_theme . ' (' . $presentationType . ')');
+                    
+                    $participants[] = $richText;
+                }
                 
-                // Формируем текст с курсивом для ФИО
-                $fullName = $application->user->surname . ' ' . $application->user->name . ' ' . 
-                    $application->user->patronymic;
-                
-                // Создаем RichText объект для каждой строки
-                $richText = new \PhpOffice\PhpSpreadsheet\RichText\RichText();
-                
-                // Добавляем ФИО курсивом
-                $nameRun = $richText->createTextRun($fullName);
-                $nameRun->getFont()->setItalic(true);
-                
-                // Добавляем остальной текст обычным шрифтом
-                $richText->createTextRun(' - ' . $application->report->report_theme . ' (' . $participationType . ')');
-                
-                $participants[] = $richText;
             }
             
-            // Устанавливаем первую строку
             if (!empty($participants)) {
                 $sheet->getCell('D' . $row)->setValue($participants[0]);
                 
-                // Добавляем остальные строки
                 for ($i = 1; $i < count($participants); $i++) {
                     $currentValue = $sheet->getCell('D' . $row)->getValue();
                     $newValue = new \PhpOffice\PhpSpreadsheet\RichText\RichText();
@@ -109,19 +100,16 @@ class ConferenceProgramController extends Controller
                 }
             }
             
-            // Стили для ячеек
             $sheet->getStyle('A' . $row . ':D' . $row)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
             $sheet->getStyle('D' . $row)->getAlignment()->setWrapText(true);
             
             $row++;
         }
 
-        // Автоматическая ширина колонок
         foreach (range('A', 'D') as $col) {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
 
-        // Создаем файл
         $writer = new Xlsx($spreadsheet);
         $filename = 'program_' . date('Y-m-d_H-i-s') . '.xlsx';
         $path = storage_path('app/public/' . $filename);
