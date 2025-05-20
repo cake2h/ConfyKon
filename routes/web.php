@@ -53,6 +53,7 @@ Route::prefix('admin')->middleware(['admin', 'auth'])->group(function () {
     Route::get('/konfs/{konf}/edit', [App\Http\Controllers\Admin\KonfController::class, 'edit'])->name('admin.konfs.edit');
     Route::put('/konfs/{konf}', [App\Http\Controllers\Admin\KonfController::class, 'update'])->name('admin.konfs.update');
     Route::delete('/konfs/{konf}', [App\Http\Controllers\Admin\KonfController::class, 'destroy'])->name('admin.konfs.destroy');
+    Route::get('/konfs/{konf}', [App\Http\Controllers\Admin\KonfController::class, 'downloadPDF'])->name('admin.konfs.donwloadPDF');
 
     Route::prefix('{conference}/sections')->group(function () {
         // Route::get('/',  [SectionController::class, 'adminSections'])->name('admin.sections.index');

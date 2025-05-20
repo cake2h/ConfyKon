@@ -3,16 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
 use App\Models\Conference;
 use App\Models\City;
 use App\Models\Format;
 use App\Models\EducationLevel;
+use App\Models\Faq;
+use App\Models\Section;
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Faq;
+// Svejak
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KonfController extends Controller
 {
@@ -444,5 +452,66 @@ class KonfController extends Controller
             Log::error('Ошибка при удалении FAQ: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Произошла ошибка при удалении FAQ'], 500);
         }
+    }
+
+    public function downloadPDF(Conference $konf)
+    {
+        $sections = Section::where('conference_id', $konf->id)
+            ->withCount(['applications as participants_count'])
+            ->get();
+
+        $totalParticipants = $sections->sum('participants_count');
+
+        $sections = $sections->map(function ($section) use ($totalParticipants) {
+            $percentage = $totalParticipants > 0
+                ? round(($section->participants_count / $totalParticipants) * 100, 2)
+                : 0;
+
+            return [
+                'name' => $section->name,
+                'participants_count' => $section->participants_count,
+                'percentage' => $percentage,
+            ];
+        });
+
+        $educationStats = DB::table('applications')
+            ->join('users', 'applications.user_id', '=', 'users.id')
+            ->join('sections', 'applications.section_id', '=', 'sections.id')
+            ->join('education_levels', 'users.education_level_id', '=', 'education_levels.id')
+            ->where('sections.conference_id', $konf->id)
+            ->select('education_levels.name', DB::raw('COUNT(*) as count'))
+            ->groupBy('education_levels.name')
+            ->get();
+
+        $total = $educationStats->sum('count');
+
+        $educationStats = $educationStats->map(function ($item) use ($total) {
+            $item->percentage = $total > 0 ? round(($item->count / $total) * 100, 2) : 0;
+            return $item;
+        });
+
+         $studyPlaceStats = DB::table('applications')
+            ->join('users', 'applications.user_id', '=', 'users.id')
+            ->join('sections', 'applications.section_id', '=', 'sections.id')
+            ->join('study_places', 'users.study_place_id', '=', 'study_places.id')
+            ->where('sections.conference_id', $konf->id)
+            ->select('study_places.name', DB::raw('COUNT(*) as count'))
+            ->groupBy('study_places.name')
+            ->get();
+
+        $total = $studyPlaceStats->sum('count');
+
+        $studyPlaceStats = $studyPlaceStats->map(function ($item) use ($total) {
+            $item->percentage = $total > 0 ? round(($item->count / $total) * 100, 2) : 0;
+            return $item;
+        });
+
+        $pdf = Pdf::loadView('pdf.report', [
+            'educationStats' => $educationStats,
+            'sections' => $sections,
+            'studyPlaceStats' => $studyPlaceStats
+        ]);
+
+        return $pdf->download('test.pdf');
     }
 } 

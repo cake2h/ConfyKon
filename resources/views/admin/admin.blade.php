@@ -30,6 +30,9 @@
                             @method('DELETE')
                             <button type="submit" class="link" onclick="return confirm('Вы уверены?')">Удалить конференцию</button>
                         </form>
+                        <a class="link" href="{{ route('admin.konfs.donwloadPDF', ['konf' => $conference->id]) }}" class="btn btn-success">
+                            Скачать отчёт
+                        </a>
                     </div>
                     <h2>Направления конференции</h2>
                     <div class="sections">
