@@ -10,15 +10,20 @@
     <style>
         .select2-container--default .select2-selection--single {
             height: 50px;
-            border: 1px solid #B1B1B7;
-            border-radius: 8px;
+            border: 1px solid #DCDCDF;
+            border-radius: 25px !important;
             background-color: white;
+            display: flex;
+            align-items: center;
+            box-shadow: none;
+            transition: border-color 0.2s;
         }
         
         .select2-container--default .select2-selection--single .select2-selection__rendered {
             line-height: 50px;
             padding-left: 15px;
             color: #B1B1B7;
+            border-radius: 25px !important;
         }
         
         .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -55,13 +60,24 @@
         .select2-container--default.select2-container--open .select2-selection--single {
             border-color: #007bff;
         }
+
+        .select2-container--default .select2-selection--single {
+            font-size: 16px;
+            font-family: inherit;
+        }
+
+        .select2-container {
+            width: 100% !important;
+            margin-bottom: 15px;
+        }
+
     </style>
 </head>
 <body class="bg-ex-fixed">
     <div class="container">
         <div class="content">
             <div class="logo">
-                <img src="./img/logo.png" alt="logo"/>
+                <img src="/img/logo.png" alt="logo" style="max-width: 300px;"/>
             </div>
 
             <h1 class="title">Регистрация</h1>
@@ -134,7 +150,7 @@
                     <option value="">Выберите город</option>
                 </select>
 
-                <select class="authInput" name="study_place_id" id="studyPlaceSelect">
+                <select class="authInput studyPlaceSelect" name="study_place_id" id="studyPlaceSelect">
                     <option value="" disabled selected hidden>Место обучения/работы</option>
                     @foreach($studyPlaces as $studyPlace)
                         <option value="{{ $studyPlace->id }}">{{ $studyPlace->name }}</option>

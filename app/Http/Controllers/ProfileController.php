@@ -53,6 +53,32 @@ class ProfileController extends Controller
         return Excel::download(new UsersExport($presentationCounts, $nonLocalParticipants, $sections), 'статистика.xlsx');
     }
 
+    public function edit()
+    {
+        $user = auth()->user();
+        $cities = \App\Models\City::all();
+        $educationLevels = \App\Models\EducationLevel::all();
+        $studyPlaces = \App\Models\StudyPlace::all();
+        return view('profile.edit', compact('user', 'cities', 'educationLevels', 'studyPlaces'));
+    }
+
+    public function update(Request $request)
+    {
+        $user = auth()->user();
+        $validated = $request->validate([
+            'surname' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'patronymic' => 'nullable|string|max:255',
+            'phone_number' => 'required|string|max:25',
+            'birthday' => 'required|date',
+            'city_id' => 'required|exists:cities,id',
+            'education_level_id' => 'required|exists:education_levels,id',
+            'study_place_id' => 'required|exists:study_places,id',
+        ]);
+        $user->update($validated);
+        return redirect()->route('dashboard.index')->with('success', 'Профиль успешно обновлён!');
+    }
+
     /**
      * @param \Illuminate\Database\Eloquent\Collection|array|\LaravelIdea\Helper\App\Models\_IH_User_C $users
      * @return array

@@ -96,6 +96,8 @@ Route::middleware(['auth', 'moder'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/ai-help', [AiHelpController::class, 'index'])->name('ai.help');
     Route::post('/ai-help/analyze', [AiHelpController::class, 'analyze'])->name('ai.analyze');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 require __DIR__.'/auth.php';
