@@ -14,7 +14,7 @@
     <div class="container">
         <div class="content">
             <div class="logo">
-                <img src="./img/logo.png" alt="logo" />
+                <img src="/img/logo.png" alt="logo" style="max-width: 300px;" />
             </div>
 
             <h1 class="title">Авторизация</h1>

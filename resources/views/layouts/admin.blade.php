@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -20,9 +21,7 @@
 
 <body>
 <header>
-    <a class="logo" href="https://www.utmn.ru">
-        <img src="{{ asset('img/logo2.png') }}" alt="logo">
-    </a>
+        <img src="{{ asset('img/logo.png') }}" alt="logo" style="max-width: 65px;">
     <div class="controls">
         <a href="{{ route('conf.index') }}" class="control">
             <i class="material-icons {{ request()->routeIs('conf.index') ? ' active_icon' : '' }}">home</i>
@@ -30,34 +29,10 @@
         </a>
 
         @auth
-            @if (Auth::user()->isModerator())
-                <a href="{{ route('moderator.index') }}" class="control">
-                    <i class="material-icons {{ request()->routeIs('moderator.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
-                    <p>Панель модератора</p>
-                </a>
-            @endif
-
-                <a class="control" href="{{ route('dashboard.index') }}">
-                    <i class="material-icons {{ request()->routeIs('dashboard.index') ? ' active_icon' : '' }}">person</i>
-                    <p>Профиль</p>
-                </a>
-
-            @if (Auth::user()->isAdmin())
-                <a href="{{ route('admin.index') }}" class="control">
+            <a href="{{ route('admin.index') }}" class="control">
                     <i class="material-icons {{ request()->routeIs('admin.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
                     <p>Админ-панель</p>
                 </a>
-
-                    <div class="control">
-                        <form method="GET" action="{{ route('stats') }}">
-                            @csrf
-                            <button class="controls__button" type="submit">
-                                <i class="material-icons">download</i>
-                                Статистика
-                            </button>
-                        </form>
-                    </div>
-
                 <div class="control">
                     <form method="GET" action="{{ route('page.emails') }}">
                         @csrf
@@ -67,6 +42,19 @@
                         </button>
                     </form>
                 </div>
+
+                @if (Auth::user()->isModerator())
+                    <a href="{{ route('moderator.index') }}" class="control">
+                        <i class="material-icons {{ request()->routeIs('moderator.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
+                        <p>Панель модератора</p>
+                    </a>
+                @endif
+
+                <a class="control" href="{{ route('dashboard.index') }}">
+                    <i class="material-icons {{ request()->routeIs('dashboard.index') ? ' active_icon' : '' }}">person</i>
+                    <p>Профиль</p>
+                </a>
+
             @endif
             <div class="control">
                 <form method="POST" action="{{ route('logout') }}" id="logoutForm">
@@ -77,7 +65,7 @@
                     </button>
                 </form>
             </div>
-        @endauth
+
     </div>
 </header>
 <main class="content">

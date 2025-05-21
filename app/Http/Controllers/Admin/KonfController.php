@@ -3,16 +3,25 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+use App\Models\Application;
 use App\Models\Conference;
 use App\Models\City;
 use App\Models\Format;
 use App\Models\EducationLevel;
+use App\Models\Faq;
+use App\Models\Section;
+
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Faq;
+// Svejak
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class KonfController extends Controller
 {
@@ -444,5 +453,62 @@ class KonfController extends Controller
             Log::error('Ошибка при удалении FAQ: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Произошла ошибка при удалении FAQ'], 500);
         }
+    }
+
+    public function downloadPDF(Conference $konf)
+    {
+        $applications = Application::with(['user', 'report', 'section'])
+            ->whereHas('section', fn($q) => $q->where('conference_id', $konf->id))
+            ->get();
+
+        $totalParticipants = $applications->count();
+
+        $sections = Section::where('conference_id', $konf->id)
+            ->with(['applications.user', 'applications.report'])
+            ->get()
+            ->map(function ($section) use ($konf) {
+                $participants = $section->applications;
+                $nonResidentCount = $participants->filter(fn($app) =>
+                    $app->user && $app->user->city_id != $konf->city_id
+                )->count();
+
+                return [
+                    'name' => $section->name,
+                    'participants_count' => $participants->count(),
+                    'non_resident_count' => $nonResidentCount,
+                    'reports_count' => $participants->filter(fn($a) => $a->report !== null)->count(),
+                ];
+            });
+
+        $educationStats = $applications->groupBy(fn($app) => optional($app->user->education_level)->name)
+            ->map(function ($group) use ($totalParticipants) {
+                $count = $group->count();
+                return [
+                    'name' => $group->first()->user->education_level->name ?? 'Неизвестно',
+                    'count' => $count,
+                    'percentage' => $totalParticipants > 0 ? round(($count / $totalParticipants) * 100, 2) : 0,
+                ];
+            })->values();
+
+        $studyPlaceStats = $applications->groupBy(fn($app) => optional($app->user->study_place)->name)
+            ->map(function ($group) use ($totalParticipants) {
+                $count = $group->count();
+                return [
+                    'name' => $group->first()->user->study_place->name ?? 'Неизвестно',
+                    'count' => $count,
+                    'percentage' => $totalParticipants > 0 ? round(($count / $totalParticipants) * 100, 2) : 0,
+                ];
+            })->values();
+
+        $data = [
+            'conference' => $konf,
+            'totalParticipants' => $totalParticipants,
+            'sections' => $sections,
+            'educationStats' => $educationStats,
+            'studyPlaceStats' => $studyPlaceStats,
+        ];
+
+        $pdf = Pdf::loadView('pdf.report', $data);
+        return $pdf->download('report.pdf');
     }
 } 

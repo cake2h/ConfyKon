@@ -117,9 +117,7 @@
             <li><strong>Место обучения/работы:</strong> {{ $user->study_place->name ?? 'Не указано' }}</li>
 
             <br/>
-            <a class="link" href="{{ asset('public/publications/Документ.docx') }}" download>Оформление статьи</a>
-            <a class="link" href="{{ asset('public/publications/Документ.docx') }}" download>Условия загрузки статьи</a>
-            <a class="link" href="">Мои дипломы</a>
+            <a class="link" href="{{ route('profile.edit') }}">Редактирование профиля</a>
             <a class="link" href="{{ route('ai.help') }}">Помощь ИИ</a>
         </ul>
     </div>

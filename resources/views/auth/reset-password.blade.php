@@ -14,7 +14,7 @@
 <div class="container">
     <div class="content">
         <div class="logo">
-            <img src="/img/logo.png" alt="logo" />
+            <img src="/img/logo.png" alt="logo" style="max-width: 140px;" />
         </div>
 
         <h1 class="title">Новый пароль</h1>

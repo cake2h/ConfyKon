@@ -2,7 +2,7 @@
 <tr>
 <td class="header">
 @if (trim($slot) === 'UTMN')
-<img src="{{ asset('img/logo2.png') }}" class="logo" alt="utmn logo">
+<img src="{{ asset('img/logo.png') }}" class="logo" alt="logo">
 @else
 {{ $slot }}
 @endif
