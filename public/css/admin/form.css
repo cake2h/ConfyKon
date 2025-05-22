@@ -121,7 +121,6 @@ textarea {
 
 .conference-form {
     background: #fff;
-    padding: 50px;
     border-radius: 12px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     position: relative;
@@ -136,7 +135,6 @@ textarea {
 
 .form-group {
     margin-bottom: 30px;
-    width: 100%;
 }
 
 .form-group label {
@@ -223,12 +221,13 @@ textarea {
     text-align: center;
 }
 
-.button[type="submit"] {
+.button {
     background-color: #4CAF50;
+    text-decoration: none;
     color: white;
 }
 
-.button[type="submit"]:hover {
+.button:hover {
     background-color: #45a049;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);

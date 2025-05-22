@@ -135,7 +135,7 @@ header img {
 
 ::-webkit-scrollbar {
   height: 80%;
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {
