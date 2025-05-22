@@ -5,6 +5,42 @@
 @section('some_styles')
     <link rel="stylesheet" href="{{ asset('css/admin/form.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <style>
+        .columns {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .left__column {
+            flex: 2;
+            min-width: 0;
+        }
+        .right__column {
+            flex: 1;
+            min-width: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -122,8 +158,8 @@
                     </div>
 
                     <div class="button-container">
-                        <button type="submit" class="button">Сохранить изменения</button>
-                        <a href="{{ route('admin.konfs.edit.faq', $konf->id) }}" class="button">Редактировать FAQ</a>
+                        <button type="submit" class="button" style="background-color: #92d0fa; color: black; border: none; border-radius: 6px; padding: 12px 32px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Сохранить изменения</button>
+                        <a href="{{ route('admin.konfs.edit.faq', $konf->id) }}" class="button">FAQ</a>
                         <a href="{{ route('admin.index') }}" class="button cancel-button">Назад</a>
                     </div>
                 </div>

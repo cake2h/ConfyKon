@@ -234,9 +234,9 @@
 
                                 @if($canRegister)
                                     @if($isRegistered)
-                                        <button class="button" disabled>Вы уже зарегистрированы</button>
+                                        <button class="button" disabled style="background-color: #92d0fa; color: black; border: none; border-radius: 6px; padding: 12px 32px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Вы уже зарегистрированы</button>
                                     @else
-                                        <button class="button" onclick="openModal({{ $section->id }})">Зарегистрироваться</button>
+                                        <button class="button" onclick="openModal({{ $section->id }})" style="background-color: #92d0fa; color: black; border: none; border-radius: 6px; padding: 12px 32px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Зарегистрироваться</button>
                                     @endif
                                 @else
                                     <p class="error-message">{{ $ageMessage }}</p>
@@ -314,7 +314,7 @@
                         <input type="text" id="contributors" name="contributors" class="authInput">
                     </div>
                 </div>
-                <button class="button" type="submit" onclick="submitForm(event)">Отправить</button>
+                <button class="button" type="submit" onclick="submitForm(event)" style="background-color: #92d0fa; color: black; border: none; border-radius: 6px; padding: 12px 32px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Отправить</button>
             </form>
         </div>
     </div>
@@ -329,7 +329,7 @@
                         @foreach($conference->files as $file)
                             <div class="file-item">
                                 <span class="file-name">{{ $file->name }}</span>
-                                <a href="{{ asset($file->file_path) }}" class="download-button" download>Скачать</a>
+                                <a href="{{ asset($file->file_path) }}" style="background-color: #92d0fa; color: black; border: none; border-radius: 6px; padding: 12px 32px; font-weight: 600; cursor: pointer; transition: background 0.2s;" class="download-button" download>Скачать</a>
                             </div>
                         @endforeach
                     </div>

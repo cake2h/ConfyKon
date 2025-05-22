@@ -26,14 +26,15 @@
                         <a class="link" href="{{ route('admin.sections.add', ['conference' => $conference->id]) }}">Добавить секцию</a>
                         <a class="link" href="{{ route('admin.konfs.edit', ['konf' => $conference->id]) }}">Редактировать конференцию</a>
                         <a class="link" href="{{ route('conference.program', ['conferenceId' => $conference->id]) }}">Скачать программу (Excel)</a>
+                        
+                        <a class="link" href="{{ route('admin.konfs.donwloadPDF', ['konf' => $conference->id]) }}" class="btn btn-success">
+                            Скачать отчёт
+                        </a>
                         <form method="POST" action="{{ route('admin.konfs.destroy', ['konf' => $conference->id]) }}" class="delete-form">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="link" onclick="return confirm('Вы уверены?')">Удалить конференцию</button>
                         </form>
-                        <a class="link" href="{{ route('admin.konfs.donwloadPDF', ['konf' => $conference->id]) }}" class="btn btn-success">
-                            Скачать отчёт
-                        </a>
                     </div>
                     <h2>Направления конференции</h2>
                     <div class="sections">

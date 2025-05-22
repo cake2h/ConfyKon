@@ -156,7 +156,9 @@ class ModeratorController extends Controller
             ->join('reports', 'applications.report_id', '=', 'reports.id')
             ->join('report_statuses', 'reports.report_status_id', '=', 'report_statuses.id')
             ->select(
+                'users.surname as user_surname',
                 'users.name as user_name',
+                'users.patronymic as user_patronymic',
                 'reports.report_theme as work_name',
                 'reports.file_path',
                 'applications.id as application_id',

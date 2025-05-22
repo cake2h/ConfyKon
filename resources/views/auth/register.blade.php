@@ -22,7 +22,6 @@
         .select2-container--default .select2-selection--single .select2-selection__rendered {
             line-height: 50px;
             padding-left: 15px;
-            color: #B1B1B7;
             border-radius: 25px !important;
         }
         
@@ -49,9 +48,7 @@
             padding: 8px 15px;
         }
         
-        .select2-container--default .select2-results__option[aria-selected=true] {
-            background-color: #f8f9fa;
-        }
+
         
         .select2-container--default .select2-selection--single .select2-selection__placeholder {
             color: #B1B1B7;
