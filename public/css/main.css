@@ -1,25 +1,25 @@
-body {
+* {
   box-sizing: border-box;
-
   font-family: 'Mulish', sans-serif;
+}
 
+body {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-    background: linear-gradient(to right, #c1d5f3, #f2e0e0);
-    height: 100vh;
+  background: linear-gradient(to right, #c1d5f3, #f2e0e0);
+  height: 100vh;
 }
 
 .content {
-  width: 50%;
+  width: 100%;
+  max-width: 1440px;
   height: 80vh;
 
-  padding: 10px 30px;
   margin-bottom: 20px;
 
   overflow-y: auto;
-
 
   border-radius: 16px;
 }
@@ -28,9 +28,8 @@ header {
   margin: 15px 0;
   padding: 10px 30px;
 
-  width: 100%; /* На экранах средней и большой ширины панель будет растягиваться на всю доступную ширину */
-  max-width: 1200px; /* Максимальная ширина панели для больших экранов */
-  box-sizing: border-box; /* Чтобы padding не увеличивал ширину панели */
+  width: 100%;
+  max-width: 1440px;
   
   display: flex;
   flex-direction: row;
@@ -41,14 +40,12 @@ header {
   background-color: #ffffff;
 }
 
-/* Медиазапрос для экранов меньше 1200px */
-@media (max-width: 1200px) {
+@media (max-width: 1440px) {
   header {
     padding: 10px 20px; /* Меньше отступов */
   }
 }
 
-/* Медиазапрос для экранов меньше 768px (например, планшеты и мобильные устройства) */
 @media (max-width: 768px) {
   header {
     padding: 10px 15px; /* Еще меньше отступов на мобильных устройствах */
@@ -63,13 +60,9 @@ header {
   }
 }
 
-
-
-
 header img {
   width: 100px;
 }
-
 
 .controls {
   display: flex;

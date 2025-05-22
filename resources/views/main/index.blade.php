@@ -16,7 +16,7 @@
 @endphp
 
 @section('content')
-    <div class="container">
+    <div class="main__container">
         <div class="sidebar">
             <h3>Поиск конференций</h3>
             

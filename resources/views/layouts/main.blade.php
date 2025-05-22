@@ -19,7 +19,7 @@
 
 <body>
 <header>
-        <img src="{{ asset('img/logo.png') }}" alt="logo" style="max-width: 65px;">
+    <img src="{{ asset('img/logo.png') }}" alt="logo" style="max-width: 65px;">
     <div class="controls">
         <a href="{{ route('conf.index') }}" class="control">
             <i class="material-icons {{ request()->routeIs('conf.index') ? ' active_icon' : '' }}">home</i>
