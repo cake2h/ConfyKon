@@ -5,16 +5,34 @@
 @section('some_styles')
     <link rel="stylesheet" href="{{ asset('css/admin/form.css') }}">
     <style>
-        .faq-container {
+        .profile-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+            margin: 40px auto;
+            position: relative;
+            padding-bottom: 80px;
+        }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        .header-section h1 {
+            margin: 0;
+            flex: 1;
         }
         .theme-section {
             margin-bottom: 30px;
             padding: 20px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            background-color: #f9f9f9;
         }
         .theme-header {
             display: flex;
@@ -35,7 +53,7 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             position: relative;
-            background-color: #f9f9f9;
+            background-color: white;
         }
         .faq-item input[type="text"] {
             width: 100%;
@@ -47,9 +65,17 @@
             margin-bottom: 10px;
         }
         .button-container {
-            margin-top: 20px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
             display: flex;
-            gap: 10px;
+            gap: 15px;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 8px 8px;
         }
         .remove-button {
             position: absolute;
@@ -80,21 +106,76 @@
             border-radius: 4px;
         }
         .add-faq-button {
-            background-color: #28a745;
-            color: white;
+            background-color: #92d0fa;
+            color: black;
             border: none;
             padding: 8px 15px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
+            font-weight: 600;
         }
         .add-faq-button:hover {
-            background-color: #218838;
+            background-color: #7ab8e0;
+        }
+        .button {
+            background-color: #92d0fa;
+            color: black;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+        .button:hover {
+            background-color: #7ab8e0;
+        }
+        .cancel-button {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .cancel-button:hover {
+            background-color: #e9ecef;
+        }
+        .header-section .button-container .button {
+            background-color: #92d0fa;
+            color: black;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            white-space: nowrap;
+            flex-shrink: 0;
+            width: auto !important;
+            margin: 0;
+        }
+        .header-section .button-container .button:hover {
+            background-color: #7ab8e0;
+        }
+        .header-section .button-container .cancel-button {
+            background-color: #f8f9fa;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+        .header-section .button-container .cancel-button:hover {
+            background-color: #e9ecef;
         }
     </style>
 @endsection
 
 @section('content')
-    <div class="faq-container">
+    <div class="profile-container">
         <h1>Редактирование FAQ для конференции "{{ $konf->name }}"</h1>
         
         @if (session('success'))
@@ -149,9 +230,8 @@
                     </div>
                 @endforeach
             </div>
-            
             <div class="button-container">
-                <button type="submit" class="button">Сохранить изменения</button>
+                <button type="submit" class="button" style="background-color: #92d0fa; color: black; border: none; border-radius: 6px; padding: 12px 32px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Сохранить изменения</button>
                 <a href="{{ route('admin.konfs.edit', $konf->id) }}" class="button cancel-button">Назад</a>
             </div>
         </form>

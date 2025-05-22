@@ -29,7 +29,7 @@
         @auth
             <a href="{{ route('admin.index') }}" class="control">
                 <i class="material-icons {{ request()->routeIs('admin.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
-                <p>Админ-панель</p>
+                <p>Панель организатора</p>
             </a>
 
             @if (Auth::user()->isModerator())

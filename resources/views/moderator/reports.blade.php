@@ -134,14 +134,14 @@
 @section('content')
     <div class="conferences">
         <div class="conference">
-            <h1 class="title">{{ $section->name }}</h1>
+            <h1 class="title">Доклады секции {{ $section->name }}</h1>
             <a href="{{ route('moderator.index') }}" class="link">← Назад к заявкам</a>
             
             @if($applicants->count() > 0)
                 <ul>
                     @foreach ($applicants as $applicant)
                         <li>
-                            <span>{{ $applicant->user_name }} - {{ $applicant->work_name }}</span>
+                            <span>{{ $applicant->user_surname }} {{ $applicant->user_name }} {{ $applicant->user_patronymic }} - {{ $applicant->work_name }}</span>
                             @if ($applicant->file_path)
                                 <a href="{{ asset($applicant->file_path) }}" class="download-link">Скачать файл</a>
                             @endif

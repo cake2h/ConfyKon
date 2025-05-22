@@ -5,24 +5,29 @@
 <style>
     .authButton.custom-blue {
         background: #92d0fa;
-
         border: none;
         border-radius: 6px;
         padding: 12px 32px;
-
         font-weight: 600;
         cursor: pointer;
         margin: 30px auto 0 auto;
         display: block;
         transition: background 0.2s;
         color: #000;
-  
     }
     .authButton.custom-blue:hover {
         background: #4a90e2;
     }
+    .profile-container {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 40px auto;
+    }
 </style>
-<div class="container" style="max-width: 600px; margin: 40px auto;">
+<div class="profile-container">
     <h1 style="text-align:center;">Редактирование профиля</h1>
     <form method="POST" action="{{ route('profile.update') }}">
         @csrf

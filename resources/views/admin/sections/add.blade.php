@@ -47,7 +47,7 @@
         </div>
 
         <div class="button-container">
-            <button type="submit" class="button">Добавить</button>
+            <button type="submit" class="button" style="background-color: #92d0fa; color: black; border: none; border-radius: 6px; padding: 12px 32px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Добавить</button>
             <button type="button" class="button cancel-button" onclick="history.back()">Отмена</button>
         </div>
     </form>

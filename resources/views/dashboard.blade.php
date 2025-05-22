@@ -102,6 +102,42 @@
         .view-comment-btn:hover {
             background: #357abd;
         }
+
+        .application-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .application-actions .link {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+        .application-actions .link:first-child {
+            background-color: #92d0fa;
+            color: black;
+        }
+        .application-actions .link:first-child:hover {
+            background-color: #7ab8e0;
+        }
+        .application-actions form {
+            margin: 0;
+            width: 100%;
+        }
+        .application-actions button.link {
+            background-color: #f8f9fa;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+            width: 100%;
+        }
+        .application-actions button.link:hover {
+            background-color: #dc3545;
+            color: white;
+        }
     </style>
 @endsection
 
@@ -156,7 +192,7 @@
                             @if($application->role->name === 'Докладчик' || $application->role->name === 'Выступающий')
                                 <p>Соавторы: {{ $application->contributors }}</p>
 
-                                <a class="link @if(now() > \Carbon\Carbon::parse($application->section->conference->deadline_reports) || ($application->report && $application->report->file_path && $application->report->report_status_id != 3)) inactive @endif" onclick="openModal({{ $application->id }})">Прикрепить публикацию</a>
+                                <a class="link @if(now() > \Carbon\Carbon::parse($application->section->conference->deadline_reports) || ($application->report && $application->report->file_path && $application->report->report_status_id != 3)) inactive @endif" onclick="openModal({{ $application->id }})">Прикрепить доклад</a>
 
                                 @if ($application->report && $application->report->file_path)
                                     <p>
@@ -186,7 +222,7 @@
             <form method="POST" action="{{ route('conf.dock') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="application_id" id="application_id" value="">
-                <h1>Публикация доклада</h1>
+                <h1>Прикрепление доклада</h1>
                 <div class="form-group">
                     <label for="file">Файл:</label>
                     <input type="file" name="file" id="file" accept=".pdf,.doc,.docx" required>

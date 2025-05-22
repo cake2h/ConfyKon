@@ -55,7 +55,7 @@
         @else
             @foreach($sections as $section)
                 <div class="conference">
-                    <h1 class="title">{{ $section->name }}</h1>
+                    <h1 class="title">Регистрации секции {{ $section->name }}</h1>
                     <a href="{{ route('moderator.reports', $section->id) }}" class="link">Доклады</a>
                     
                     @php

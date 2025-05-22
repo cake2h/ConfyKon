@@ -94,8 +94,13 @@ textarea {
 
 .section__actions {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 5px;
+}
+
+.section__actions .section__link,
+.section__actions form {
+    margin: 0;
 }
 
 a.section__link {

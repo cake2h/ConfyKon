@@ -7,12 +7,63 @@
         .speaker-fields {
             display: {{ $application->participation_type_id == 1 ? 'none' : 'block' }};
         }
+        .profile-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 40px auto;
+            overflow: hidden;
+        }
+        .save-button {
+            background-color: #92d0fa;
+            color: black;
+            border: none;
+            border-radius: 6px;
+            padding: 12px 32px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 30px auto 0 auto;
+            display: block;
+            transition: background 0.2s;
+        }
+        .save-button:hover {
+            background-color: #92d0fa;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .form-control, .authInput, select {
+            width: 90%;
+            max-width: 90%;
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin: 0;
+            font-size: 14px;
+        }
+        .form-control:focus, .authInput:focus, select:focus {
+            outline: none;
+            border-color: #92d0fa;
+        }
+        .form {
+            width: 100%;
+            max-width: 100%;
+        }
     </style>
 @endsection
 
 @section('content')
-    <div class="container">
-        <h1>Редактирование заявки</h1>
+    <div class="profile-container">
+        <h1 style="text-align:center;">Редактирование регистрации</h1>
         
         @if(session('error'))
             <div class="alert alert-danger">
@@ -47,7 +98,7 @@
 
                 <div class="form-group">
                     <label for="contributors">Соавторы (ФИО <b>полностью</b> через запятую):</label>
-                    <input type="text" name="contributors" id="contributors" value="{{ old('contributors', $application->contributors) }}">
+                    <input type="text" name="contributors" id="contributors" class="form-control" value="{{ old('contributors', $application->contributors) }}">
                 </div>
             </div>
 
@@ -63,7 +114,7 @@
                 </select>
             </div>
 
-            <button type="submit" class="button">Сохранить изменения</button>
+            <button type="submit" class="save-button">Сохранить изменения</button>
         </form>
     </div>
 @endsection
