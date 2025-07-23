@@ -34,7 +34,7 @@
                 <div class="conference-info">
                     <p><strong>Город проведения:</strong> {{ $conference->city->name }}</p>
                     <p><strong>Место проведения:</strong> {{ $conference->address }}</p>
-                    <p><strong>Дата проведения:</strong> {{ date('d-m-Y', strtotime($conference->date_start)) }} - {{ date('d-m-Y', strtotime($conference->date_end)) }}</p>
+                    <p><strong>Даты проведения:</strong> {{ \Carbon\Carbon::parse($conference->date_start)->format('d.m.Y') }} - {{ \Carbon\Carbon::parse($conference->date_end)->format('d.m.Y') }}</p>
                     <p><strong>Крайний срок подачи заявок:</strong> {{ date('d-m-Y', strtotime($conference->deadline_applications)) }}</p>
                     <p><strong>Формат проведения:</strong> {{ $conference->format->name }}</p>
                     <p><strong>Организатор:</strong> {{ $conference->organizer->surname }} {{ $conference->organizer->name }} {{ $conference->organizer->patronymic }}</p>
@@ -51,7 +51,12 @@
                             <h2>{{ $section->name }}</h2>
                             <p class="description">{{ $section->description }}</p>
                             <div class="section-info">
-                                <p><strong>Дата проведения:</strong> {{ date('d-m-Y', strtotime($section->date_start)) }} - {{ date('d-m-Y', strtotime($section->date_end)) }}</p>
+                                <p><strong>Дата проведения:</strong> {{ \Carbon\Carbon::parse($section->date_start)->format('d.m.Y') }} - {{ \Carbon\Carbon::parse($section->date_end)->format('d.m.Y') }}</p>
+                                <p><strong>Время проведения:</strong> {{ \Carbon\Carbon::parse($section->date_start)->format('H:i') }} - {{ \Carbon\Carbon::parse($section->date_end)->format('H:i') }}</p>
+                                <p><strong>Место проведения:</strong> {{ $section->event_place ?: 'не определено' }}</p>
+                                @if($section->link)
+                                    <p><strong>Ссылка:</strong> <a href="{{ $section->link }}" target="_blank">{{ $section->link }}</a></p>
+                                @endif
                                 <p><strong>Модератор:</strong> {{ $section->moder->surname }} {{ $section->moder->name }} {{ $section->moder->patronymic }}</p>
                             </div>
                             @auth

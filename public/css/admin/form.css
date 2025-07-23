@@ -17,11 +17,19 @@ h2 {
 .conference-form {
     display: flex;
     flex-direction: column;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    position: relative;
+    padding: 30px 40px 120px 40px;
 }
 
 .form-group {
-    margin: 0 40px;
-    margin-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.form-group:first-child {
+    margin-top: 0;
 }
 
 label {
@@ -119,22 +127,10 @@ textarea {
     font-weight: 600;
 }
 
-.conference-form {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    position: relative;
-    padding-bottom: 120px;
-}
-
 .columns {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     gap: 50px;
-}
-
-.form-group {
-    margin-bottom: 30px;
 }
 
 .form-group label {
@@ -396,6 +392,26 @@ textarea {
 
 #add-file:hover {
     background-color: #0b7dda;
+}
+
+input[type="time"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+input[type="date"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input[type="datetime-local"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
 }
 
 /* Адаптивность */

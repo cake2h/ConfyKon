@@ -41,25 +41,46 @@
 .sections {
     display: flex;
     flex-wrap: wrap;
-
-    gap: 10px;
+    gap: 20px;
 }
 
 .section {
-    text-align: center;
-
-    padding: 10px;
-
+    text-align: left;
+    padding: 20px;
     background-color: #c2e7ff;
     border-radius: 16px;
+    width: calc(50% - 10px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    width: 22%;
+.section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.section h3 {
+    margin: 0 0 15px 0;
+    color: #1a73e8;
+    font-size: 18px;
 }
 
 .moder {
-    font-size: 12px;
-    margin-top: 0;
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin: 10px 0;
+    color: #555;
+}
+
+.section .date {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .section {
+        width: 100%;
+    }
 }
 
 .link {
@@ -225,11 +246,12 @@ h2 {
 .main__container {
     display: flex;
     gap: 30px;
+    margin: 0 auto;
 }
 
 .sidebar {
-    width: 250px;
-    min-width: 250px;
+    width: 300px;
+    flex-shrink: 0;
     background-color: #ffffff;
     padding: 20px;
     border-radius: 16px;
@@ -269,11 +291,66 @@ h2 {
 }
 
 .content {
-    flex: 1;
+    flex-grow: 1;
     min-width: 0;
     padding: 0;
 }
 
 .button {
     margin: 0 auto;
+}
+
+/* Адаптивная верстка */
+@media (max-width: 1024px) {
+    .main__container {
+        padding: 15px;
+        gap: 20px;
+    }
+    
+    .sidebar {
+        width: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .main__container {
+        flex-direction: column;
+        padding: 10px;
+    }
+    
+    .sidebar {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .conference {
+        padding: 15px 20px;
+    }
+    
+    .modal__container {
+        width: 90%;
+        margin-top: 5%;
+    }
+}
+
+@media (max-width: 480px) {
+    .main__container {
+        padding: 5px;
+    }
+    
+    .conference {
+        padding: 10px 15px;
+    }
+    
+    .title {
+        font-size: 18px;
+    }
+    
+    .simple__info {
+        font-size: 12px;
+    }
+    
+    .modal__container {
+        width: 95%;
+    }
 }

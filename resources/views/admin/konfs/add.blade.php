@@ -131,29 +131,19 @@
                 </div>
             </div>
             <div>
-            <div>
-                <div class="info-panel">
+                <div class="info-panel" style="max-width: 95%; margin: 0 auto; padding: 30px; font-size: 16px;">
                     <div class="info-panel-header">
-                        
-                        <span>Информация о FAQ</span>
+                        <span style="font-size: 20px; font-weight: bold;">Информация о FAQ</span>
                     </div>
                     <div class="info-panel-content">
                         <p>Добавить ответы на часто задаваемые вопросы можно на странице редактирования конференции.</p>
-                        <!-- <p>После создания конференции вы сможете:</p>
-                        <ul>
-                            <li>Добавлять вопросы и ответы по темам</li>
-                            <li>Редактировать существующие FAQ</li>
-                            <li>Удалять ненужные вопросы</li>
-                        </ul> -->
                     </div>
                 </div>
-            </div>
             </div>
                 <div class="button-container" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                     <button type="submit" class="button">Создать конференцию</button>
                     <button type="button" class="button cancel-button" onclick="history.back()">Отмена</button>
                 </div>
-            </div>
         </form>
     </div>
 

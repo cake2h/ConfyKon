@@ -32,70 +32,51 @@ a.link:hover, button.link:hover {
 
 .sections {
     margin-bottom: 15px;
-
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-
-    gap: 10px;
+    gap: 20px;
 }
 
 .section {
-    padding: 15px;
-
-    width: 15%;
+    padding: 20px;
+    width: calc(50% - 10px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-
-    border: 1px solid #ddd;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
     border-radius: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.textBlock {
-    position: absolute;
-    margin-left: 35%;
+.section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.users {
-    position: absolute;
+.section h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 18px;
 }
 
-textarea {
-    width: 650px;
-    height: 500px;
-    resize: none;
-    position: absolute;
-  }
-
-  #goBtn {
-     position: absolute;
-     margin-top: 200%;
-  }
-
-#saveBtn {
-    position: absolute;
-    margin-top: 200%;
+.section .up {
+    margin-bottom: 15px;
 }
 
-#emailType {
-    position: fixed;
-    z-index: 100;
-    margin-left: 280px;
-    margin-top: -44px;
-}
-
-#filesBtn {
-    position: absolute;
-    margin-top: 200%;
-    margin-left: 55%;
-    white-space: nowrap;
+.section .moder {
+    font-size: 14px;
+    color: #555;
+    margin: 10px 0;
 }
 
 .section__actions {
     display: flex;
-    flex-direction: column;
-    gap: 5px;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 15px;
 }
 
 .section__actions .section__link,
@@ -185,8 +166,6 @@ a.section__link:hover, button.section__link:hover {
     color: #FFC107;
 }
 
-
-
 .conferences {
     display: flex;
     flex-direction: column;
@@ -196,7 +175,7 @@ a.section__link:hover, button.section__link:hover {
 
 .conference {
     width: 100%;
-    max-width: 1155px; /* Максимальная ширина, чтобы соответствовать header */
+
     background-color: white;
     padding: 20px;
     border-radius: 8px;
@@ -207,6 +186,9 @@ a.section__link:hover, button.section__link:hover {
     .conferences {
         display: flex;
         flex-direction: column; /* Все элементы по одному в столбик */
+    }
+    .section {
+        width: 100%;
     }
 }
 

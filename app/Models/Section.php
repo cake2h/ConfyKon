@@ -15,6 +15,7 @@ class Section extends Model
         'date_start',
         'date_end',
         'event_place',
+        'link',
         'conference_id',
         'user_id',
     ];
