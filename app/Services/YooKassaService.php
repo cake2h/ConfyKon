@@ -159,16 +159,15 @@ class YooKassaService
             $paymentId = $data['object']['id'] ?? null;
             $status = $data['object']['status'] ?? null;
             $userId = $data['object']['metadata']['user_id'] ?? null;
+            $localPaymentId = $data['object']['metadata']['local_payment_id'] ?? null;
 
-            if (!$paymentId || !$status || !$userId) {
+            if (!$paymentId || !$status || !$userId || !$localPaymentId) {
                 Log::error('Invalid webhook data from YooKassa');
                 return false;
             }
 
             // Находим локальный платеж
-            $localPayment = Payment::where('user_id', $userId)
-                ->where('comment', 'like', '%' . $paymentId . '%')
-                ->first();
+            $localPayment = Payment::where('id', $localPaymentId)->first();
 
             if (!$localPayment) {
                 Log::error('Local payment not found for YooKassa payment: ' . $paymentId);
