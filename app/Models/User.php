@@ -31,6 +31,7 @@ class User extends Authenticatable
         'study_place_id',
         'role',
         'consent_to_mailing',
+        'balance',
     ];
 
     protected $hidden = [
@@ -78,6 +79,11 @@ class User extends Authenticatable
         return $this->hasMany(Section::class, 'user_id');
     }
 
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'user_id');
+    }
+
     public function hasConferences()
     {
         return Conference::where('user_id', $this->id)->exists();
@@ -87,5 +93,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'consent_to_mailing' => 'boolean',
         'birthday' => 'date',
+        'balance' => 'decimal:2',
     ];
 }

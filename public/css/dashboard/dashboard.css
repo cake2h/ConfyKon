@@ -6,12 +6,18 @@
     flex-direction: column;
 }
 
-.user-info, .conference-applications {
+.user-info, 
+.conference-applications,
+.payments {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
+}
+
+.payments {
+    margin-bottom: 0;
 }
 
 .user-name {
@@ -218,7 +224,9 @@ select {
         padding: 10px;
     }
     
-    .user-info, .conference-applications {
+    .user-info, 
+    .conference-applications,
+    .payments {
         padding: 15px;
     }
     
@@ -241,7 +249,9 @@ select {
 }
 
 @media (max-width: 480px) {
-    .user-info, .conference-applications {
+    .user-info, 
+    .conference-applications,
+    .payments {
         padding: 10px;
     }
     

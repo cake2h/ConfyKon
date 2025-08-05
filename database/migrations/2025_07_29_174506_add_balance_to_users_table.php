@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('sections', function (Blueprint $table) {
-            $table->string('event_place')->after('description')->default('');
-            $table->string('link')->nullable()->after('event_place');
+        Schema::table('users', function (Blueprint $table) {
+            $table->decimal('balance', 10, 2)->default(0.00)->after('study_place_id');
         });
     }
 
@@ -26,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('sections', function (Blueprint $table) {
-            $table->dropColumn(['event_place', 'link']);
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('balance');
         });
     }
 };

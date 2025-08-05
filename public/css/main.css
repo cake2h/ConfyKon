@@ -83,7 +83,7 @@ header {
   }
   
   .control {
-    min-width: 70px;
+    min-width: 10px;
   }
 }
 
@@ -191,6 +191,7 @@ header img {
 .controls a {
   text-decoration: none;
   color: #000;
+  width: 40px;
 }
 
 .control i, .controls__button i {
