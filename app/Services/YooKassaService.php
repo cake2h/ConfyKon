@@ -55,29 +55,9 @@ class YooKassaService
                 ],
             ];
 
-            // Создаем чек
-            try {
-                $receipt = $this->createReceipt($user, $amount, $description);
-                $paymentData['receipt'] = $receipt;
-                Log::info('Receipt created successfully');
-            } catch (\Exception $e) {
-                Log::error('Receipt creation failed: ' . $e->getMessage());
-                // Продолжаем без чека
-            }
-
             // Создаем платеж в ЮKassa
-            try {
-                $payment = $this->client->createPayment($paymentData, uniqid('payment_'));
-            } catch (\Exception $e) {
-                Log::error('YooKassa API error: ' . $e->getMessage());
-                
-                // Если SSL ошибка
-                if (strpos($e->getMessage(), 'SSL certificate') !== false || strpos($e->getMessage(), 'SSL') !== false) {
-                    Log::warning('SSL error detected');
-                } else {
-                    throw $e;
-                }
-            }
+            $payment = $this->client->createPayment($paymentData, uniqid('payment_'));
+           
 
             // Сохраняем платеж в нашей БД
             try {
