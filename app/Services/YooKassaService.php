@@ -31,69 +31,76 @@ class YooKassaService
         $this->client->setAuth($this->shopId, $this->secretKey);
     }
 
-    /**
-     * Создать платеж
-     */
-    public function createPayment(User $user, float $amount, string $description, string $returnUrl = null): array
+   public function createPayment(User $user, float $amount, string $description, string $returnUrl = null): array
     {
+        // Попробуем сначала создать локальный платеж
         try {
-            // Подготавливаем данные для платежа
-            $paymentData = [
-                'amount' => [
-                    'value' => number_format($amount, 2, '.', ''),
-                    'currency' => CurrencyCode::RUB,
-                ],
-                'confirmation' => [
-                    'type' => ConfirmationType::REDIRECT,
-                    'return_url' => $returnUrl ?? route('dashboard.index'),
-                ],
-                'capture' => true,
-                'description' => $description,
-                'metadata' => [
-                    'user_id' => $user->id,
-                    'payment_type' => PaymentType::INCOME->value,
-                ],
+            $localPayment = Payment::create([
+                'user_id' => $user->id,
+                'type' => PaymentType::INCOME,
+                'amount' => $amount,
+                'status' => PaymentStatus::PENDING,
+                'comment' => $description,
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to create local payment: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error' => 'Не удалось создать локальный платеж',
             ];
+        }
 
-            // Создаем платеж в ЮKassa
+        // Подготавливаем данные для YooKassa
+        $paymentData = [
+            'amount' => [
+                'value' => number_format($amount, 2, '.', ''),
+                'currency' => CurrencyCode::RUB,
+            ],
+            'confirmation' => [
+                'type' => ConfirmationType::REDIRECT,
+                'return_url' => $returnUrl ?? route('dashboard.index'),
+            ],
+            'capture' => true,
+            'description' => $description,
+            'metadata' => [
+                'user_id' => $user->id,
+                'payment_type' => PaymentType::INCOME->value,
+                'local_payment_id' => $localPayment->id,
+            ],
+        ];
+
+        try {
+            // Создаем платеж в YooKassa
             $payment = $this->client->createPayment($paymentData, uniqid('payment_'));
-           
-
-            // Сохраняем платеж в нашей БД
-            try {
-                $localPayment = Payment::create([
-                    'user_id' => $user->id,
-                    'type' => PaymentType::INCOME,
-                    'amount' => $amount,
-                    'status' => PaymentStatus::PENDING,
-                    'comment' => $description,
-                ]);
-            } catch (\Exception $e) {
-                Log::error('Failed to save local payment: ' . $e->getMessage());
-                // Продолжаем без сохранения локального платежа
-            }
 
             return [
                 'success' => true,
                 'payment_id' => $payment->getId(),
                 'confirmation_url' => $payment->getConfirmation()->getConfirmationUrl(),
-                'local_payment_id' => $localPayment->id ?? null,
+                'local_payment_id' => $localPayment->id,
             ];
-
         } catch (\Exception $e) {
+            // Удаляем локальный платеж, если YooKassa платеж не создан
+            try {
+                $localPayment->delete();
+            } catch (\Exception $deleteError) {
+                Log::warning('Failed to delete local payment after YooKassa failure: ' . $deleteError->getMessage());
+            }
+
             Log::error('YooKassa payment creation error', [
                 'message' => $e->getMessage(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString()
             ]);
-            
+
             return [
                 'success' => false,
-                'error' => $e->getMessage(),
+                'error' => 'Ошибка при создании платежа: ' . $e->getMessage(),
             ];
         }
     }
+
 
     /**
      * Создать чек для платежа
