@@ -3,6 +3,7 @@
 
 @section('some_styles')
     <link rel="stylesheet" href="{{ asset('css/dashboard/dashboard.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/dashboard/payments.css') }}" /> 
     <style>
         .comment-modal {
             display: none;
@@ -216,6 +217,56 @@
         @endif
     </div>
 
+    <div class="payments">
+        <h3>Мои платежи</h3>
+
+        <div class="balance">
+            <span class="label">Ваш баланс:</span> {{ number_format($user->balance, 2, ',', ' ') }} руб.
+        </div>
+
+        <div class="actions">
+            <button class="link" onclick="openPaymentModal()">Пополнить счёт</button>
+        </div>
+
+        @if($user->payments->count() > 0)
+            <table class="payments__table">
+                <thead>
+                    <tr>
+                        <th>Операция</th>
+                        <th>Дата</th>
+                        <th>Сумма платежа</th>
+                        <th>Статус</th>
+                        <th>Комментарий</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($user->payments as $payment)
+                        <tr>
+                            <td class="idColumn">
+                                <span class="type {{ $payment->type_class }}">{{ $payment->type_label }}</span>
+                                <p>{{ $payment->id }}</p>
+                            </td>
+                            <td class="dateColumn">
+                                {{ $payment->created_at->format('d.m.Y H:i:s') }}
+                            </td>
+                            <td class="amountColumn">
+                                <span class="{{ $payment->type_class }}">{{ $payment->formatted_amount }}</span>
+                            </td>
+                            <td class="statusColumn">
+                                {{ $payment->status_label }}
+                            </td>
+                            <td class="commentColumn">
+                                {{ $payment->comment }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @else
+            <p>У вас пока нет платежей</p>
+        @endif
+    </div>
+
     <div class="modal" id="imageModal">
         <div class="modal__container">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -240,6 +291,26 @@
                 <button class="comment-modal-close" onclick="closeCommentModal()">&times;</button>
             </div>
             <div class="comment-text" id="commentText"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для пополнения баланса -->
+    <div class="modal" id="paymentModal">
+        <div class="modal__container">
+            <span class="close" onclick="closePaymentModal()">&times;</span>
+            <h1>Пополнение баланса</h1>
+            <form id="paymentForm">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                <div class="form-group">
+                    <label for="amount">Сумма пополнения (руб.):</label>
+                    <input type="number" name="amount" id="amount" min="1" max="100000" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Описание (необязательно):</label>
+                    <input type="text" name="description" id="description" maxlength="255">
+                </div>
+                <button class="button" type="submit">Оплатить</button>
+            </form>
         </div>
     </div>
 @endsection
@@ -296,6 +367,59 @@
             if (event.target == modal) {
                 closeCommentModal();
             }
+            
+            var paymentModal = document.getElementById('paymentModal');
+            if (event.target == paymentModal) {
+                closePaymentModal();
+            }
         }
+
+        // Функции для работы с платежами
+        function openPaymentModal() {
+            var modal = document.getElementById('paymentModal');
+            modal.style.display = 'block';
+        }
+
+        function closePaymentModal() {
+            var modal = document.getElementById('paymentModal');
+            modal.style.display = 'none';
+            document.getElementById('paymentForm').reset();
+        }
+
+        // Обработка формы платежа
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalText = submitButton.textContent;
+            
+            submitButton.textContent = 'Обработка...';
+            submitButton.disabled = true;
+
+            fetch('{{ route("payments.create") }}', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Перенаправляем на страницу оплаты ЮKassa
+                    window.location.href = data.confirmation_url;
+                } else {
+                    console.log({data, er: data.error})
+                    alert('Ошибка при создании платежа: ' + data.error);
+                    submitButton.textContent = originalText;
+                    submitButton.disabled = false;
+                }
+            })
+            .catch(error => {
+                console.log(error)
+                console.error('Error:', error);
+                alert('Произошла ошибка при создании платежа');
+                submitButton.textContent = originalText;
+                submitButton.disabled = false;
+            });
+        });
     </script>
 @endsection

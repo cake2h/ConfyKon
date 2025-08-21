@@ -26,7 +26,9 @@ class SectionController extends Controller
             'name' => ['required', 'string'],
             'moderator_email' => ['required', 'email'],
             'date_start' => ['required', 'date'],
-            'date_end' => ['required', 'date', 'after_or_equal:date_start'],
+            'date_end' => ['required', 'date', 'after:date_start'],
+            'event_place' => ['nullable', 'string', 'max:255'],
+            'link' => ['nullable', 'url', 'max:255'],
         ]);
 
         $moderator = User::where('email', $request->moderator_email)->first();
@@ -42,6 +44,8 @@ class SectionController extends Controller
             'user_id' => $moderator->id,
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
+            'event_place' => $request->event_place,
+            'link' => $request->link,
         ]);
 
         return redirect()->route('admin.index', $conference);
@@ -59,7 +63,9 @@ class SectionController extends Controller
             'name' => ['required', 'string'],
             'moderator_email' => ['required', 'email'],
             'date_start' => ['required', 'date'],
-            'date_end' => ['required', 'date', 'after_or_equal:date_start'],
+            'date_end' => ['required', 'date', 'after:date_start'],
+            'event_place' => ['nullable', 'string', 'max:255'],
+            'link' => ['nullable', 'url', 'max:255'],
         ]);
 
         $newModerator = User::where('email', $request->moderator_email)->first();
@@ -74,6 +80,8 @@ class SectionController extends Controller
             'user_id' => $newModerator->id,
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
+            'event_place' => $request->event_place,
+            'link' => $request->link,
         ]);
 
         return redirect()->route('admin.index', $conference)->with('success', 'Секция успешно обновлена.');

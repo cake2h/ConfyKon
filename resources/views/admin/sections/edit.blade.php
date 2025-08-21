@@ -22,22 +22,27 @@
         </div>
 
         <div class="form-group">
-            <label for="date_start">Дата начала:</label>
-            <input type="date" name="date_start" value="{{ $section->date_start ? \Carbon\Carbon::parse($section->date_start)->format('Y-m-d') : '' }}" required>
+            <label for="date_start">Дата и время начала:</label>
+            <input type="datetime-local" name="date_start" value="{{ $section->date_start ? \Carbon\Carbon::parse($section->date_start)->format('Y-m-d\TH:i') : '' }}" required>
         </div>
 
         <div class="form-group">
-            <label for="date_end">Дата завершения:</label>
-            <input type="date" name="date_end" value="{{ $section->date_end ? \Carbon\Carbon::parse($section->date_end)->format('Y-m-d') : '' }}" required>
+            <label for="date_end">Дата и время завершения:</label>
+            <input type="datetime-local" name="date_end" value="{{ $section->date_end ? \Carbon\Carbon::parse($section->date_end)->format('Y-m-d\TH:i') : '' }}" required>
         </div>
 
-        <!-- <div class="form-group">
-            <label for="event_place">Место проведения:</label>
-            <input type="text" name="event_place" value="{{ $section->event_place }}" required>
-        </div> -->
+        <div class="form-group">
+            <label for="event_place">Место проведения (адрес и аудитория):</label>
+            <input type="text" name="event_place" value="{{ $section->event_place }}">
+        </div>
 
         <div class="form-group">
-            <label for="mosderator_email">Email модератора:</label>
+            <label for="link">Ссылка (необязательно):</label>
+            <input type="url" name="link" value="{{ $section->link }}">
+        </div>
+
+        <div class="form-group">
+            <label for="moderator_email">Email модератора:</label>
             <input type="email" name="moderator_email" value="{{ $moderatorEmail }}" required>
         </div>
 

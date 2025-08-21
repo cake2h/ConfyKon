@@ -1,25 +1,25 @@
-body {
+* {
   box-sizing: border-box;
-
   font-family: 'Mulish', sans-serif;
+}
 
+body {
   display: flex;
   flex-direction: column;
   align-items: center;
 
-    background: linear-gradient(to right, #c1d5f3, #f2e0e0);
-    height: 100vh;
+  background: linear-gradient(to right, #c1d5f3, #f2e0e0);
+  height: 100vh;
 }
 
 .content {
-  width: 50%;
+  width: 100%;
+  max-width: 1440px;
   height: 80vh;
 
-  padding: 10px 30px;
   margin-bottom: 20px;
 
   overflow-y: auto;
-
 
   border-radius: 16px;
 }
@@ -27,62 +27,171 @@ body {
 header {
   margin: 15px 0;
   padding: 10px 30px;
-
-  width: 100%; /* На экранах средней и большой ширины панель будет растягиваться на всю доступную ширину */
-  max-width: 1200px; /* Максимальная ширина панели для больших экранов */
-  box-sizing: border-box; /* Чтобы padding не увеличивал ширину панели */
-  
+  width: 100%;
+  max-width: 1440px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-
   border-radius: 16px;
   background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Медиазапрос для экранов меньше 1200px */
 @media (max-width: 1200px) {
   header {
-    padding: 10px 20px; /* Меньше отступов */
+    padding: 10px 20px;
+  }
+  
+  .controls {
+    gap: 10px;
   }
 }
 
-/* Медиазапрос для экранов меньше 768px (например, планшеты и мобильные устройства) */
+@media (max-width: 992px) {
+  .control {
+    min-width: 80px;
+  }
+  
+  .control p {
+    font-size: 11px;
+  }
+  
+  .material-icons {
+    font-size: 22px;
+  }
+}
+
 @media (max-width: 768px) {
   header {
-    padding: 10px 15px; /* Еще меньше отступов на мобильных устройствах */
-    flex-direction: column; /* Стилизуем элементы в колонку для мобильных устройств */
-    align-items: flex-start; /* Выравнивание элементов по левому краю */
+    padding: 10px 15px;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
   }
-
+  
+  header img {
+    width: 50px;
+  }
+  
   .controls {
-    flex-direction: column; /* Становится вертикальным списком */
-    gap: 10px; /* Увеличим промежутки между ссылками */
-    margin-top: 10px; /* Добавим верхний отступ для отделения */
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .control {
+    min-width: 10px;
   }
 }
 
-
-
+@media screen and (max-width: 480px) {
+    header {
+        padding: 10px;
+    }
+    
+    header img {
+        display: none;
+    }
+    
+    .controls {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+    }
+    
+    .control {
+        width: 100% !important;
+        min-width: auto !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        padding: 15px !important;
+        border-radius: 12px !important;
+        background-color: #f8f9fa !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .control:hover {
+        background-color: #e9ecef !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .control i {
+        display: none !important;
+    }
+    
+    .control p {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #202124 !important;
+        margin: 0 !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+    
+    .controls__button {
+        width: 100% !important;
+    }
+    
+    .controls__button button {
+        width: 100% !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        padding: 15px !important;
+        border-radius: 12px !important;
+        background-color: #f8f9fa !important;
+        border: none !important;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+        transition: all 0.2s ease !important;
+    }
+    
+    .controls__button button:hover {
+        background-color: #e9ecef !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .controls__button button i {
+        display: none !important;
+    }
+    
+    .controls__button button p {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #dc3545 !important;
+        margin: 0 !important;
+        text-align: center !important;
+        width: 100% !important;
+    }
+    
+    .active_icon {
+        display: none !important;
+    }
+}
 
 header img {
   width: 100px;
 }
 
-
 .controls {
   display: flex;
   flex-direction: row;
-  gap: 5px;
-
+  gap: 15px;
   font-size: 12px;
   font-weight: 600;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .controls a {
   text-decoration: none;
   color: #000;
+  width: 40px;
 }
 
 .control i, .controls__button i {
@@ -126,7 +235,9 @@ header img {
 }
 
 .control {
-  width: 90px;
+  width: auto;
+  min-width: 90px;
+  padding: 5px 10px;
 }
 
 .material-icons {
@@ -142,7 +253,7 @@ header img {
 
 ::-webkit-scrollbar {
   height: 80%;
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-thumb {

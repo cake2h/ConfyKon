@@ -23,6 +23,9 @@ class ProfileController extends Controller
             'applications.role',
             'applications.report.reportStatus',
             'applications.report.reportComments',
+            'payments' => function($query) {
+                $query->orderBy('created_at', 'desc');
+            },
             'city',
             'education_level',
             'study_place'

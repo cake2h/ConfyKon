@@ -4,165 +4,7 @@
 @section('some_styles')
     <link rel="stylesheet" href="{{ asset('css/main/conference.css') }}">
     <link rel="stylesheet" href="{{ asset('css/admin/form.css') }}">
-    <style>
-        .modal__container {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 5px;
-            position: relative;
-        }
-
-        .modal__container form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-        }
-
-        .modal__container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            width: 100%;
-        }
-
-        .form-group {
-            width: 100%;
-            max-width: 400px;
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            text-align: left;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 200px;
-        }
-
-        .button:hover {
-            background-color: #45a049;
-        }
-
-        .close {
-            position: absolute;
-            right: 10px;
-            top: 5px;
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: black;
-        }
-
-        .page-container {
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-        }
-        .main-content {
-            flex: 1;
-        }
-        .sidebar {
-            width: 300px;
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .theme-section {
-            margin-bottom: 20px;
-        }
-        .theme-title {
-            font-size: 1.2em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        .question-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .question-item {
-            margin-bottom: 8px;
-        }
-        .question-link {
-            color: #007bff;
-            text-decoration: none;
-            font-size: 0.9em;
-            display: block;
-            padding: 5px;
-            border-radius: 4px;
-            transition: background-color 0.2s;
-        }
-        .question-link:hover {
-            background-color: #e9ecef;
-            text-decoration: underline;
-        }
-        .faq-modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-        .faq-modal__container {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 5px;
-            position: relative;
-        }
-        .faq-modal__close {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #666;
-        }
-        .faq-modal__title {
-            margin-top: 0;
-            color: #333;
-        }
-        .faq-modal__answer {
-            margin-top: 15px;
-            color: #666;
-            line-height: 1.5;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/main/sections.css') }}">
 @endsection
 
 @section('content')
@@ -192,7 +34,7 @@
                 <div class="conference-info">
                     <p><strong>Город проведения:</strong> {{ $conference->city->name }}</p>
                     <p><strong>Место проведения:</strong> {{ $conference->address }}</p>
-                    <p><strong>Дата проведения:</strong> {{ date('d-m-Y', strtotime($conference->date_start)) }} - {{ date('d-m-Y', strtotime($conference->date_end)) }}</p>
+                    <p><strong>Даты проведения:</strong> {{ \Carbon\Carbon::parse($conference->date_start)->format('d.m.Y') }} - {{ \Carbon\Carbon::parse($conference->date_end)->format('d.m.Y') }}</p>
                     <p><strong>Крайний срок подачи заявок:</strong> {{ date('d-m-Y', strtotime($conference->deadline_applications)) }}</p>
                     <p><strong>Формат проведения:</strong> {{ $conference->format->name }}</p>
                     <p><strong>Организатор:</strong> {{ $conference->organizer->surname }} {{ $conference->organizer->name }} {{ $conference->organizer->patronymic }}</p>
@@ -209,7 +51,12 @@
                             <h2>{{ $section->name }}</h2>
                             <p class="description">{{ $section->description }}</p>
                             <div class="section-info">
-                                <p><strong>Дата проведения:</strong> {{ date('d-m-Y', strtotime($section->date_start)) }} - {{ date('d-m-Y', strtotime($section->date_end)) }}</p>
+                                <p><strong>Дата проведения:</strong> {{ \Carbon\Carbon::parse($section->date_start)->format('d.m.Y') }} - {{ \Carbon\Carbon::parse($section->date_end)->format('d.m.Y') }}</p>
+                                <p><strong>Время проведения:</strong> {{ \Carbon\Carbon::parse($section->date_start)->format('H:i') }} - {{ \Carbon\Carbon::parse($section->date_end)->format('H:i') }}</p>
+                                <p><strong>Место проведения:</strong> {{ $section->event_place ?: 'не определено' }}</p>
+                                @if($section->link)
+                                    <p><strong>Ссылка:</strong> <a href="{{ $section->link }}" target="_blank">{{ $section->link }}</a></p>
+                                @endif
                                 <p><strong>Модератор:</strong> {{ $section->moder->surname }} {{ $section->moder->name }} {{ $section->moder->patronymic }}</p>
                             </div>
                             @auth
@@ -455,35 +302,3 @@
         }
     </script>
 @endsection
-
-<style>
-    .files-list {
-        margin-top: 20px;
-    }
-
-    .file-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-    }
-
-    .file-name {
-        font-size: 16px;
-        color: #333;
-    }
-
-    .download-button {
-        padding: 8px 15px;
-        background-color: #4CAF50;
-        color: white;
-        text-decoration: none;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-
-    .download-button:hover {
-        background-color: #45a049;
-    }
-</style> 

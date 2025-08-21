@@ -13,7 +13,11 @@ use App\Http\Controllers\ConferenceProgramController;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\Process\Process;
 
+Route::get('/start', function () {
+    return view('lend');
+});
 
+Route::get('/service', [ConfController::class, 'index'])->name('conf.index');
 Route::prefix('')->group(function () {
     Route::get('/', [ConfController::class, 'index'])->name('conf.index');
 
@@ -101,3 +105,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/payment.php';
