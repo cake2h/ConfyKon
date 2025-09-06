@@ -15,6 +15,11 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Models\Report;
 
+use App\Models\Payment;
+use App\Enums\PaymentType;
+use App\Enums\PaymentStatus;
+use Illuminate\Validation\ValidationException;
+
 class ConfController extends Controller
 {
     public function index()
@@ -89,17 +94,44 @@ class ConfController extends Controller
             'education_levels.*' => 'exists:education_levels,id'
         ]);
 
-        $validated['date_start'] = Carbon::parse($validated['date_start']);
-        $validated['date_end'] = Carbon::parse($validated['date_end']);
-        $validated['deadline_applications'] = Carbon::parse($validated['deadline_applications']);
-        $validated['deadline_reports'] = Carbon::parse($validated['deadline_reports']);
-        $validated['user_id'] = auth()->id();
+        $user = auth()->user();
+        $conferencePrice = 300;
 
-        $conf = Conference::create($validated);
-        $conf->educationLevels()->attach($request->education_levels);
+        dd($user->balance);
+
+        // Проверка баланса
+        if ($user->balance < $conferencePrice) {
+            throw ValidationException::withMessages([
+                'balance' => 'Недостаточно средств на счёте для создания конференции (нужно 300₽).',
+            ]);
+        }
+
+        DB::transaction(function () use ($validated, $conferencePrice, $user, $request) {
+            // Списываем деньги
+            $user->decrement('balance', $conferencePrice);
+
+            // Создаём локальный платеж (расход)
+            Payment::create([
+                'user_id' => $user->id,
+                'type' => PaymentType::EXPENSE, // расход
+                'amount' => $conferencePrice,
+                'status' => PaymentStatus::SUCCESS,
+                'comment' => 'Оплата за создание конференции',
+            ]);
+
+            // Создание конференции
+            $validated['date_start'] = Carbon::parse($validated['date_start']);
+            $validated['date_end'] = Carbon::parse($validated['date_end']);
+            $validated['deadline_applications'] = Carbon::parse($validated['deadline_applications']);
+            $validated['deadline_reports'] = Carbon::parse($validated['deadline_reports']);
+            $validated['user_id'] = $user->id;
+
+            $conf = Conference::create($validated);
+            $conf->educationLevels()->attach($request->education_levels);
+        });
 
         return redirect()->route('admin.index')
-            ->with('success', 'Конференция успешно создана');
+            ->with('success', 'Конференция успешно создана, с вашего счёта списано 300₽.');
     }
 
     public function application()

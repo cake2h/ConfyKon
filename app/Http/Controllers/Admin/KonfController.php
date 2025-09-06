@@ -23,6 +23,11 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 
+use App\Models\Payment;
+use App\Enums\PaymentType;
+use App\Enums\PaymentStatus;
+use Illuminate\Validation\ValidationException;
+
 class KonfController extends Controller
 {
     public function create()
@@ -36,15 +41,6 @@ class KonfController extends Controller
 
     public function store(Request $request)
     {
-        Log::info('Request data:', [
-            'all' => $request->all(),
-            'files' => $request->allFiles(),
-            'has_files' => $request->hasFile('files'),
-            'file_count' => $request->hasFile('files') ? count($request->file('files')) : 0,
-            'has_temp_faqs' => session()->has('temp_faqs'),
-            'temp_faqs' => session('temp_faqs')
-        ]);
-
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -61,10 +57,32 @@ class KonfController extends Controller
             'file_names.*' => 'nullable|string|max:255'
         ]);
 
+        $conferencePrice = 300; // стоимость создания конференции
+        $user = auth()->user();
+
+        // Проверка баланса
+        if ($user->balance < $conferencePrice) {
+            throw ValidationException::withMessages([
+                'balance' => 'Недостаточно средств для создания конференции (нужно 300₽).',
+            ]);
+        }
+
         try {
             DB::beginTransaction();
 
             $data = $request->except(['education_levels', 'files', 'file_names']);
+
+             // Списание средств
+            $user->decrement('balance', $conferencePrice);
+
+            // Создаём локальный платёж (расход)
+            Payment::create([
+                'user_id' => $user->id,
+                'type' => PaymentType::EXPENSE, // Расход
+                'amount' => $conferencePrice,
+                'status' => PaymentStatus::SUCCESS,
+                'comment' => 'Оплата за создание конференции',
+            ]);
             
             // Проверяем, что если указаны оба возраста, то max_age > min_age
             if (!empty($data['min_age']) && !empty($data['max_age']) && $data['max_age'] <= $data['min_age']) {
