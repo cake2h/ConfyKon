@@ -3,191 +3,70 @@
 
 @section('some_styles')
     <link rel="stylesheet" href="{{ asset('css/admin/admin.css') }}" />
-    <style>
-        .content-container 
-        {   width: 80%;
-            margin-left: -90px;
-        }
-
-        #emailList {
-            width: 190%;
-        }
-
-        .textBlock {
-            margin-left: 550px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 25%;
-            border-radius: 8px;
-            position: relative;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close:hover {
-            color: black;
-        }
-
-        .attachments-container {
-            margin: 20px 0;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .attachment-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px;
-            margin: 5px 0;
-            background: #f8f9fa;
-            border-radius: 4px;
-        }
-
-        .attachment-item button {
-            color: #dc3545;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .attachment-item button:hover {
-            color: #bd2130;
-        }
-
-        #fileInput {
-            display: none;
-        }
-
-        .file-upload-btn {
-            display: inline-block;
-            padding: 8px 16px;
-            background: #007bff;
-            color: white;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .file-upload-btn:hover {
-            background: #0056b3;
-        }
-
-        .modal-footer {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-footer button {
-            padding: 8px 16px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: #007bff;
-            color: white;
-            border: none;
-        }
-
-        .btn-secondary {
-            background: #6c757d;
-            color: white;
-            border: none;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin/form.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/admin/email.css') }}" />
 @endsection
 
 @section('content')
-    <div class="content-container">
-        <div class="users">
-            <h2>Адреса для отправки</h2>
-            <select id="emailType">
-                <option value="">Выберите тип рассылки</option>
-                <optgroup label="Участники конференции">
-                    @foreach($conferences as $conference)
-                        <option value="conference" data-conference-id="{{ $conference->id }}">
-                            {{ $conference->name }}
-                        </option>
-                    @endforeach
-                </optgroup>
-                <optgroup label="Модераторы">
-                    @foreach($conferences as $conference)
-                        <option value="moderators" data-conference-id="{{ $conference->id }}">
-                            {{ $conference->name }}
-                        </option>
-                    @endforeach
-                </optgroup>
-                <option value="custom">Загрузить</option>
-            </select>
+    <div class="main__container">
+        <div class="content-container">
+            <div class="users">
+                <h2>Адреса для отправки</h2>
+                <select id="emailType">
+                    <option value="">Выберите тип рассылки</option>
+                    <optgroup label="Участники конференции">
+                        @foreach($conferences as $conference)
+                            <option value="conference" data-conference-id="{{ $conference->id }}">
+                                {{ $conference->name }}
+                            </option>
+                        @endforeach
+                    </optgroup>
+                    <optgroup label="Модераторы">
+                        @foreach($conferences as $conference)
+                            <option value="moderators" data-conference-id="{{ $conference->id }}">
+                                {{ $conference->name }}
+                            </option>
+                        @endforeach
+                    </optgroup>
+                    <option value="custom">Загрузить</option>
+                </select>
 
-            <form method="POST" action="{{ route('send.emails') }}" id="emailForm">
-                @csrf
-                <input type="hidden" name="attachments" id="selectedAttachments" value="">
-                <textarea id="emailList" name="emails" readonly ></textarea>
-                <button class="link" id="goBtn" type="submit">Рассылка</button>
-            </form>
-        </div>
+                <form method="POST" action="{{ route('send.emails') }}" id="emailForm" style="display: flex; flex-direction: column; align-items: flex-end;">
+                    @csrf
+                    <input type="hidden" name="attachments" id="selectedAttachments" value="">
+                    <textarea id="emailList" name="emails" readonly ></textarea>
+                    <button class="link" id="goBtn" type="submit" style="margin-top: 10px;">Рассылка</button>
+                </form>
+            </div>
 
-        <div class="textBlock">
-            <h2>Письмо для отправки</h2>
-            <form action="{{ route('save.mail') }}" method="post" id="mailForm">
-                @csrf
-                <textarea name="mail_text">{{ file_get_contents(resource_path('views/emails/mail.blade.php')) }}</textarea>
-                <div class="button-group">
-                    <button class="link" id="saveBtn" type="submit">Сохранить</button>
-                    <button class="link" id="filesBtn" type="button">Прикрепленные файлы</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Модальное окно -->
-        <div id="attachmentsModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <h3>Прикрепленные файлы</h3>
-                
-                <div class="attachments-container">
-                    <div id="attachmentsList">
+            <div class="textBlock">
+                <h2>Письмо для отправки</h2>
+                <form action="{{ route('save.mail') }}" method="post" id="mailForm" style="display: flex; flex-direction: column; align-items: flex-end;">
+                    @csrf
+                    <textarea name="mail_text">{{ file_get_contents(resource_path('views/emails/mail.blade.php')) }}</textarea>
+                    <div class="button-group">
+                        <button class="link" id="saveBtn" type="submit">Сохранить</button>
+                        <button class="link" id="filesBtn" type="button">Прикрепленные файлы</button>
                     </div>
-                </div>
+                </form>
+            </div>
 
-                <div class="modal-footer">
-                    <label for="fileInput" class="file-upload-btn">Прикрепить файл</label>
-                    <input type="file" id="fileInput" multiple>
-                    <button class="btn-secondary" onclick="closeModal()">Закрыть</button>
+            <!-- Модальное окно -->
+            <div id="attachmentsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <h3>Прикрепленные файлы</h3>
+                    
+                    <div class="attachments-container">
+                        <div id="attachmentsList">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <label for="fileInput" class="file-upload-btn">Прикрепить файл</label>
+                        <input type="file" id="fileInput" multiple>
+                        <button class="btn-secondary" onclick="closeModal()">Закрыть</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -275,7 +154,7 @@
             if (filesBtn) {
                 filesBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    modal.style.display = 'block';
+                    modal.style.display = 'flex';
                 });
             }
 
@@ -341,8 +220,10 @@
             div.className = 'attachment-item';
             div.dataset.id = attachment.id;
             div.innerHTML = `
-                <span>${attachment.original_name}</span>
-                <button type="button" onclick="removeAttachment('${attachment.id}', '${attachment.file_path}')">Удалить</button>
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <span>${attachment.original_name}</span>
+                    <button type="button" onclick="removeAttachment('${attachment.id}', '${attachment.file_path}')">Удалить</button>
+                </div>
             `;
             document.getElementById('attachmentsList').appendChild(div);
             updateSelectedAttachments();

@@ -263,7 +263,7 @@ class ConfController extends Controller
         $conferences = Conference::query();
 
         if ($query) {
-            $conferences->where('name', 'LIKE', "%{$query}%");
+            $conferences->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($query) . '%']);
         }
 
         if (!empty($month)) {

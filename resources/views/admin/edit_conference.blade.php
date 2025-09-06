@@ -67,7 +67,7 @@
 
                 <div class="button-container">
                     <button type="submit" class="button">Изменить</button>
-                    <button type="button" class="button cancel-button" onclick="history.back()">Отмена</button>
+                    <button type="button" class="button cancel-button" onclick="history.back()">Назад</button>
                 </div>
             </div>
         </div>

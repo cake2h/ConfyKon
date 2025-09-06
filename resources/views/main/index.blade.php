@@ -43,7 +43,7 @@
 
             function generateMonthLinks() {
                 const currentYear = new Date().getFullYear();
-                const currentMonth = new Date().getMonth();
+                const currentMonth = new Date().getMonth() - 1;
                 
                 const monthContainer = document.getElementById('monthLinks');
                 monthContainer.innerHTML = '';  
@@ -83,29 +83,40 @@
             window.onload = generateMonthLinks;
         </script>
 
-
-
         <div class="content">
-            @foreach($conferences as $conference)
-                <div class="conference">
-                    <h2 class="title">{{ $conference->name }}</h2>
-                    <div class="simple__info">
-                        <p><strong>Город:</strong> {{ $conference->city->name }}</p>
-                        <p>Дата проведения: {{ Carbon::parse($conference->date_start)->format('d-m-Y') }} - {{ Carbon::parse($conference->date_end)->format('d-m-Y') }} </p>
-                        <p>Срок регистрации на конференцию до: <span style="color: #ff0000">{{ $conference->deadline_applications ? Carbon::parse($conference->deadline_applications)->format('d-m-Y') : 'Не указан' }}</span></p>
-                        <p>Срок загрузки публикаций до: <span style="color: #ff0000">{{ $conference->deadline_reports ? Carbon::parse($conference->deadline_reports)->format('d-m-Y') : 'Не указан' }}</span></p>
-                        <p>Формат проведения: {{ $conference->format->name }}</p>
+            @if($conferences->count())
+                @foreach($conferences as $conference)
+                    <div class="conference">
+                        <h2 class="title">{{ $conference->name }}</h2>
+                        <div class="simple__info">
+                            <p><strong>Город:</strong> {{ $conference->city->name }}</p>
+                            <p>Дата проведения: {{ Carbon::parse($conference->date_start)->format('d-m-Y') }} - {{ Carbon::parse($conference->date_end)->format('d-m-Y') }} </p>
+                            <p>Срок регистрации на конференцию до: 
+                                <span style="color: #ff0000">
+                                    {{ $conference->deadline_applications ? Carbon::parse($conference->deadline_applications)->format('d-m-Y') : 'Не указан' }}
+                                </span>
+                            </p>
+                            <p>Срок загрузки публикаций до: 
+                                <span style="color: #ff0000">
+                                    {{ $conference->deadline_reports ? Carbon::parse($conference->deadline_reports)->format('d-m-Y') : 'Не указан' }}
+                                </span>
+                            </p>
+                            <p>Формат проведения: {{ $conference->format->name }}</p>
+                        </div>
+                        <p>{!! nl2br(e($conference->description)) !!}</p>
+
+                        @if(now() < Carbon::parse($conference->date_start)->subDays(2))
+                            <p class="link"><a href="{{ route('conf.sections.show', $conference->id) }}">Подробнее</a></p>
+                        @else
+                            <button class="link" style="color: gray; opacity: 0.5" disabled>Регистрация закончилась</button>
+                        @endif
                     </div>
-                    <p>{!! nl2br(e($conference->description)) !!}</p>
-
-                    @if(now() < Carbon::parse($conference->date_start)->subDays(2))
-                        <p class="link"><a href="{{ route('conf.sections.show', $conference->id) }}">Подробнее</a></p>
-                    @else
-                        <button class="link" style="color: gray; opacity: 0.5" disabled>Регистрация закончилась</button>
-                    @endif
-
+                @endforeach
+            @else
+                <div class="conference">
+                    <p>Конференций не найдено</p>
                 </div>
-            @endforeach
+            @endif
         </div>
     </div>
 

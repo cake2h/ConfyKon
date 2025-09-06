@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="{{ asset('css/admin/konfs/add.css') }}">
 @endsection
 
+@section('page_title')
+    <h2 class="page-title">Редактирование конференции</h2>
+@endsection
+
 @section('content')
     <div class="main__container">
         <form action="{{ route('admin.konfs.update', $konf->id) }}" method="POST" class="conference-form" enctype="multipart/form-data">
-            <h1 class="page-title">Редактирование конференции</h1>
             @csrf
             @method('PUT')
             <div class="columns">

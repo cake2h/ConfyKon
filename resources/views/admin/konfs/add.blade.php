@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="{{ asset('css/admin/konfs/add.css') }}">
 @endsection
 
+@section('page_title')
+    <h2 class="page-title">Добавление конференции</h2>
+@endsection
+
 @section('content')
     <div class="main__container">
         @if ($errors->any())
@@ -23,7 +27,6 @@
         <!-- <button type="button" class="button faq-button" onclick="openFaqModal()">Часто задаваемые вопросы</button> -->
 
         <form action="{{ route('admin.konfs.store') }}" method="POST" class="conference-form" enctype="multipart/form-data">
-            <h1 class="page-title">Добавление конференции</h1>
             @csrf
             <div class="columns">
                 <div class="left__column">
@@ -142,7 +145,7 @@
             </div>
                 <div class="button-container" style="display: flex; justify-content: center; gap: 10px; margin-top: 20px;">
                     <button type="submit" class="button">Создать конференцию</button>
-                    <button type="button" class="button cancel-button" onclick="history.back()">Отмена</button>
+                    <button type="button" class="button cancel-button" onclick="history.back()">Назад</button>
                 </div>
         </form>
     </div>

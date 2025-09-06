@@ -125,9 +125,6 @@
                 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" type="text/javascript"></script>
                 <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.js" type="text/javascript"></script>
                 <script src="js/jquery.maskedinput.min.js"></script>
-                <script>
-                    $("#phone_number").mask("+7(999)999-99-99");
-                </script>
 
                 <input
                     class="authInput"
@@ -225,12 +222,13 @@
     <script>
         $(document).ready(function() {
             // Инициализация маски для телефона
-            $("#phone_number").mask("+7(999)999-99-99");
+            $("#phone_number").mask("+7 (999) 999 99 99");
 
             // Инициализация Select2 для городов
             $('#citySelect').select2({
                 placeholder: 'Выберите город',
                 allowClear: true,
+                appe
                 ajax: {
                     url: '{{ route("cities.search") }}',
                     dataType: 'json',

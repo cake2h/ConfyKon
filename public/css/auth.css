@@ -67,6 +67,7 @@ body {
 .title {
     text-align: center;
 
+    margin: 0;
     padding: 20px 0;
 
     font-size: 24px;
@@ -183,6 +184,7 @@ body {
 }
 
 .eduSelect {
+    appearance: none;
     color: #B1B1B7;
 }
 
@@ -190,9 +192,9 @@ body {
     color: black;
 }
 
-/* .studyPlaceSelect {
-    color: #B1B1B7;
-} */
+.studyPlaceSelect {
+    appearance: none;
+} 
 
 .studyPlaceSelect option {
     color: black;

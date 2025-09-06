@@ -5,9 +5,11 @@
     <link rel="stylesheet" href="{{ asset('css/admin/form.css') }}" />
 @endsection
 
-@section('content')
-
+@section('page_title')
     <h2>Изменение секции {{ $section->name }} в конференции {{ $conference->name }}</h2>
+@endsection
+
+@section('content')
     <form method="POST" action="{{ route('admin.sections.update', ['conference' => $conference->id, 'section' => $section->id]) }}" class="conference-form">
         @csrf
         @method('PUT')
@@ -53,8 +55,8 @@
         </div>
 
         <div class="button-container">
-            <button type="submit" class="button" style="background-color: #92d0fa; color: black; border: none; border-radius: 6px; padding: 12px 32px; font-weight: 600; cursor: pointer; transition: background 0.2s;">Сохранить изменения</button>
-            <button type="button" class="button cancel-button" onclick="history.back()">Отмена</button>
+            <button type="submit" class="button submit-button">Сохранить изменения</button>
+            <button type="button" class="button cancel-button" onclick="history.back()">Назад</button>
         </div>
     </form>
 @endsection

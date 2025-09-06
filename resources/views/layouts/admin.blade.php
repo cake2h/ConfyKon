@@ -29,7 +29,7 @@
         </a>
 
         @auth
-            <a href="{{ route('admin.index') }}" class="control">
+                <a href="{{ route('admin.index') }}" class="control">
                     <i class="material-icons {{ request()->routeIs('admin.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
                     <p>Панель организатора</p>
                 </a>
@@ -42,6 +42,10 @@
                         </button>
                     </form>
                 </div>
+                <a href="{{ route('admin.konfs.create') }}" class="control">
+                    <i class="material-icons {{ request()->routeIs('admin.konfs.create') ? ' active_icon' : '' }}">add</i>
+                    <p>Создать конференецию</p>
+                </a>
 
                 @if (Auth::user()->isModerator())
                     <a href="{{ route('moderator.index') }}" class="control">
@@ -68,6 +72,9 @@
 
     </div>
 </header>
+
+@yield('page_title')
+
 <main class="content">
     @yield('content')
 </main>

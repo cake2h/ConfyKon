@@ -1,0 +1,121 @@
+.main__container {
+    padding: 20px;
+    background-color: #fff;
+}
+
+#attachmentsModal {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+}
+
+/* Базовый контейнер модалки */
+.modal {
+  display: none; /* Скрыта по умолчанию */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Контент модалки */
+.modal-content {
+  background: #fff;
+  margin: auto;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 60%;
+  position: relative;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+
+/* Кнопка закрытия */
+.close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close:hover {
+  color: #ff4d4d;
+}
+
+/* Заголовок */
+.modal-content h3 {
+  margin: 0 0 15px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  color: #333;
+}
+
+/* Контейнер для файлов */
+.attachments-container {
+  width: 100%;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  background: #fafafa;
+}
+
+/* Футер модалки */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Кнопка загрузки файла */
+.file-upload-btn {
+  background: #007bff;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 14px;
+}
+.file-upload-btn:hover {
+  background: #0056b3;
+}
+
+/* Скрываем input file */
+#fileInput {
+  display: none;
+}
+
+/* Кнопка закрыть */
+.btn-secondary {
+  background: #6c757d;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-secondary:hover {
+  background: #5a6268;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
