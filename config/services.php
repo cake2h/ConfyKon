@@ -41,4 +41,10 @@ return [
         'url' => env('DEEPSEEK_API_URL', 'https://api.deepseek.com'),
         'api_key' => env('DEEPSEEK_API_KEY'),
     ],
+
+    'antiplagiat' => [
+        'wsdl'     => env('ANTIPLAGIAT_WSDL'),
+        'login'    => env('ANTIPLAGIAT_LOGIN'),
+        'password' => env('ANTIPLAGIAT_PASSWORD'),
+    ],
 ];
