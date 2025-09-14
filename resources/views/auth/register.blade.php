@@ -227,7 +227,6 @@
             $('#citySelect').select2({
                 placeholder: 'Выберите город',
                 allowClear: true,
-                appe,
                 ajax: {
                     url: '{{ route("cities.search") }}',
                     dataType: 'json',
