@@ -124,7 +124,6 @@
                 />
                 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" type="text/javascript"></script>
                 <script src="https://cdn.jsdelivr.net/npm/jquery.maskedinput@1.4.1/src/jquery.maskedinput.js" type="text/javascript"></script>
-                <script src="js/jquery.maskedinput.min.js"></script>
 
                 <input
                     class="authInput"
@@ -228,7 +227,7 @@
             $('#citySelect').select2({
                 placeholder: 'Выберите город',
                 allowClear: true,
-                appe
+                appe,
                 ajax: {
                     url: '{{ route("cities.search") }}',
                     dataType: 'json',
