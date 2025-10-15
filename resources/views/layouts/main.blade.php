@@ -40,6 +40,11 @@
                 </a>
             @endif
 
+            <a class="control" href="{{ route('antiplagiat.upload.form') }}">
+                <i class="material-icons {{ request()->routeIs('antiplagiat.upload.form') ? ' active_icon' : '' }}">menu_book</i>
+                <p>Антиплагиат</p>
+            </a>
+
             <a class="control" href="{{ route('dashboard.index') }}">
                 <i class="material-icons {{ request()->routeIs('dashboard.index') ? ' active_icon' : '' }}">person</i>
                 <p>Профиль</p>

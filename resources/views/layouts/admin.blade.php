@@ -33,6 +33,12 @@
                     <i class="material-icons {{ request()->routeIs('admin.index') ? ' active_icon' : '' }}">admin_panel_settings</i>
                     <p>Панель организатора</p>
                 </a>
+
+                <a class="control" href="{{ route('antiplagiat.upload.form') }}">
+                    <i class="material-icons {{ request()->routeIs('antiplagiat.upload.form') ? ' active_icon' : '' }}">menu_book</i>
+                    <p>Антиплагиат</p>
+                </a>
+
                 <div class="control">
                     <form method="GET" action="{{ route('page.emails') }}">
                         @csrf

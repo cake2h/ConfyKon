@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\AntiplagiatClient;
+use App\Models\AntiplagiatReport;
 
 class AntiplagiatController extends Controller
 {
     public function __construct(protected AntiplagiatClient $client) {}
 
-    /**
-     * Форма загрузки документа
-     */
     public function uploadForm()
     {
-        return view('antiplagiat.upload');
+        $reports = AntiplagiatReport::where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('antiplagiat.upload', compact('reports'));
     }
 
     /**
@@ -43,11 +45,17 @@ class AntiplagiatController extends Controller
             return back()->withErrors(['file' => 'Не удалось загрузить документ.']);
         }
 
+         AntiplagiatReport::create([
+            'doc_id' => $docId,
+            'user_id' => auth()->id(),
+            'title' => $file->getClientOriginalName(),
+        ]);
+
         // Запускаем проверку
         $this->client->checkDocument($docId);
 
         return redirect()
-            ->route('antiplagiat.status', ['docId' => $docId])
+            ->route('antiplagiat.report', ['docId' => $docId])
             ->with('success', 'Документ отправлен на проверку.');
     }
 
@@ -68,16 +76,24 @@ class AntiplagiatController extends Controller
         ]);
     }
 
-    /**
-     * Просмотр итогового отчета
-     */
     public function report($docId)
     {
-        $report = $this->client->getReportView($docId);
+        $status = $this->client->getCheckStatus($docId);
+
+        if ($status->GetCheckStatusResult->Status === 'Ready') {
+             $report = $this->client->getReportView($docId);
+
+            return view('antiplagiat.report', [
+                'docId' => $docId,
+                'report' => $report,
+                'status' => null
+            ]);
+        } 
 
         return view('antiplagiat.report', [
             'docId' => $docId,
-            'report' => $report,
+            'status' => $status,
+            'report' => null
         ]);
     }
 }

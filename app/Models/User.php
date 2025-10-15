@@ -89,6 +89,11 @@ class User extends Authenticatable
         return Conference::where('user_id', $this->id)->exists();
     }
 
+    public function antiplagiatReports()
+    {
+        return $this->hasMany(AntiplagiatReport::class);
+    }
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'consent_to_mailing' => 'boolean',
