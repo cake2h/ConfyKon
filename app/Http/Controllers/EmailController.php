@@ -69,7 +69,7 @@ class EmailController extends Controller
         foreach ($emails as $email) {
             SendEmailWithAttachments::dispatch(
                 trim($email),
-                'Приглашение на Всероссийскую конференцию молодых ученых "МАТЕМАТИЧЕСКОЕ И ИНФОРМАЦИОННОЕ МОДЕЛИРОВАНИЕ" (МИМ-2024)',
+                'ПОМЕНЯТЬ НА ЗАГОЛОВОК',
                 file_get_contents(resource_path('views/emails/mail.blade.php')),
                 $attachments
             );

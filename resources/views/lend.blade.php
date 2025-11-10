@@ -6,7 +6,12 @@
     <title>Научный форум</title>
     <!-- Montserrat font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
+        .main-content {
+            background: url('./img/land.jpg') no-repeat center center / cover;
+            color: #fff;
+        }
         html, body {
             scroll-behavior: smooth;
         }
@@ -83,7 +88,6 @@
         .main-content p {
             font-size: 1.25rem;
             font-weight: 400;
-            color: #222;
             max-width: 700px;
             margin: 0 auto 50px auto;
             line-height: 1.5;
@@ -196,23 +200,6 @@
         <p>Управляйте научной конференцией без лишних усилий. Принимайте заявки, проверяйте отчёты и получайте аналитику. Наша платформа поможет вам организовать все и повысить вовлечённость участников.</p>
         <a class="start-btn" href="/">Начать сейчас</a>
     </div>
-    <!-- <div class="features-block">
-        <div class="feature-card">
-            <div class="feature-img">КАРТИНКА</div>
-            <div class="feature-title">Организация</div>
-            <div class="feature-desc">Создавайте и управляйте своими конференциями, приглашайте участников и модераторов.</div>
-        </div>
-        <div class="feature-card">
-            <div class="feature-img">КАРТИНКА</div>
-            <div class="feature-title">Участие</div>
-            <div class="feature-desc">Подавайте заявки, участвуйте в секциях, публикуйте доклады и статьи.</div>
-        </div>
-        <div class="feature-card">
-            <div class="feature-img">КАРТИНКА</div>
-            <div class="feature-title">Модерация</div>
-            <div class="feature-desc">Модерируйте секции, оценивайте доклады, помогайте участникам.</div>
-        </div>
-    </div> -->
     <div class="support-block">
         <div class="support-title">При поддержке</div>
         <div class="support-desc">
@@ -220,11 +207,15 @@
         </div>
         <div class="support-logos">
             <div class="support-logo-col">
-                <div class="support-logo-img">ЛОГО 1</div>
+                <div class="support-logo-img">
+                    <img src="{{ asset('img/tech.svg') }}" alt="Платформа университетского технологического предпринимательства" style="max-width: 200px;">
+                </div>
                 <div class="support-logo-caption">Платформа университетского технологического предпринимательства</div>
             </div>
             <div class="support-logo-col">
-                <div class="support-logo-img">ЛОГО 2</div>
+                <div class="support-logo-img">
+                    <img src="{{ asset('img/fond.png') }}" alt="Фонд содействия инновациям" style="max-width: 250px;">
+                </div>
                 <div class="support-logo-caption">Фонд содействия инновациям</div>
             </div>
         </div>
@@ -236,21 +227,27 @@
         </div>
         <div class="features-list">
             <div class="feature-item">
-                <div class="feature-icon">ИКОНКА</div>
+                <div class="feature-icon">
+                    <i class="material-icons">manage_accounts</i>
+                </div>
                 <div class="feature-text">
                     <div class="feature-item-title">Управление заявками участников</div>
                     <div class="feature-item-desc">Простая система подачи заявок на участие и прослушивание конференций</div>
                 </div>
             </div>
             <div class="feature-item">
-                <div class="feature-icon">ИКОНКА</div>
+                <div class="feature-icon">
+                    <i class="material-icons">verified</i>
+                </div>
                 <div class="feature-text">
                     <div class="feature-item-title">Проверка загружаемых материалов</div>
                     <div class="feature-item-desc">Организация экспертной оценки и проверки докладов перед публикацией</div>
                 </div>
             </div>
             <div class="feature-item">
-                <div class="feature-icon">ИКОНКА</div>
+                <div class="feature-icon">
+                    <i class="material-icons">analytics</i>
+                </div>
                 <div class="feature-text">
                     <div class="feature-item-title">Аналитика и отчёты</div>
                     <div class="feature-item-desc">Подробные статистические отчёты по итогам проведённых конференций</div>
@@ -265,13 +262,17 @@
         </div>
         <div class="pricing-cards">
             <div class="pricing-card">
-                <div class="pricing-img">КАРТИНКА</div>
+                <div class="pricing-img">
+                    <img src="{{ asset('img/plan1.webp') }}" alt="Базовый план" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+                </div>
                 <div class="pricing-plan-title">Базовый план</div>
                 <div class="pricing-price">5000₽</div>
                 <div class="pricing-plan-desc">Подходит для небольших конференций с ограниченным количеством участников и функций.</div>
             </div>
             <div class="pricing-card">
-                <div class="pricing-img">КАРТИНКА</div>
+                <div class="pricing-img">
+                    <img src="{{ asset('img/plan2.jpg') }}" alt="Расширенный план" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">
+                </div>
                 <div class="pricing-plan-title">Расширенный план</div>
                 <div class="pricing-price">10000₽</div>
                 <div class="pricing-plan-desc">Включает расширенный набор функций для средних конференций с большим количеством участников.</div>
@@ -280,9 +281,9 @@
     </div>
     <footer class="site-footer" id="contacts-footer">
         <div class="footer-company">© ДИДЖИТАЛ САИНС СОФТ, 2025</div>
-        <div class="footer-content">
+        <!-- <div class="footer-content">
             По всем вопросам: <a href="mailto:misha2004@gmail.com">misha2004@gmail.com</a>
-        </div>
+        </div> -->
     </footer>
     <style>
         .support-block {
@@ -319,11 +320,11 @@
             max-width: 320px;
         }
         .support-logo-img {
-            width: 140px;
-            height: 80px;
-            background: #fff;
+            width: 280px;
+            height: 160px;
+            background: trnasparent;
             border-radius: 8px;
-            box-shadow: 0 2px 8px #0001;
+            /* box-shadow: 0 2px 8px #0001; */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -454,7 +455,7 @@
         }
         .pricing-img {
             width: 100%;
-            height: 140px;
+            height: 280px;
             background: #ddd;
             border-radius: 12px;
             display: flex;
