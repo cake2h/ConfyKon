@@ -17,6 +17,10 @@ Route::get('/start', function () {
     return view('lend');
 });
 
+Route::get('/requisites', function () {
+    return view('requisites');
+})->name('requisites'); 
+
 Route::get('/service', [ConfController::class, 'index'])->name('conf.index');
 Route::prefix('')->group(function () {
     Route::get('/', [ConfController::class, 'index'])->name('conf.index');

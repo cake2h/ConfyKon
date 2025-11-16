@@ -185,7 +185,6 @@
             <a href="/">Главная</a>
             <a href="#pricing-section">Цены</a>
             <a href="#contacts-footer">Контакты</a>
-
         </div>
         <div class="navbar-center">
             Сервис для организации научных конференций
