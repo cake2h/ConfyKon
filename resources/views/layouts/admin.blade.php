@@ -27,6 +27,10 @@
             <i class="material-icons {{ request()->routeIs('conf.index') ? ' active_icon' : '' }}">home</i>
             <p>Главная</p>
         </a>
+        <a href="{{ route('requisites') }}" class="control">
+            <i class="material-icons {{ request()->routeIs('requisites') ? ' active_icon' : '' }}">info</i>
+            <p>Реквизиты</p>
+        </a>
 
         @auth
                 <a href="{{ route('admin.index') }}" class="control">

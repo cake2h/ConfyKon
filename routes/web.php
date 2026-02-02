@@ -23,7 +23,8 @@ Route::get('/requisites', function () {
 
 Route::get('/service', [ConfController::class, 'index'])->name('conf.index');
 Route::prefix('')->group(function () {
-    Route::get('/', [ConfController::class, 'index'])->name('conf.index');
+    Route::get('/', [ConfController::class, 'main'])->name('main');
+    Route::get('/conferences', [ConfController::class, 'index'])->name('conf.index');
 
     Route::prefix('conference')->group(function () {
         Route::get('/{conference}', [ConfController::class, 'show'])->name('conf.show');

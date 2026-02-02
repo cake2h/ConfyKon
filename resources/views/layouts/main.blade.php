@@ -22,9 +22,13 @@
 <header>
     <img src="{{ asset('img/logo.png') }}" alt="logo" style="max-width: 65px;">
     <div class="controls">
-        <a href="{{ route('conf.index') }}" class="control">
-            <i class="material-icons {{ request()->routeIs('conf.index') ? ' active_icon' : '' }}">home</i>
+        <a href="{{ route('main') }}" class="control">
+            <i class="material-icons {{ request()->routeIs('main') ? ' active_icon' : '' }}">home</i>
             <p>Главная</p>
+        </a>
+        <a href="{{ route('conf.index') }}" class="control">
+            <i class="material-icons {{ request()->routeIs('conf.index') ? ' active_icon' : '' }}">event</i>
+            <p>Конференции</p>
         </a>
         <a href="{{ route('requisites') }}" class="control">
             <i class="material-icons {{ request()->routeIs('requisites') ? ' active_icon' : '' }}">info</i>

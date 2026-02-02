@@ -22,6 +22,11 @@ use Illuminate\Validation\ValidationException;
 
 class ConfController extends Controller
 {
+    public function main() 
+    {
+        return view('main');
+    }
+
     public function index()
     {
         $conferences = Conference::with(['sections', 'format'])->get();
