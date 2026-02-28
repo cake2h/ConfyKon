@@ -21,7 +21,7 @@
 
         <form method="POST" class="formContainer" action="{{ route('password.email') }}">
             @csrf
-                <input class="authInput" type="email" placeholder="E-mail" name="email"/>
+                <input class="authInput" type="email" placeholder="Электронная почта" name="email"/>
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
             <button type="submit" class="authButton">Восстановить пароль</button><br>

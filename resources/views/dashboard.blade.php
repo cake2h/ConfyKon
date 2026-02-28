@@ -146,7 +146,7 @@
     <div class="user-info">
         <h2 class="user-name">{{ $user->surname }} {{ $user->name }} {{ $user->patronymic }}</h2>
         <ul class="user-details">
-            <li><strong>Email:</strong> {{ $user->email }}</li>
+            <li><strong>Эл. почта:</strong> {{ $user->email }}</li>
             <li><strong>Номер телефона:</strong> {{ $user->phone_number }}</li>
             <li><strong>Дата рождения:</strong> {{ $user->birthday->format('d-m-Y') }}</li>
             <li><strong>Город:</strong> {{ $user->city->name }}</li>

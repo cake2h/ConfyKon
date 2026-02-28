@@ -122,7 +122,7 @@
       <td>Гындыбин Михаил Викторович, действует на основании Устава</td>
     </tr>
     <tr>
-      <td>E-mail</td>
+      <td>Электронная почта</td>
       <td><a href="mailto:mgyndybin@gmail.com">mgyndybin@gmail.com</a></td>
     </tr>
   </table>

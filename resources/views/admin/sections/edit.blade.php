@@ -44,7 +44,7 @@
         </div>
 
         <div class="form-group">
-            <label for="moderator_email">Email модератора:</label>
+            <label for="moderator_email">Эл. почта модератора:</label>
             <input type="email" name="moderator_email" value="{{ $moderatorEmail }}" required>
         </div>
 

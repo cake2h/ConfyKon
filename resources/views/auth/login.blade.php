@@ -21,7 +21,7 @@
 
             <form method="POST" action="{{ route('login') }}" class="formContainer">
                 @csrf
-                <input class="authInput" type="email" placeholder="E-mail" name="email"
+                <input class="authInput" type="email" placeholder="Электронная почта" name="email"
                     value="{{ old('email') }}" />
                 <input class="authInput" type="password" placeholder="Пароль" name="password" />
 

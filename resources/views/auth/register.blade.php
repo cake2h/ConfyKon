@@ -109,7 +109,7 @@
                 <input
                     class="authInput"
                     type="email"
-                    placeholder="E-mail"
+                    placeholder="Электронная почта"
                     name="email"
                     value="{{old('email')}}"
                 />

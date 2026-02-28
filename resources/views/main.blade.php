@@ -171,7 +171,7 @@
       </div>
       <div class="contact-card">
         <span class="contact-icon">✉️</span>
-        <span class="contact-label">Email</span>
+        <span class="contact-label">Почта</span>
         <a href="mailto:mgyndybin@gmail.com" class="contact-link">mgyndybin@gmail.com</a>
       </div>
       <div class="contact-card">
